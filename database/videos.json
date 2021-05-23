@@ -1,0 +1,131 @@
+[{
+  "_id": {
+    "$oid": "609aa19c7240b8948d387673"
+  },
+  "name": "Видео 1",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9e877240b8948d387671",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609aa1f62543af4020fea7db"
+  },
+  "name": "Видео 2",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9e877240b8948d387671",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609aa2152543af4020fea7dc"
+  },
+  "name": "Видео 3",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9ebe7240b8948d387672",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609ab2cf2543af4020fea7dd"
+  },
+  "name": "Видео 4",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9ebe7240b8948d387672",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609ab2d32543af4020fea7de"
+  },
+  "name": "Видео 5",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9ebe7240b8948d387672",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609ab2de2543af4020fea7df"
+  },
+  "name": "Видео 6",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9ebe7240b8948d387672",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609ab2e62543af4020fea7e0"
+  },
+  "name": "Видео 7",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9e877240b8948d387671",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609ab2ea2543af4020fea7e1"
+  },
+  "name": "Видео 8",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9e877240b8948d387671",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609ab2fa2543af4020fea7e2"
+  },
+  "name": "Видео 9",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9e877240b8948d387671",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+},{
+  "_id": {
+    "$oid": "609ab2ff2543af4020fea7e3"
+  },
+  "name": "Видео 10",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
+  "category": "609a9e877240b8948d387671",
+  "days": "1",
+  "repeat": "1",
+  "review": "",
+  "selected": [
+    false
+  ]
+}]

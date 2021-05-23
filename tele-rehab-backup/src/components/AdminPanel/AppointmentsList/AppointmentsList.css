@@ -1,0 +1,78 @@
+.appointments {
+  width: 70%;
+}
+
+.video-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.video-container {
+  position: relative;
+  width: 30%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+}
+
+.video-container.selected {
+  background-color: rgba(63,81,181,0.1);
+  position: relative;
+  width: 30%;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(63,81,181,0.5); /* Параметры тени */
+  border: 2px solid #3f51b5;
+}
+
+.video_iframe {
+  z-index: 10;
+}
+
+iframe {
+  /* position: absolute; */
+  z-index: 10;
+  height: 25vh;
+}
+
+.video_info {
+  position: relative;
+}
+
+.video_review {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.video_select-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 0;
+}
+
+.video_counts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.video_counts .count_item {
+  margin: 10px 0;
+  width: 40%;
+}
+
+.video_checked {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+}
+
+.video_checked svg.MuiSvgIcon-root {
+  width: 50px;
+  height: 50px;
+}

@@ -1,0 +1,23 @@
+.category {
+  margin-bottom: 20px;
+}
+
+.category-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.category-subitem {
+  margin-left: 20px;
+}
+
+.category_children {
+  padding-left: 50px;
+}

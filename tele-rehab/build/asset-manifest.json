@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.acfb9c4d.chunk.css",
+    "main.js": "/static/js/main.ed7033b1.chunk.js",
+    "main.js.map": "/static/js/main.ed7033b1.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.1bb5df89.js",
+    "runtime-main.js.map": "/static/js/runtime-main.1bb5df89.js.map",
+    "static/css/2.845cb570.chunk.css": "/static/css/2.845cb570.chunk.css",
+    "static/js/2.64f20501.chunk.js": "/static/js/2.64f20501.chunk.js",
+    "static/js/2.64f20501.chunk.js.map": "/static/js/2.64f20501.chunk.js.map",
+    "static/js/3.bad044b5.chunk.js": "/static/js/3.bad044b5.chunk.js",
+    "static/js/3.bad044b5.chunk.js.map": "/static/js/3.bad044b5.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.845cb570.chunk.css.map": "/static/css/2.845cb570.chunk.css.map",
+    "static/css/main.acfb9c4d.chunk.css.map": "/static/css/main.acfb9c4d.chunk.css.map",
+    "static/js/2.64f20501.chunk.js.LICENSE.txt": "/static/js/2.64f20501.chunk.js.LICENSE.txt",
+    "static/media/style.scss": "/static/media/banner-bg.e85eeb7f.png",
+    "static/media/Tele-Rehab-black.41932ba4.svg": "/static/media/Tele-Rehab-black.41932ba4.svg",
+    "static/media/Tele-Rehab.0047d487.svg": "/static/media/Tele-Rehab.0047d487.svg",
+    "static/media/about-photo.e04f9b00.png": "/static/media/about-photo.e04f9b00.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1bb5df89.js",
+    "static/css/2.845cb570.chunk.css",
+    "static/js/2.64f20501.chunk.js",
+    "static/css/main.acfb9c4d.chunk.css",
+    "static/js/main.ed7033b1.chunk.js"
+  ]
+}

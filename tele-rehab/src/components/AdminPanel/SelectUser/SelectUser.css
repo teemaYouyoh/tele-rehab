@@ -1,0 +1,8 @@
+.select-user {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.user_selected-input {
+}
