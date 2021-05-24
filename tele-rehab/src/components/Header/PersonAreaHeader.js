@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import logo2 from '../../img/Tele-Rehab-black.svg'
 import Modal from 'react-modal';
@@ -20,6 +20,21 @@ Modal.setAppElement('#root')
 
 const PersonAreaHeader = () => {
   const [modalIsOpen,setIsOpen] = React.useState(false);
+    const [users, setUsers] = useState([]);
+    const [emailUser, setEmail] = useState("");
+    const [passwordUser, setPassword] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    useEffect(async () => {
+        let response = await fetch(`http://localhost:3000/users/`, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        let data = await response.json();
+        await setUsers(data);
+    },[])
   function openModal() {
     setIsOpen(true);
   }
@@ -29,6 +44,20 @@ const PersonAreaHeader = () => {
   function closeModal(){
     setIsOpen(false);
   }
+
+    function signIn(e){
+        e.preventDefault();
+        console.log(users);
+        users.forEach((item)=>{
+            const {email, password} = item;
+            if(email === emailUser && password === passwordUser){
+                window.location.href = window.location.origin + "/personal";
+            } else {
+                setErrorMsg("Email или пароль не совпадают*")
+            }
+        })
+    }
+
   return (
     <>
      <Modal
@@ -38,12 +67,12 @@ const PersonAreaHeader = () => {
           style={customStyles}
           contentLabel="Example Modal">
           <h2 className="popup-title">Зайти в личный кабинет</h2>
-          <form name="login-form" id="login-form">
-            <label>Email</label>
-            <input></input>
-            <label>Пароль</label>
-            <input></input>
-            <button className="btn">Вход</button>
+          <form name="login-form" id="login-form" onSubmit={(e)=>signIn(e)}>
+              <label>{!errorMsg ? "Email" : <span className="error-message">{errorMsg}</span>}</label>
+              <input onChange={(e)=>setEmail(e.target.value)}></input>
+              <label>{!errorMsg ? "Пароль" : <span className="error-message">{errorMsg}</span>}</label>
+              <input onChange={(e)=>setPassword(e.target.value)}></input>
+              <button type="submit" className="btn">Вход</button>
           </form>
           <button className="popup-close" onClick={closeModal}>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
