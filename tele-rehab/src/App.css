@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.error-message{
+  color: #c20000 !important;
+  font-size: 14px !important;
+  padding-top: 20px;
+}
+
+.success-message{
+  color: #1dc200 !important;
+  font-size: 14px !important;
+  padding-top: 20px;
+}
