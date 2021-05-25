@@ -53,9 +53,10 @@ const FrontPageHeader = () => {
         e.preventDefault();
       console.log(users);
     users.forEach((item)=>{
-        const {email, password, name} = item;
+        const {email, password, name, _id} = item;
         if(email === emailUser && password === passwordUser){
             localStorage.setItem("user", name);
+            localStorage.setItem("id", _id);
             window.location.href = window.location.origin + "/personal";
         } else {
             setErrorMsg("Email или пароль не совпадают*")
