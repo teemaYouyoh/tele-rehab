@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.header-area .user-sign-in{
+  color: black;
+}
+.user-sign-in{
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 120%;
+}

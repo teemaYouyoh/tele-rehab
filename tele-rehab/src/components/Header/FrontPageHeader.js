@@ -24,6 +24,7 @@ const FrontPageHeader = () => {
   const [emailUser, setEmail] = useState("");
   const [passwordUser, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [currentUser, setCurrentUser] = useState("");
     useEffect(async () => {
         let response = await fetch(`http://localhost:3000/users/`, {
             method: 'GET',
@@ -34,6 +35,9 @@ const FrontPageHeader = () => {
         });
         let data = await response.json();
         await setUsers(data);
+        if(localStorage.getItem("user")){
+            setCurrentUser(localStorage.getItem("user"));
+        }
     },[])
 
   function openModal() {
@@ -49,8 +53,9 @@ const FrontPageHeader = () => {
         e.preventDefault();
       console.log(users);
     users.forEach((item)=>{
-        const {email, password} = item;
+        const {email, password, name} = item;
         if(email === emailUser && password === passwordUser){
+            localStorage.setItem("user", name);
             window.location.href = window.location.origin + "/personal";
         } else {
             setErrorMsg("Email или пароль не совпадают*")
@@ -106,7 +111,7 @@ const FrontPageHeader = () => {
               </div>
             </div>
             <div className="header-log">
-              <button onClick={openModal} className="header-log__btn btn" href="#">Кабинет</button>
+                {currentUser ? <Link to="/personal" className="user-sign-in">Привет, {currentUser}</Link> : <button onClick={openModal} className="header-log__btn btn" href="#">Кабинет</button>}
             </div>
           </div>
         </div>
