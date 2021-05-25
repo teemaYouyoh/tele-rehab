@@ -27,22 +27,21 @@ const PersonAreaHeader = () => {
     const [currentUser, setCurrentUser] = useState("");
 
     useEffect(async () => {
-        let response = await fetch(`http://localhost:3000/users/`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        let data = await response.json();
-        await setUsers(data);
-
         if(localStorage.getItem("user")){
             setCurrentUser(localStorage.getItem("user"));
         }
     },[])
-  function openModal() {
+  async function openModal() {
     setIsOpen(true);
+      let response = await fetch(`http://localhost:3000/users/`, {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+      });
+      let data = await response.json();
+      await setUsers(data);
   }
   function afterOpenModal() {
   }
