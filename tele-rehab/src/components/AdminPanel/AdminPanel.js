@@ -12,6 +12,7 @@ import CategoryList from './CategoryList/CategoryList';
 import AppointmentsList from './AppointmentsList/AppointmentsList';
 
 import './AdminPanel.css';
+import VideoCard from "./VideoCard/VideoCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,7 +79,7 @@ const AdminPanel = () => {
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-        Item Three
+        <VideoCard categories={categories} />
       </TabPanel>
 
 
