@@ -1,3 +1,4 @@
+// var bodyParser = require('body-parser');
 var express = require('express'),
   app = express(),
   cors = require('cors'),
@@ -17,6 +18,8 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
 
 
 var routes = require('./api/routes/Routes'); //importing route

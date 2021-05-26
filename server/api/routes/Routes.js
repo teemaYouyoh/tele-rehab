@@ -3,6 +3,7 @@ module.exports = function (app) {
   var Users = require('../controllers/UsersControllers');
   var Categories = require('../controllers/CategoriesControllers');
   var Video = require('../controllers/VideoControllers');
+  var NodeMailer = require('../../nodemailer');
 
   // Users Routes
   app.route('/users')
@@ -15,6 +16,15 @@ module.exports = function (app) {
     .put(Users.update_a_user)
     .delete(Users.delete_a_user);
 
+
+  //NodeMailer
+  //
+  app.route('/send')
+      .post(NodeMailer.nodemailerFunc);
+
+  // app.post('/send', (req, res)=>{
+  //   console.log(req.body);
+  // })
 
   // Categories Routes
   app.route('/categories')

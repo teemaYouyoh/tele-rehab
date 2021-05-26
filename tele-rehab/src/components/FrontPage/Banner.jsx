@@ -1,5 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 const Banner = () => {
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [birthday, setBirthday] = useState("");
+    const [comment, setComment] = useState("");
+    const [errorForm, setErrorForm] = useState(false);
+    const [msg, setMsg] = useState("");
+    const [file, setFile] = useState({});
+
     function focusClick(e) {
         e.preventDefault();
         let nameLabel = document.getElementById("name-label");
@@ -37,6 +46,59 @@ const Banner = () => {
             emailLabel.style.display = "block";
         }
     }
+    function changeFile(e){
+        let reader = new FileReader();
+        let fileLoaded = e.target.files[0];
+        console.log(e.target.value);
+        reader.onloadend = () => {
+            setFile(fileLoaded);
+        }
+
+        reader.readAsDataURL(fileLoaded);
+    }
+    async function submitForm(event){
+        event.preventDefault();
+        await setErrorForm(false);
+        const formData = {
+            name,
+            phone,
+            email,
+            birthday,
+            comment,
+            file
+        }
+        var isError = false;
+        for(let i in formData){
+            if(formData[i] === ""){
+                isError = true;
+                await setErrorForm(true);
+            }
+        }
+        await sendMessage(formData, isError);
+
+    }
+
+    async function sendMessage(formData, isError){
+        if(!isError){
+            await fetch(`http://localhost:3000/send`, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body:  JSON.stringify(formData)
+            })
+                .then(async (res) =>{ messageSuccess(); })
+                .catch((err) => { console.log(err) })
+        } else{
+            console.log(isError);
+        }
+    }
+
+    function messageSuccess(){
+        setMsg("Форма успешно отправлена")
+    }
+
   return (
     <div className="banner-section">
         <div className="container">
@@ -49,31 +111,38 @@ const Banner = () => {
             </div>
             <div className="banner-form form-banner">
                 <div className="form-wrap">
-                    <form action="#" name="banner-form" id="banner-form">
+                    <form encType="multipart/form-data" onSubmit={(event)=>submitForm(event)} name="banner-form" id="banner-form">
                         <p className="form-banner__title">Пройти регистрацию</p>
                         <div className="form-item">
                             <div className="form-item__wrap">
-                                <input type="text" id="banner-name" onFocus={focusClick} onBlur={onFocusClick} />
+                                <input type="text" name="name" onChange={(e)=>setName(e.target.value)} id="banner-name" onFocus={focusClick} onBlur={onFocusClick} />
                                 <label htmlFor="banner-name" id="name-label">ФИО <span>*</span></label>
                             </div>
                             <div className="form-item__wrap">
-                                <input id="banner-phone" type="text"  onFocus={focusPhoneClick} onBlur={onFocusPhoneClick} />
+                                <input id="banner-phone" name="phone" type="tel" onChange={(e)=>setPhone(e.target.value)} onFocus={focusPhoneClick} onBlur={onFocusPhoneClick} />
                                 <label htmlFor="banner-phone" id="phone-label">Номер телефона <span>*</span></label>
                             </div>
                         </div>
                         <div className="form-item">
                             <div className="form-item__wrap">
-                                <input type="text" id="banner-email" onFocus={focusEmailClick} onBlur={onFocusEmailClick}/>
+                                <input type="email" name="email" id="banner-email" onChange={(e)=>setEmail(e.target.value)} onFocus={focusEmailClick} onBlur={onFocusEmailClick}/>
                                 <label htmlFor="banner-email" id="email-label">Email <span>*</span></label>
                             </div>
                             <div className="form-item__wrap">
-                                <input type="text" id="banner-birthday" placeholder="Дата рождения" />
+                                <input type="date" name="birthday" onChange={(e)=>setBirthday(e.target.value)} id="banner-birthday" placeholder="Дата рождения" />
                             </div>
                         </div>
-                        <textarea name="banner-comment" id="banner-com" placeholder="Опишите диагноз"></textarea>
-                        <p className="form-banner__attachment">Прикрепить файл <sup>*</sup> <span>максимум 15 мб</span></p>
-                        <button className="btn form-banner__btn">Зарегистрироваться</button>
+                        <textarea name="comment" id="banner-com" onChange={(e)=>setComment(e.target.value)} placeholder="Опишите диагноз"></textarea>
+                        <p className="form-banner__attachment">
+                            Прикрепить файл <sup>*</sup>
+                            <span>максимум 15 мб</span>
+                            <span className="file-name">{file && file.name}</span>
+                            <input id="input-file" accept=".png, .jpg, .jpeg" onChange={(e)=>changeFile(e)} type="file"/>
+                        </p>
+                        <button className="btn form-banner__btn" type="submit">Зарегистрироваться</button>
                         <span className="form-banner__addition">После регистрации с вами свяжется специалист обсудит с вами проблемы и ее решение, предложит оптимальную программу</span>
+                        {errorForm && !msg ? <span className="form-banner__addition error-message">Введите все поля пожалуйста</span> : <span className="form-banner__addition"></span>}
+                        {msg ? <span className="form-banner__addition success-message">{msg}</span> : <span className="form-banner__addition"></span>}
                     </form>
                 </div>
             </div>

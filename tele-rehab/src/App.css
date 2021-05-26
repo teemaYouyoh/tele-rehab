@@ -36,3 +36,37 @@
     transform: rotate(360deg);
   }
 }
+
+.error-message{
+  color: #c20000 !important;
+  font-size: 14px !important;
+  padding-top: 20px;
+}
+
+.success-message{
+  color: #1dc200 !important;
+  font-size: 14px !important;
+  padding-top: 20px;
+}
+
+.file-name{
+  text-align: right !important;
+  float: right;
+  font-size: 14px !important;
+  line-height: 17px !important;
+  color: #717171 !important;
+  font-family: "Proxima Nova SemiBold" !important;
+}
+
+.form-banner__attachment{
+  position: relative;
+}
+
+#input-file{
+  position: absolute;
+  top: -7px;
+  width: 60%;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
