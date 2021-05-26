@@ -13,6 +13,7 @@ import AppointmentsList from './AppointmentsList/AppointmentsList';
 
 import './AdminPanel.css';
 import VideoCard from "./VideoCard/VideoCard";
+import UsersRegistration from "./UsersRegistration/UsersRegistration";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +56,7 @@ const AdminPanel = () => {
           <Tab label="Листы назначений" {...a11yProps(0)} />
           <Tab label="Категории" {...a11yProps(1)} />
           <Tab label="Видео" {...a11yProps(2)} />
+          <Tab label="Пользователи" {...a11yProps(3)}/>
         </Tabs>
       </AppBar>
 
@@ -81,7 +83,9 @@ const AdminPanel = () => {
       <TabPanel value={value} index={2}>
         <VideoCard categories={categories} />
       </TabPanel>
-
+      <TabPanel value={value} index={3}>
+        <UsersRegistration />
+      </TabPanel>
 
 
     </div>

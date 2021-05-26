@@ -61,3 +61,28 @@
   width: 100%;
   height: 100%;
 }
+
+.user-registration{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  margin: auto;
+  box-shadow: 0 0 3px rgba(23,23,23,0.4);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.user-registration .MuiFormControl-root{
+  width: 90%;
+  margin: auto;
+  text-align: center;
+}
+@media(max-width: 768px){
+  .user-registration{
+    width: 310px;
+  }
+}
+.user-registration .MuiFormControl-root{
+  margin-bottom: 12px;
+}
