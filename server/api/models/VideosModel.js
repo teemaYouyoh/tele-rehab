@@ -18,7 +18,7 @@ var VideoSchema = new Schema({
   },
   review: {
     type: String,
-    required: 'Please enter video review',
+    // required: 'Please enter video review',
     default: ""
   },
   repeat: {
