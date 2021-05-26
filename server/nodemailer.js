@@ -1,6 +1,23 @@
 const nodemailer = require('nodemailer')
+const express = require('express');
+const router = express.Router();
+const multer = require('multer');
+var path = require('path')
 
 exports.nodemailerFunc = async (req, res) =>{
+    // const storage = multer.diskStorage({
+    //     destination: function (req, file, cb) {
+    //         cb(null, "files")
+    //     },
+    //     filename: function (req, file, cb) {
+    //         const parts = file.mimetype.split("/");
+    //         cb(null, `${file.fieldname}-${Date.now()}.${parts[1]}`);
+    //     }
+    // })
+    // // console.log(req.body.file);
+    // const upload = multer({storage: storage});
+    // upload.single();
+    // res.sendFile(`${__dirname}/files/${req.body.file.name}`);
 
     const output = `
     <p style="font-size: 16px">Новый запрос на регистрацию</p>
@@ -36,7 +53,14 @@ exports.nodemailerFunc = async (req, res) =>{
         to: 'touchitworking@gmail.com', // list of receivers
         subject: 'Форма регистрации', // Subject line
         text: 'Hello world?', // plain text body
-        html: output // html body
+        html: output, // html body
+        attachments: [
+            {
+                filename: req.body.file.name,
+                contentType: req.body.file.type,
+                path: 'https://support.apple.com/library/content/dam/edam/applecare/images/ru_RU/ios/iphoto/ios13-iphone11-pro-camera-live-photo.jpg',
+            }
+        ]
     };
 
     // send mail with defined transport object

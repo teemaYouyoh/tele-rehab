@@ -7,6 +7,7 @@ const Banner = () => {
     const [comment, setComment] = useState("");
     const [errorForm, setErrorForm] = useState(false);
     const [msg, setMsg] = useState("");
+    const [file, setFile] = useState({});
 
     function focusClick(e) {
         e.preventDefault();
@@ -45,19 +46,26 @@ const Banner = () => {
             emailLabel.style.display = "block";
         }
     }
-    function sendForm(e){
+    function changeFile(e){
+        let reader = new FileReader();
+        let fileLoaded = e.target.files[0];
+        console.log(e.target.value);
+        reader.onloadend = () => {
+            setFile(fileLoaded);
+        }
 
+        reader.readAsDataURL(fileLoaded);
     }
     async function submitForm(event){
         event.preventDefault();
-        // console.log(11341);
         await setErrorForm(false);
         const formData = {
             name,
             phone,
             email,
             birthday,
-            comment
+            comment,
+            file
         }
         var isError = false;
         for(let i in formData){
@@ -82,6 +90,8 @@ const Banner = () => {
             })
                 .then(async (res) =>{ messageSuccess(); })
                 .catch((err) => { console.log(err) })
+        } else{
+            console.log(isError);
         }
     }
 
@@ -101,7 +111,7 @@ const Banner = () => {
             </div>
             <div className="banner-form form-banner">
                 <div className="form-wrap">
-                    <form onSubmit={(event)=>submitForm(event)} name="banner-form" id="banner-form">
+                    <form encType="multipart/form-data" onSubmit={(event)=>submitForm(event)} name="banner-form" id="banner-form">
                         <p className="form-banner__title">Пройти регистрацию</p>
                         <div className="form-item">
                             <div className="form-item__wrap">
@@ -123,7 +133,12 @@ const Banner = () => {
                             </div>
                         </div>
                         <textarea name="comment" id="banner-com" onChange={(e)=>setComment(e.target.value)} placeholder="Опишите диагноз"></textarea>
-                        <p className="form-banner__attachment">Прикрепить файл <sup>*</sup> <span>максимум 15 мб</span></p>
+                        <p className="form-banner__attachment">
+                            Прикрепить файл <sup>*</sup>
+                            <span>максимум 15 мб</span>
+                            <span className="file-name">{file && file.name}</span>
+                            <input id="input-file" accept=".png, .jpg, .jpeg" onChange={(e)=>changeFile(e)} type="file"/>
+                        </p>
                         <button className="btn form-banner__btn" type="submit">Зарегистрироваться</button>
                         <span className="form-banner__addition">После регистрации с вами свяжется специалист обсудит с вами проблемы и ее решение, предложит оптимальную программу</span>
                         {errorForm && !msg ? <span className="form-banner__addition error-message">Введите все поля пожалуйста</span> : <span className="form-banner__addition"></span>}
