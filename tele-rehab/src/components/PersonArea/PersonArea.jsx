@@ -144,7 +144,7 @@ const PersonArea = () => {
                         </a>
                     </div>
                     <div className="person-desk">
-                        <h2>Петров Дмитрий Сергеевич</h2>
+                        <h2>{user.name}</h2>
                         <div className="person-tabs">
                             <Tabs>
                                 <TabList>
