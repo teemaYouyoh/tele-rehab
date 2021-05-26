@@ -71,7 +71,10 @@ const AdminPanel = () => {
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-        <Categories categories={categories} />
+        <Categories
+          categories={categories}
+          setCategories={setCategories}
+        />
       </TabPanel>
 
       <TabPanel value={value} index={2}>

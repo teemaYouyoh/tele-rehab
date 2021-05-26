@@ -39,6 +39,7 @@ const Categories = (props) => {
   const [parentCategoryId, setParentCategoryId] = useState();
   const [categoryName, setCategoryName] = useState();
   const [isChanged, setChanged] = useState(false);
+  const [changebleCategory, setChangebleCategory] = useState(null);
 
 
   useEffect(() => {
@@ -63,7 +64,7 @@ const Categories = (props) => {
 
     let data = await response.json();
 
-    setCategories(data);
+    props.setCategories(data);
   }
 
   const addCategory = async () => {
@@ -90,8 +91,8 @@ const Categories = (props) => {
             },
             body: JSON.stringify(item)
           })
-          .then((res) =>{ console.log(res) })
-          .catch((err) => { console.log(err) })
+            .then((res) => { console.log(res) })
+            .catch((err) => { console.log(err) })
 
           setCategories(categoriesList);
         }
@@ -112,7 +113,7 @@ const Categories = (props) => {
 
     }
 
-    getCategories();
+    await getCategories();
 
   }
 
@@ -168,29 +169,81 @@ const Categories = (props) => {
 
   }
 
+  const changeCategoryName = (value, id, parentId = null) => {
+    let categoriesList = [...categories];
+
+    console.log(value)
+    if (parentId !== null) {
+
+      categoriesList.map(parent => {
+        if (parentId === parent._id) {
+          parent.children.map(child => {
+            if (child._id === id) {
+              child.name = value
+            }
+          })
+        }
+      })
+
+    } else {
+
+
+
+    }
+
+    setCategories(categoriesList);
+    setChangebleCategory(null);
+
+  }
+
   const renderCategories = () => {
-    return props.categories.map(item => {
+    console.log("cats", categories)
+    return categories.map(parent => {
       return (
-        <div className="category">
+        <div className="category" key={parent._id}>
 
           <div className="category-line">
-            <div className="category-item">{item.name}</div>
+            <div className="category-item">{parent.name}</div>
+            <div className="category-item">
+            </div>
             <div className="category-item">
               <div className="category-subitem"> UPDATE </div>
-              <div className="category-subitem" onClick={() => { deleteCategory({ id: item._id, parent: null }) }}> DELETE </div>
+              <div className="category-subitem" onClick={() => { deleteCategory({ id: parent._id, parent: null }) }}> DELETE </div>
             </div>
           </div>
 
           <div className="category_children">
 
-            {item.children.map(item => {
+            {parent.children.map(child => {
               return (
-                <div className="category-line">
-                  <div className="category-item">{item.name}</div>
-                  <div className="category-item">{item._id}</div>
+                <div className="category-line" key={child._id}>
+                  {
+                    changebleCategory === child._id ?
+                      (
+                        <div className="category-item">
+                          <TextField
+                            autoFocus
+                            variant="outlined"
+                            defaultValue={child.name}
+                            onFocus={() => { setChangebleCategory(child._id) }}
+                            onBlur={(e) => { changeCategoryName(e.target.value, child._id, parent._id) }}
+                          />
+                        </div>
+                      )
+                      :
+                      (
+                        <div
+                          className="category-item"
+                          onDoubleClick={(e) => { setChangebleCategory(child._id) }}
+                        >
+                          {child.name}
+                        </div>
+                      )
+                  }
+                  <div className="category-item">{child._id}</div>
                   <div className="category-item">
                     <div className="category-subitem"> UPDATE </div>
-                    <div className="category-subitem" onClick={() => { deleteCategory({ id: item._id, parent: item.parent }) }}> DELETE </div>
+                    <div className="category-subitem" onClick={() => { deleteCategory({ id: child._id, parent: child.parent }) }}> DELETE </div>
                   </div>
                 </div>
               )
