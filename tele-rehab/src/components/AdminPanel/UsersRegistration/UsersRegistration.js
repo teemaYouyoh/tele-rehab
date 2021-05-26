@@ -54,7 +54,23 @@ const UsersRegistration = () => {
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify(formData)
-                        }).then(async (res) => {setMsg("Успешно зарегестрирован"); await getUsers()}).catch(err => console.log(err));
+                        }).then(async (res) => {
+                            setMsg("Успешно зарегестрирован");
+                            await getUsers();
+
+                            await fetch(`http://localhost:3000/success_registration`, {
+                                method: 'POST',
+                                mode: 'cors',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body:  JSON.stringify(formData)
+                            })
+                                .then(async (res) =>{ console.log("Success")})
+                                .catch((err) => { console.log(err) })
+
+                            // success_registration
+                        }).catch(err => console.log(err));
                     } else{
                         setMsg("Пароль должен быть больше 5 символов")
                     }

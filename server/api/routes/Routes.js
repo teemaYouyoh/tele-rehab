@@ -22,6 +22,9 @@ module.exports = function (app) {
   app.route('/send')
       .post(NodeMailer.nodemailerFunc);
 
+  app.route('/success_registration')
+      .post(NodeMailer.nodemailerSignIn);
+
   // app.post('/send', (req, res)=>{
   //   console.log(req.body);
   // })
