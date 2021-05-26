@@ -36,7 +36,11 @@
   justify-content: space-between;
   flex-direction: column;
 }
-.controls div, button{
+.controls div{
+  width: 100%;
+  margin-bottom: 5px;
+}
+.controls button{
   width: 100%;
   margin-bottom: 5px;
 }

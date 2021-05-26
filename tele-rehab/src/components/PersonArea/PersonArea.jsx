@@ -34,6 +34,15 @@ const PersonArea = () => {
         setIsOpen(false);
     }
 
+    function getId(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+
+        return (match && match[2].length === 11)
+            ? match[2]
+            : null;
+    }
+
     useEffect(async () => {
         let currentUser = localStorage.getItem("id");
         if (currentUser) {
@@ -74,6 +83,8 @@ const PersonArea = () => {
                     // console.log(child._id, item.category, child._id === item.category)
                     if (child._id === item.category && currCategory === name) {
                         console.log(item.url);
+                        const videoId = getId(item.url);
+
                         return (
                             // <div className="important">
                             //     Жопа Реакта
@@ -82,7 +93,7 @@ const PersonArea = () => {
                                 <div className="person-content__wrap">
                                     <div className="person-content__video">
                                         <iframe width="100%" height="315"
-                                                src={item.url}
+                                                src={`//www.youtube.com/embed/${videoId}`}
                                                 title="YouTube video player" frameBorder="0"
                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                 allowFullScreen></iframe>
