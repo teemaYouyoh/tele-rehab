@@ -54,7 +54,7 @@ const AdminPanel = () => {
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Листы назначений" {...a11yProps(0)} />
           <Tab label="Категории" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Видео" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 
