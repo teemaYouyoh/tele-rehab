@@ -120,7 +120,7 @@ const VideosList = (props) => {
 
 
     selectedUser.appointments = appointments;
-
+    selectedUser.statusCourse = false;
     const response = await fetch(`http://localhost:3000/users/${selectedUser._id}`, {
       method: 'PUT',
       mode: 'cors',

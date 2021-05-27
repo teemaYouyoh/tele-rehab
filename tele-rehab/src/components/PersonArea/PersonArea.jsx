@@ -25,6 +25,7 @@ const PersonArea = () => {
     const [isReady, setIsReady] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [categoriesName, setCategoriesName] = useState([]);
+    const [comment, setComment] = useState("");
     function openModal() {
         setIsOpen(true);
     }
@@ -92,6 +93,29 @@ const PersonArea = () => {
     function logOut(){
         localStorage.setItem("user", "");
         localStorage.setItem("id", "");
+    }
+
+    async function sendComment(e) {
+        e.preventDefault();
+        const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({comment: comment})
+        });
+    }
+
+    async function sendCourseFinish() {
+        const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({statusCourse: true})
+        });
     }
 
     function renderFunc(currCategory) {
@@ -206,7 +230,7 @@ const PersonArea = () => {
                                     {/*<Tab>Логопед</Tab>*/}
                                     {/*<Tab>Лист назначений</Tab>*/}
                                 </TabList>
-                                {
+                                { !user.statusCourse &&
                                     categoriesName.map((item)=>{
                                         return(
                                             <TabPanel>
@@ -218,11 +242,11 @@ const PersonArea = () => {
                             </Tabs>
                         </div>
                         <div className="person-comment">
-                            <form action="#" name="comment-form" id="comment-form">
-                            <textarea name="comment-text" id="comment-text"
+                            <form onSubmit={(e)=>sendComment(e)} action="#" name="comment-form" id="comment-form">
+                            <textarea onChange={(e)=>setComment(e.target.value)} name="comment-text" id="comment-text"
                                       placeholder="Ваш комменантарий. Насколько было сложно, больше и так далее">
                             </textarea>
-                                <button className="person-comment__btn">
+                                <button type="submit"  className="person-comment__btn">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -231,7 +255,7 @@ const PersonArea = () => {
                                     </svg>
                                 </button>
                             </form>
-                            <button onClick={openModal} className="person-comment__true" href="#">Подтвердить
+                            <button onClick={()=>sendCourseFinish()} className="person-comment__true">Подтвердить
                                 прохождение программы
                             </button>
                         </div>

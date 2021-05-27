@@ -31,6 +31,14 @@ var UserSchema= new Schema({
     type: Array,
     default: []
   },
+  statusCourse: {
+    type: Boolean,
+    default: false,
+  },
+  comment: {
+    type: String,
+    default: "",
+  },
   status: {
     type: [{
       type: String,
