@@ -24,6 +24,7 @@ const PersonArea = () => {
     const [categories, setCategories] = useState([]);
     const [isReady, setIsReady] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [categoriesName, setCategoriesName] = useState([]);
     function openModal() {
         setIsOpen(true);
     }
@@ -76,6 +77,17 @@ const PersonArea = () => {
         setIsReady(true);
 
     }, [])
+
+    useEffect(async ()=>{
+        await getCategoriesName();
+        console.log(categoriesName);
+    }, [categories])
+
+    async function getCategoriesName(){
+        categories.forEach((item)=>{
+            setCategoriesName(state => [...state, item.name]);
+        })
+    }
 
     function logOut(){
         localStorage.setItem("user", "");
@@ -184,23 +196,25 @@ const PersonArea = () => {
                         <div className="person-tabs">
                             <Tabs>
                                 <TabList>
-                                    <Tab>Физ упражнения</Tab>
-                                    <Tab>Самообслуживание</Tab>
-                                    <Tab>Логопед</Tab>
-                                    <Tab>Лист назначений</Tab>
+                                    {categoriesName.map(item => {
+                                        return(
+                                            <Tab>{item}</Tab>
+                                        )
+                                    })}
+                                    {/*<Tab>Физ упражнения</Tab>*/}
+                                    {/*<Tab>Самообслуживание</Tab>*/}
+                                    {/*<Tab>Логопед</Tab>*/}
+                                    {/*<Tab>Лист назначений</Tab>*/}
                                 </TabList>
-                                <TabPanel>
-                                    {isReady && renderFunc("Категория 1")}
-                                </TabPanel>
-                                <TabPanel>
-                                    {isReady && renderFunc("Категория 2")}
-                                </TabPanel>
-                                <TabPanel>
-                                    {isReady && renderFunc("Категория 3")}
-                                </TabPanel>
-                                <TabPanel>
-                                    {isReady && renderFunc("Категория 4")}
-                                </TabPanel>
+                                {
+                                    categoriesName.map((item)=>{
+                                        return(
+                                            <TabPanel>
+                                                {isReady && renderFunc(item)}
+                                            </TabPanel>
+                                        )
+                                    })
+                                }
                             </Tabs>
                         </div>
                         <div className="person-comment">
