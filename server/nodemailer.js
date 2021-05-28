@@ -54,20 +54,50 @@ exports.nodemailerSignIn = async (req, res) => {
     });
 }
 
+exports.nodemailerUpdatePlan = async (req, res) => {
+    const output = `
+    <p style="font-size: 16px">Обновление</p>
+    <h3 style="font-size: 24px;">Ваш курс был изменен</h3>
+  `;
+
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+            user: 'touchitworking@gmail.com', // generated ethereal user
+            pass: 'xymletdnizoezehh'  // generated ethereal password
+        },
+        tls:{
+            rejectUnauthorized:false
+        }
+    });
+
+
+    // setup email data with unicode symbols
+    let mailOptions = {
+        from: `touchitworking@gmail.com`,
+        // from: 'sergejjolejj@gmail.com', // sender address
+        to: `${req.body.email}`, // list of receivers
+        subject: 'Изменение курса', // Subject line
+        text: 'Hello world?', // plain text body
+        html: output, // html body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+        // res.render('login', {msg:'Email has been sent'});
+    });
+}
+
 exports.nodemailerFunc = async (req, res) =>{
-    // const storage = multer.diskStorage({
-    //     destination: function (req, file, cb) {
-    //         cb(null, "files")
-    //     },
-    //     filename: function (req, file, cb) {
-    //         const parts = file.mimetype.split("/");
-    //         cb(null, `${file.fieldname}-${Date.now()}.${parts[1]}`);
-    //     }
-    // })
-    // // console.log(req.body.file);
-    // const upload = multer({storage: storage});
-    // upload.single();
-    // res.sendFile(`${__dirname}/files/${req.body.file.name}`);
 
     const output = `
     <p style="font-size: 16px">Новый запрос на регистрацию</p>

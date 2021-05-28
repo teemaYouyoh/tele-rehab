@@ -26,6 +26,12 @@ var VideoSchema = new Schema({
     required: 'Please enter video repeat',
     default: 1
   },
+  comments: {
+    type: [{
+      type: String,
+    }],
+    default: []
+  },
   days: {
     type: String,
     required: 'Please enter video days',

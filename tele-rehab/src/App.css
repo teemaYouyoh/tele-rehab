@@ -86,3 +86,50 @@
   opacity: 0;
   cursor: pointer;
 }
+
+.form-single{
+  margin-top: 20px;
+}
+
+
+.form-single-video{
+  width: 100%;
+  resize: none;
+  height: 150px;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+  border: 1px solid #04b1fb;
+  border-radius: 4px;
+}
+
+.send-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #04b1fb;
+  max-width: 100px;
+  border-radius: 10px;
+  width: 100%;
+  border: none;
+  height: 50px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.form-single-video:active, .form-single-video:focus{
+  border: 1px solid #04b1fb !important;
+  outline: 1px solid #04b1fb !important;
+}
+
+.wrapper-buttons{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error-message-form{
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #c20000;
+}

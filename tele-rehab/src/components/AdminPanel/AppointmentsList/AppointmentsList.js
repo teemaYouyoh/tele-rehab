@@ -129,6 +129,21 @@ const VideosList = (props) => {
       },
       body: JSON.stringify(selectedUser)
     });
+
+    const formData = {
+      email: selectedUser.email
+    }
+
+    await fetch(`http://localhost:3000/update_plan`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body:  JSON.stringify(formData)
+    })
+        .then(async (res) =>{ console.log("Success")})
+        .catch((err) => { console.log(err) })
   }
 
   const renderVideos = () => {

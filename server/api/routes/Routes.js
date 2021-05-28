@@ -25,6 +25,9 @@ module.exports = function (app) {
   app.route('/success_registration')
       .post(NodeMailer.nodemailerSignIn);
 
+  app.route('/update_plan')
+      .post(NodeMailer.nodemailerUpdatePlan);
+
   // app.post('/send', (req, res)=>{
   //   console.log(req.body);
   // })

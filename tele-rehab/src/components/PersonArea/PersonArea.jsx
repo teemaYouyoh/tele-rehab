@@ -5,6 +5,7 @@ import 'react-tabs/style/react-tabs.css';
 import PersonAreaHeader from '../Header/PersonAreaHeader';
 import FooterBottom from '../Footer/FooterBottom';
 import Modal from 'react-modal';
+import Collapse from '@material-ui/core/Collapse';
 
 const customStyles = {
     content: {
@@ -26,6 +27,19 @@ const PersonArea = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [categoriesName, setCategoriesName] = useState([]);
     const [comment, setComment] = useState("");
+    const [commentSingle, setCommentSingle] = useState("");
+    const [open, setOpen] = useState("");
+    const [validationFull, setValidationFull] = useState("");
+    const [validationSingle, setValidationSingle] = useState("");
+    const handleClick = (id) => {
+        id === open ? setOpen("") : setOpen(id);
+        setValidationSingle("");
+    };
+
+    useEffect(()=>{
+        setValidationFull("");
+    },[comment])
+
     function openModal() {
         setIsOpen(true);
     }
@@ -81,7 +95,7 @@ const PersonArea = () => {
 
     useEffect(async ()=>{
         await getCategoriesName();
-        console.log(categoriesName);
+        // console.log(categoriesName);
     }, [categories])
 
     async function getCategoriesName(){
@@ -97,14 +111,18 @@ const PersonArea = () => {
 
     async function sendComment(e) {
         e.preventDefault();
-        const response = await fetch(`http://localhost:3000/users/${user._id}`, {
-            method: 'PUT',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({comment: comment})
-        });
+        if(comment){
+            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+                method: 'PUT',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({comment: comment})
+            });
+        } else {
+            setValidationFull("Введите коментарий для отправки")
+        }
     }
 
     async function sendCourseFinish() {
@@ -118,15 +136,36 @@ const PersonArea = () => {
         });
     }
 
+    async function sendCommentSingle(e, id, comments, indexAppoint){
+        console.log(user._id);
+        e.preventDefault();
+        if(commentSingle){
+            user.appointments[indexAppoint].comments.push(commentSingle);
+            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+                method: 'PUT',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            }).then(()=>{
+                console.log("SUCCESS");
+            });
+        } else {
+            setValidationSingle("Введите коментарий для отправки")
+        }
+    }
+
     function renderFunc(currCategory) {
-        console.log(user, categories);
-        return user.appointments.map((item) => {
+        // console.log(user, categories);
+        return user.appointments.map((item,index) => {
+            // console.log(item.comments)
             return categories.map((element) => {
                 const {name} = element;
                 return element.children.map((child) => {
                     // console.log(child._id, item.category, child._id === item.category)
                     if (child._id === item.category && currCategory === name) {
-                        console.log(item.url);
+                        // console.log(item.url);
                         const videoId = getId(item.url);
 
                         return (
@@ -154,9 +193,27 @@ const PersonArea = () => {
                                                 <p className="statistic-item__result">{item.days}</p>
                                             </div>
                                         </div>
-                                        <a className="info-person__review" href="#">
+                                        <button onClick={() => { handleClick(item._id) }} className="info-person__review">
                                             Оставить отзывы по выполнению
-                                        </a>
+                                        </button>
+                                        <Collapse in={item._id === open} timeout="auto" unmountOnExit>
+                                            <p className="error-message-form">{validationSingle ? validationSingle : ""}</p>
+
+                                        <form className="form-single" onSubmit={(e)=>sendCommentSingle(e, item._id, item.comments, index)}>
+                                            <textarea onChange={(e)=>setCommentSingle(e.target.value)} name="comment-text-single" className="form-single-video"
+                                                      placeholder="Ваш комменантарий. Насколько было сложно, больше и так далее">
+                                            </textarea>
+                                            <button type="submit"  className="send-btn">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M1.87717 0.711066C1.74216 0.64304 1.59092 0.61455 1.44065 0.628839C1.29037 0.643128 1.14709 0.699621 1.0271 0.791893C0.907118 0.884164 0.815244 1.00851 0.761933 1.15079C0.708622 1.29306 0.696014 1.44755 0.725543 1.59669L2.98847 9.47794C3.03066 9.62481 3.11313 9.75671 3.22641 9.85847C3.33968 9.96023 3.47915 10.0277 3.62879 10.0532L12.8063 11.6018C13.2386 11.6879 13.2386 12.3119 12.8063 12.3981L3.62879 13.9467C3.47915 13.9722 3.33968 14.0397 3.22641 14.1414C3.11313 14.2432 3.03066 14.3751 2.98847 14.5219L0.725543 22.4032C0.696014 22.5523 0.708622 22.7068 0.761933 22.8491C0.815244 22.9914 0.907118 23.1157 1.0271 23.208C1.14709 23.3003 1.29037 23.3568 1.44065 23.371C1.59092 23.3853 1.74216 23.3568 1.87717 23.2888L22.8451 12.7263C22.9789 12.6588 23.0913 12.555 23.17 12.4268C23.2486 12.2985 23.2902 12.1507 23.2902 11.9999C23.2902 11.8492 23.2486 11.7014 23.17 11.5731C23.0913 11.4448 22.9789 11.3411 22.8451 11.2736L1.87717 0.711066Z"
+                                                        fill="white"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                        </Collapse>
+
                                     </div>
                                 </div>
                             </div>
@@ -242,6 +299,8 @@ const PersonArea = () => {
                             </Tabs>
                         </div>
                         <div className="person-comment">
+                            <p className="error-message-form">{validationFull ? validationFull : ""}</p>
+
                             <form onSubmit={(e)=>sendComment(e)} action="#" name="comment-form" id="comment-form">
                             <textarea onChange={(e)=>setComment(e.target.value)} name="comment-text" id="comment-text"
                                       placeholder="Ваш комменантарий. Насколько было сложно, больше и так далее">
@@ -255,7 +314,8 @@ const PersonArea = () => {
                                     </svg>
                                 </button>
                             </form>
-                            <button onClick={()=>sendCourseFinish()} className="person-comment__true">Подтвердить
+
+                            <button onClick={()=>openModal()} className="person-comment__true">Подтвердить
                                 прохождение программы
                             </button>
                         </div>
@@ -265,6 +325,28 @@ const PersonArea = () => {
             <div>
                 <Modal
                     isOpen={modalIsOpen}
+                    onAfterOpen={afterOpenModal}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal">
+
+                    <h2 className="popup-title">Вы хотите написать отзыв по курсу?</h2>
+                    <div className="wrapper-buttons">
+                        <button onClick={closeModal} className="btn">Да</button>
+                        <button onClick={()=>sendCourseFinish()} className="btn">Нет</button>
+                    </div>
+                    <button className="popup-close" onClick={closeModal}>
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7.45868 6L11.5407 1.91797C11.7344 1.72458 11.8434 1.46215 11.8437 1.18841C11.8439 0.914677 11.7354 0.652056 11.542 0.458324C11.3486 0.264592 11.0862 0.155618 10.8124 0.155376C10.5387 0.155135 10.2761 0.263644 10.0824 0.457035L6.00032 4.53906L1.91829 0.457035C1.72456 0.263302 1.4618 0.154465 1.18782 0.154465C0.913845 0.154465 0.651088 0.263302 0.457355 0.457035C0.263623 0.650767 0.154785 0.913524 0.154785 1.1875C0.154785 1.46148 0.263623 1.72424 0.457355 1.91797L4.53939 6L0.457355 10.082C0.263623 10.2758 0.154785 10.5385 0.154785 10.8125C0.154785 11.0865 0.263623 11.3492 0.457355 11.543C0.651088 11.7367 0.913845 11.8455 1.18782 11.8455C1.4618 11.8455 1.72456 11.7367 1.91829 11.543L6.00032 7.46094L10.0824 11.543C10.2761 11.7367 10.5388 11.8455 10.8128 11.8455C11.0868 11.8455 11.3496 11.7367 11.5433 11.543C11.737 11.3492 11.8459 11.0865 11.8459 10.8125C11.8459 10.5385 11.737 10.2758 11.5433 10.082L7.45868 6Z"
+                                fill="black" fill-opacity="0.19"/>
+                        </svg>
+                    </button>
+                </Modal>
+
+                <Modal
+                    // isOpen={modalIsOpen}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
                     style={customStyles}
