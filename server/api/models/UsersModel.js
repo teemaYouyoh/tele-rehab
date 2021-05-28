@@ -35,6 +35,10 @@ var UserSchema= new Schema({
     type: Boolean,
     default: false,
   },
+  pdfList: {
+    type: Array,
+    default: []
+  },
   comment: {
     type: String,
     default: "",

@@ -28,6 +28,7 @@ const VideosList = (props) => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isChanged, setChanged] = useState(false);
+  const [file, setFile] = useState("");
 
   useEffect(() => {
     if (selectedUser !== null) {
@@ -146,6 +147,31 @@ const VideosList = (props) => {
         .catch((err) => { console.log(err) })
   }
 
+  const newPdf = async (e) => {
+    let reader = new FileReader();
+    let fileLoaded = e.target.files[0];
+    reader.onloadend = async () => {
+      console.log(1);
+    }
+    await setFile(fileLoaded);
+
+    console.log(e.target.files[0]);
+  }
+
+  const updatePdf = async () => {
+    console.log(__dirname + "uploads/" + file.name);
+    selectedUser.pdfList.push(file);
+    console.log(selectedUser);
+    // const response = await fetch(`http://localhost:3000/users/${selectedUser._id}`, {
+    //   method: 'PUT',
+    //   mode: 'cors',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(selectedUser)
+    // });
+  }
+
   const renderVideos = () => {
     return modifiedVideos.map((item, index) => {
       if (item.category === props.selectedCategory) {
@@ -254,6 +280,21 @@ const VideosList = (props) => {
             "Выберите пользователя"
         }
       </div>
+      {
+        selectedUser !== null
+          &&
+        <div className="input-form">
+          <input onChange={(e)=>newPdf(e)} type="file" accept=".pdf"/>
+          <Button
+              variant="contained"
+              color="primary"
+              onClick={updatePdf}>
+            Сохранить
+          </Button>
+        </div>
+
+      }
+
       <Button
         variant="contained"
         color="primary"

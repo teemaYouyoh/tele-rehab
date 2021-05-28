@@ -1,4 +1,9 @@
 'use strict';
+// var multer  = require('multer')
+// var upload = multer({ dest: 'uploads/' })
+// var fs = require('fs');
+// var path = require('path');
+// var filepreview = require('filepreview-es6');
 module.exports = function (app) {
   var Users = require('../controllers/UsersControllers');
   var Categories = require('../controllers/CategoriesControllers');
@@ -57,5 +62,25 @@ module.exports = function (app) {
     .put(Video.update_a_video)
     .delete(Video.delete_a_video);
 
+
+  //MULTER
+  // app.route('/upload_pdf').post(
+  //     upload.single("file"),
+  //     (req, res) => {
+  //       const tempPath = req.file.path;
+  //       const targetPath = path.join(__dirname,"../../uploads/pdf/" + req.body._id + path.extname(req.file.originalname));
+  //       fs.rename(tempPath, targetPath, err => {
+  //         if (!filepreview.generateSync(targetPath, path.join(__dirname, "../../uploads/preview/" + req.body._id + '.pdf'))) {
+  //           console.log('Oops, something went wrong.');
+  //         } else {
+  //           console.log('File preview done!');
+  //         };
+  //         res
+  //             .status(200)
+  //             .contentType("text/plain")
+  //             .end("File uploaded!");
+  //       });
+  //     }
+  // );
 
 };
