@@ -3,6 +3,7 @@
 # dependencies
 /server/node_modules
 /tele-rehab/node_modules
+/webrtc-server/node_modules
 /.pnp
 .pnp.js
 
