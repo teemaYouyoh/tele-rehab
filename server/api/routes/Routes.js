@@ -28,6 +28,9 @@ module.exports = function (app) {
   app.route('/update_plan')
       .post(NodeMailer.nodemailerUpdatePlan);
 
+  app.route('/send_call')
+      .post(NodeMailer.nodemailerFooter)
+
   // app.post('/send', (req, res)=>{
   //   console.log(req.body);
   // })
