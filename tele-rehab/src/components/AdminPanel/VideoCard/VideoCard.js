@@ -36,6 +36,8 @@ const VideoCard = () => {
   const [videoURL, setVideoURL] = useState("");
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
+  const [filtredVideos, setFiltredVideos] = useState([]);
+  const [filterCategory, setFilterCategory] = useState("");
 
   useEffect(async ()=>{
     await getVideos();
@@ -67,6 +69,7 @@ const VideoCard = () => {
     let data = await response.json();
 
     setVideos(data);
+    setFiltredVideos(data);
   }
 
   async function addVideo(){
@@ -92,7 +95,6 @@ const VideoCard = () => {
   useEffect(async ()=>{
     console.log(2);
     if(selectedCategory !== ""){
-      console.log(3);
       const responseCategories = await fetch(`http://localhost:3000/categories/${selectedCategory}`, {
         method: 'GET',
         mode: 'cors',
@@ -104,9 +106,54 @@ const VideoCard = () => {
       let dataCategories = await responseCategories.json();
 
       setUnderCategories(dataCategories);
+      // console.log("CURRENT CATEGORY", dataCategories);
+      // dataCategories.children.forEach(item => {
+      //   let element = videos.filter(video => video.category === item._id);
+      //   // console.log("VIDEOS", videos);
+      //   if(element.length > 0){
+      //     console.log("element",element[0]);
+      //     setFiltredVideos([...filtredVideos, element[0]]);
+      //     // filtredVideos.concat(element[0]);
+      //   }
+      // })
+      // console.log("filtredVideos", filtredVideos);
+      // // setIsReady(false);
+      // renderVideos();
     }
 
   },[selectedCategory])
+
+  useEffect(async ()=>{
+    console.log(2);
+    if(filterCategory !== ""){
+      // console.log(selectedCategory);
+      const responseCategories = await fetch(`http://localhost:3000/categories/${filterCategory}`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then(await setFiltredVideos([]));
+
+      let dataCategories = await responseCategories.json();
+
+      setUnderCategories(dataCategories);
+      console.log("CURRENT CATEGORY", dataCategories);
+      dataCategories.children.forEach(item => {
+        let element = videos.filter(video => video.category === item._id);
+        // console.log("VIDEOS", videos);
+        if(element.length > 0){
+          console.log("element",element[0]);
+          setFiltredVideos([...filtredVideos, element[0]]);
+          // filtredVideos.concat(element[0]);
+        }
+      })
+      console.log("filtredVideos", filtredVideos);
+      // setIsReady(false);
+      renderVideos();
+    }
+
+  },[filterCategory])
 
   function getId(url) {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -118,12 +165,13 @@ const VideoCard = () => {
   }
 
   function renderVideos(){
-    return videos.map((item)=>{
-      const {_id, name, url, category} = item;
+    console.log(filtredVideos);
+    return filtredVideos.map((item)=>{
+      const {name, url, category} = item;
       const videoId = getId(url);
 
       return(
-          <div className="video-page-wrapper-card" key={_id}>
+          <div className="video-page-wrapper-card">
             <div className="video_iframe">
               <iframe width="100%" height="100%" src={`//www.youtube.com/embed/${videoId}`} frameBorder="0" allowFullScreen ></iframe>
             </div>
@@ -136,7 +184,33 @@ const VideoCard = () => {
   return (
     <div className="admin-video-wrapper">
       <div className="box">
-        {isReady && renderVideos()}
+        <FormControl variant="outlined" >
+          <div className="select-group">
+            <InputLabel id="demo-simple-select-outlined-label">Родительская категория</InputLabel>
+            <Select
+                className="user_selected-input"
+                labelId="demo-simple-select-outlined-label"
+                onChange={(e)=>setFilterCategory(e.target.value)}
+                // value={parentCategoryId || ""}
+                // onChange={(e) => { setParentCategoryId(e.target.value) }}
+                label="Выберите пользователя"
+            >
+              <MenuItem value="none">
+                Выберите родительскую категорию
+              </MenuItem>
+              {
+                categories.map((item) => {
+                  return (
+                      <MenuItem value={item._id} key={item._id}>{item.name}</MenuItem>
+                  )
+                })
+              }
+            </Select>
+          </div>
+        </FormControl>
+        <div className="box-items">
+          {isReady && renderVideos()}
+        </div>
       </div>
       <div className="controls">
         <TextField
