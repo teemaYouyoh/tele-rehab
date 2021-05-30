@@ -8,6 +8,7 @@ import {
 import FrontPage from './components/FrontPage/FrontPage';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import PersonArea from './components/PersonArea/PersonArea';
+import VideoChat from './components/VideoChat/VideoChat';
 import 'reset-css';
 import './style.scss';
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/admin" exact>
             <AdminPanel />
           </Route>
+          <Route path="/chat" render={props => <VideoChat {...props}> </VideoChat>} exact />
         </Switch>
       </Router>
     </>

@@ -173,6 +173,7 @@ const Categories = (props) => {
     let categoriesList = [...categories];
 
     console.log(value)
+
     if (parentId !== null) {
 
       categoriesList.map(parent => {
@@ -180,6 +181,19 @@ const Categories = (props) => {
           parent.children.map(child => {
             if (child._id === id) {
               child.name = value
+
+              fetch(`http://localhost:3000/categories/${parentId}`, {
+                method: 'PUT',
+                mode: 'cors',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(parent)
+              })
+                .then((res) => { setCategories(categoriesList); })
+                .catch((err) => { console.log(err) })
+
+              return;
             }
           })
         }
@@ -187,7 +201,18 @@ const Categories = (props) => {
 
     } else {
 
+      fetch(`http://localhost:3000/categories/${id}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({name: value})
+      })
+        .then((res) => { getCategories(); })
+        .catch((err) => { console.log(err) })
 
+      return;
 
     }
 
@@ -197,17 +222,37 @@ const Categories = (props) => {
   }
 
   const renderCategories = () => {
-    console.log("cats", categories)
     return categories.map(parent => {
       return (
         <div className="category" key={parent._id}>
 
           <div className="category-line">
-            <div className="category-item">{parent.name}</div>
+            {
+              changebleCategory === parent._id ?
+                (
+                  <div className="category-item">
+                    <TextField
+                      autoFocus
+                      variant="outlined"
+                      defaultValue={parent.name}
+                      onFocus={() => { setChangebleCategory(parent._id) }}
+                      onBlur={(e) => { changeCategoryName(e.target.value, parent._id) }}
+                    />
+                  </div>
+                )
+                :
+                (
+                  <div
+                    className="category-item"
+                    onDoubleClick={(e) => { setChangebleCategory(parent._id) }}
+                  >
+                    {parent.name}
+                  </div>
+                )
+            }
             <div className="category-item">
             </div>
             <div className="category-item">
-              <div className="category-subitem"> UPDATE </div>
               <div className="category-subitem" onClick={() => { deleteCategory({ id: parent._id, parent: null }) }}> DELETE </div>
             </div>
           </div>
@@ -240,9 +285,8 @@ const Categories = (props) => {
                         </div>
                       )
                   }
-                  <div className="category-item">{child._id}</div>
+                  {/* <div className="category-item">{child._id}</div> */}
                   <div className="category-item">
-                    <div className="category-subitem"> UPDATE </div>
                     <div className="category-subitem" onClick={() => { deleteCategory({ id: child._id, parent: child.parent }) }}> DELETE </div>
                   </div>
                 </div>
@@ -255,8 +299,6 @@ const Categories = (props) => {
       )
     })
   }
-
-  console.log(parentCategoryId)
 
   return (
     <div>

@@ -39,6 +39,10 @@ var UserSchema= new Schema({
     type: String,
     default: "",
   },
+  video_chat_url: {
+    type: String,
+    default: "",
+  },
   status: {
     type: [{
       type: String,

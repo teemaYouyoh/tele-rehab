@@ -119,11 +119,11 @@ const VideoCard = () => {
 
   function renderVideos(){
     return videos.map((item)=>{
-      const {name, url, category} = item;
+      const {_id, name, url, category} = item;
       const videoId = getId(url);
 
       return(
-          <div className="video-page-wrapper-card">
+          <div className="video-page-wrapper-card" key={_id}>
             <div className="video_iframe">
               <iframe width="100%" height="100%" src={`//www.youtube.com/embed/${videoId}`} frameBorder="0" allowFullScreen ></iframe>
             </div>
