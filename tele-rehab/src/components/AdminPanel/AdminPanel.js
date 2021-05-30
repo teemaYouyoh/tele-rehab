@@ -14,6 +14,7 @@ import AppointmentsList from './AppointmentsList/AppointmentsList';
 import './AdminPanel.css';
 import VideoCard from "./VideoCard/VideoCard";
 import UsersRegistration from "./UsersRegistration/UsersRegistration";
+import UsersList from "./UsersList/UsersList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +60,8 @@ const AdminPanel = () => {
           <Tab label="Листы назначений" {...a11yProps(0)} />
           <Tab label="Категории" {...a11yProps(1)} />
           <Tab label="Видео" {...a11yProps(2)} />
-          <Tab label="Пользователи" {...a11yProps(3)}/>
+          <Tab label="Зарегистрировать пользователя" {...a11yProps(3)}/>
+          <Tab label="Пользователи" {...a11yProps(4)}/>
         </Tabs>
       </AppBar>
 
@@ -77,17 +79,24 @@ const AdminPanel = () => {
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-        <Categories
-          categories={categories}
-          setCategories={setCategories}
-        />
+        <div>
+          <Categories
+            categories={categories}
+            setCategories={setCategories}
+          />
+        </div>
       </TabPanel>
 
       <TabPanel value={value} index={2}>
         <VideoCard categories={categories} />
       </TabPanel>
+
       <TabPanel value={value} index={3}>
         <UsersRegistration />
+      </TabPanel>
+
+      <TabPanel value={value} index={4}>
+        <UsersList />
       </TabPanel>
 
 
@@ -110,7 +119,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
