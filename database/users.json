@@ -8,28 +8,7 @@
   "birthday": "Thu Jun 21 2001 00:00:00 GMT+0300 (GMT+03:00)",
   "diagnosis": "tycuvhbjknlm;nbjvhicugvhjkbj",
   "password": "c4ca4238a0b923820dcc509a6f75849b",
-  "appointments": [
-    {
-      "selected": true,
-      "_id": "609ab2cf2543af4020fea7dd",
-      "name": "Видео 4",
-      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
-      "category": "609a9ebe7240b8948d387672",
-      "review": "text",
-      "repeat": "12",
-      "days": "9"
-    },
-    {
-      "selected": true,
-      "_id": "609ab2fa2543af4020fea7e2",
-      "name": "Видео 9",
-      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
-      "category": "609a9e877240b8948d387671",
-      "review": "test video 9",
-      "repeat": "2",
-      "days": "3"
-    }
-  ],
+  "appointments": [],
   "status": [
     "invited"
   ]
@@ -45,27 +24,121 @@
   "password": "c4ca4238a0b923820dcc509a6f75849b",
   "appointments": [
     {
+      "review": "",
+      "repeat": "12",
+      "comments": [],
+      "days": "21",
       "selected": true,
       "_id": "609aa19c7240b8948d387673",
       "name": "Видео 1",
       "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
-      "category": "609a9e877240b8948d387671",
-      "review": "test",
-      "repeat": "12",
-      "days": "21"
+      "category": "609a9e877240b8948d387671"
     },
     {
+      "review": "",
+      "repeat": "2",
+      "comments": [],
+      "days": "3",
       "selected": true,
       "_id": "609ab2de2543af4020fea7df",
       "name": "Видео 6",
       "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5s",
-      "category": "609a9ebe7240b8948d387672",
-      "review": "",
-      "repeat": "2",
-      "days": "3"
+      "category": "609a9ebe7240b8948d387672"
     }
   ],
   "status": [
     "invited"
-  ]
+  ],
+  "comment": "Гамно)",
+  "statusCourse": false,
+  "video_chat_url": ""
+},{
+  "_id": {
+    "$oid": "60ae5c975e005a4524e30547"
+  },
+  "appointments": [
+    {
+      "review": "",
+      "repeat": "2",
+      "comments": [
+        "Не полнравилось"
+      ],
+      "days": "1",
+      "selected": true,
+      "_id": "60ae3655249c7a2b57bb6b79",
+      "name": "Japan Video",
+      "url": "https://www.youtube.com/watch?v=8ypRvNZhocU",
+      "category": "609a9e877240b8948d387671",
+      "__v": 0
+    }
+  ],
+  "status": [
+    "invited"
+  ],
+  "name": "Сергей Сергей",
+  "email": "sergejjolejj00@gmail.com",
+  "password": "123456",
+  "phone": "+551515151515",
+  "birthday": "2021-04-27",
+  "diagnosis": "Умер когда кодил",
+  "__v": 0,
+  "comment": "",
+  "statusCourse": false,
+  "video_chat_url": "3bImlsUZzsdyYwYIAABi"
+},{
+  "_id": {
+    "$oid": "60af4a7804705e2a622185b0"
+  },
+  "appointments": [
+    {
+      "review": "",
+      "repeat": "4",
+      "comments": [
+        "Не полнравилось"
+      ],
+      "days": "2",
+      "selected": true,
+      "_id": "60ae3655249c7a2b57bb6b79",
+      "name": "Japan Video",
+      "url": "https://www.youtube.com/watch?v=8ypRvNZhocU",
+      "category": "609a9e877240b8948d387671",
+      "__v": 0
+    },
+    {
+      "review": "",
+      "repeat": "2",
+      "comments": [],
+      "days": "1",
+      "selected": true,
+      "_id": "60af91cc5e08a022c5d41db5",
+      "name": "Кайф",
+      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t",
+      "category": "60aa80d8b2faa122f4d3836a",
+      "__v": 0
+    },
+    {
+      "review": "",
+      "repeat": "1",
+      "comments": [],
+      "days": "2",
+      "selected": true,
+      "_id": "60b0a78e36bde031ba54adc9",
+      "name": "Video Test",
+      "url": "https://www.youtube.com/watch?v=b7Cl7S0pLRw",
+      "category": "609a9e7a7240b8948d387670",
+      "__v": 0
+    }
+  ],
+  "status": [
+    "invited"
+  ],
+  "name": "Админ Админович",
+  "email": "telerehab.fenix@gmail.com",
+  "password": "Kalinkin35",
+  "phone": "+6666666666",
+  "birthday": "2021-04-27",
+  "diagnosis": "Админ",
+  "__v": 0,
+  "comment": "Супер",
+  "statusCourse": false
 }]

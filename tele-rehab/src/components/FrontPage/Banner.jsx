@@ -80,7 +80,7 @@ const Banner = () => {
 
     async function sendMessage(formData, isError){
         if(!isError){
-            await fetch(`http://localhost:3000/send`, {
+            await fetch(`https://tele-rehab-api.vps-touchit.space/send`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

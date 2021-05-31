@@ -11,7 +11,7 @@ const UsersList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(async () => {
-    const response = await fetch(`http://localhost:3000/users/`, {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {

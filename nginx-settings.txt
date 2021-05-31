@@ -1,0 +1,183 @@
+
+
+sudo ln -s /etc/nginx/sites-available/tele-rehab.vps-touchit.space.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/tele-rehab-api.vps-touchit.space.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/tele-rehab-socket-io.vps-touchit.space.conf /etc/nginx/sites-enabled/
+
+
+// TH ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name tele-rehab.vps-touchit.space www.tele-rehab.vps-touchit.space;
+    root /var/www/tele-rehab.vps-touchit.space/html;
+    index index.html index.xml;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    server_name www.tele-rehab.vps-touchit.space;
+    return 301 https://tele-rehab.vps-touchit.space$request_uri;
+
+    ssl_certificate /etc/letsencrypt/live/tele-rehab.vps-touchit.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tele-rehab.vps-touchit.space/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/tele-rehab.vps-touchit.space/chain.pem;
+
+    include snippets/ssl-params.conf;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    server_name tele-rehab.vps-touchit.space;
+    root /var/www/tele-rehab.vps-touchit.space/html;
+    index index.html index.xml;
+
+    ssl_certificate /etc/letsencrypt/live/tele-rehab.vps-touchit.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tele-rehab.vps-touchit.space/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/tele-rehab.vps-touchit.space/chain.pem;
+
+    include snippets/ssl-params.conf;
+}
+
+
+// TH-A ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    location / {
+        proxy_pass https://tele-rehab-api.vps-touchit.space;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    server_name tele-rehab-api.vps-touchit.space www.tele-rehab-api.vps-touchit.space;
+    return 301 https://tele-rehab-api.vps-touchit.space$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    
+    location / {
+        proxy_pass https://tele-rehab-api.vps-touchit.space;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    server_name www.tele-rehab-api.vps-touchit.space;
+    return 301 https://tele-rehab-api.vps-touchit.space$request_uri;
+
+    ssl_certificate /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/chain.pem;
+
+    include snippets/ssl-params.conf;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+
+    location / {
+        proxy_pass https://tele-rehab-api.vps-touchit.space;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    server_name tele-rehab-api.vps-touchit.space;
+    root /var/www/tele-rehab-api.vps-touchit.space/html;
+    index index.html index.xml;
+
+    ssl_certificate /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/chain.pem;
+
+    include snippets/ssl-params.conf;
+}
+
+
+
+// TH-SOCKET ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    server_name tele-rehab-socket-io.vps-touchit.space www.tele-rehab-socket-io.vps-touchit.space;
+    return 301 https://tele-rehab-socket-io.vps-touchit.space$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    server_name www.tele-rehab-socket-io.vps-touchit.space;
+    return 301 https://tele-rehab-socket-io.vps-touchit.space$request_uri;
+
+    ssl_certificate /etc/letsencrypt/live/tele-rehab-socket-io.vps-touchit.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tele-rehab-socket-io.vps-touchit.space/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/tele-rehab-socket-io.vps-touchit.space/chain.pem;
+
+    include snippets/ssl-params.conf;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    server_name tele-rehab-socket-io.vps-touchit.space;
+    root /var/www/tele-rehab-socket-io.vps-touchit.space/html;
+    index index.html index.xml;
+
+    ssl_certificate /etc/letsencrypt/live/tele-rehab-socket-io.vps-touchit.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tele-rehab-socket-io.vps-touchit.space/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/tele-rehab-socket-io.vps-touchit.space/chain.pem;
+
+    include snippets/ssl-params.conf;
+}

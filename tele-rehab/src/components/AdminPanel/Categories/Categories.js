@@ -54,7 +54,7 @@ const Categories = (props) => {
   const getCategories = async () => {
 
     console.log("getting cateegories")
-    const response = await fetch('http://localhost:3000/categories', {
+    const response = await fetch('https://tele-rehab-api.vps-touchit.space/categories', {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -83,7 +83,7 @@ const Categories = (props) => {
           console.log(item)
           item.children.push({ _id: ObjectID().toHexString(), name: categoryName, parent: item._id });
 
-          fetch(`http://localhost:3000/categories/${item._id}`, {
+          fetch(`https://tele-rehab-api.vps-touchit.space/categories/${item._id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -102,7 +102,7 @@ const Categories = (props) => {
 
     } else {
 
-      const response = await fetch(`http://localhost:3000/categories`, {
+      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/categories`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -138,7 +138,7 @@ const Categories = (props) => {
         }
       })
 
-      const response = await fetch(`http://localhost:3000/categories/${value.parent}`, {
+      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/categories/${value.parent}`, {
         method: 'PUT',
         mode: 'cors',
         headers: {
@@ -151,7 +151,7 @@ const Categories = (props) => {
 
     } else {
 
-      const response = await fetch(`http://localhost:3000/categories/${value.id}`, {
+      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/categories/${value.id}`, {
         method: 'DELETE',
         mode: 'cors',
         headers: {
@@ -182,7 +182,7 @@ const Categories = (props) => {
             if (child._id === id) {
               child.name = value
 
-              fetch(`http://localhost:3000/categories/${parentId}`, {
+              fetch(`https://tele-rehab-api.vps-touchit.space/categories/${parentId}`, {
                 method: 'PUT',
                 mode: 'cors',
                 headers: {
@@ -201,7 +201,7 @@ const Categories = (props) => {
 
     } else {
 
-      fetch(`http://localhost:3000/categories/${id}`, {
+      fetch(`https://tele-rehab-api.vps-touchit.space/categories/${id}`, {
         method: 'PUT',
         mode: 'cors',
         headers: {

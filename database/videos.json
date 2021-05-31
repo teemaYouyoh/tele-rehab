@@ -128,4 +128,19 @@
   "selected": [
     false
   ]
+},{
+  "_id": {
+    "$oid": "60b24cdb184a3034d4f02ef9"
+  },
+  "review": "",
+  "repeat": "1",
+  "comments": [],
+  "days": "1",
+  "selected": [
+    false
+  ],
+  "name": "Название видео 1",
+  "url": "https://youtu.be/lM02vNMRRB0",
+  "category": "60b24cbba65ba2d7927c7e44",
+  "__v": 0
 }]

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link, useHistory } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 // import HeaderMenu from './HeaderMenu';
@@ -19,6 +19,8 @@ const customStyles = {
 Modal.setAppElement('#root')
 
 const FrontPageHeader = () => {
+  const history = useHistory();
+
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [users, setUsers] = useState([]);
   const [emailUser, setEmail] = useState("");
@@ -34,7 +36,7 @@ const FrontPageHeader = () => {
 
   async function openModal() {
     setIsOpen(true);
-    let response = await fetch(`http://localhost:3000/users/`, {
+    let response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -58,7 +60,9 @@ const FrontPageHeader = () => {
       if (email === emailUser && password === passwordUser) {
         localStorage.setItem("user", name);
         localStorage.setItem("id", _id);
-        window.location.href = window.location.origin + "/personal";
+        history.push({
+          pathname: "/personal"
+        })
       } else {
         setErrorMsg("Email или пароль не совпадают*")
       }

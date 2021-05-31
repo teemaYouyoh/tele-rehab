@@ -66,7 +66,7 @@ const PersonArea = () => {
             setIsAdmin(true);
         }
         if (currentUser) {
-            const response = await fetch(`http://localhost:3000/users/${currentUser}`, {
+            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${currentUser}`, {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -79,7 +79,7 @@ const PersonArea = () => {
             setUser(data);
         }
 
-        const responseNew = await fetch('http://localhost:3000/categories', {
+        const responseNew = await fetch('https://tele-rehab-api.vps-touchit.space/categories', {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -112,7 +112,7 @@ const PersonArea = () => {
     async function sendComment(e) {
         e.preventDefault();
         if (comment) {
-            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
                 method: 'PUT',
                 mode: 'cors',
                 headers: {
@@ -126,7 +126,7 @@ const PersonArea = () => {
     }
 
     async function sendCourseFinish() {
-        const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+        const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -141,7 +141,7 @@ const PersonArea = () => {
         e.preventDefault();
         if (commentSingle) {
             user.appointments[indexAppoint].comments.push(commentSingle);
-            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
                 method: 'PUT',
                 mode: 'cors',
                 headers: {
