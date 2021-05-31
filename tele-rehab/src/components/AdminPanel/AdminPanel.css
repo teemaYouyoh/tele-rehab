@@ -157,3 +157,31 @@
 .MuiAppBar-root{
   align-items: center;
 }
+@media(max-width: 768px){
+  .MuiTabs-flexContainer{
+    flex-wrap: wrap;
+  }
+  .user-admin-card{
+    max-width: 48%;
+  }
+}
+@media(max-width: 414px){
+  .tab__appointment{
+    flex-direction: column;
+  }
+  .user-admin-card{
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+  .category-list,
+  .appointments{
+    width: 100% !important;
+  }
+  .admin-video-wrapper{
+    flex-direction: column-reverse;
+  }
+  .box{
+    max-width: 100%;
+    margin-top: 25px;
+  }
+}
