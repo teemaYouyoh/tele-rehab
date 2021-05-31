@@ -38,6 +38,7 @@ const VideoCard = () => {
   const [category, setCategory] = useState("");
   const [filtredVideos, setFiltredVideos] = useState([]);
   const [filterCategory, setFilterCategory] = useState("");
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(async ()=>{
     await getVideos();
@@ -69,7 +70,7 @@ const VideoCard = () => {
     let data = await response.json();
 
     setVideos(data);
-    setFiltredVideos(data);
+    // setFiltredVideos(data);
   }
 
   async function addVideo(){
@@ -88,12 +89,16 @@ const VideoCard = () => {
         },
         body: JSON.stringify(formData)
       });
+      await setName("");
+      await setVideoURL("");
+      await setCategory("");
       await getVideos();
+      await renderVideos();
     }
   }
 
   useEffect(async ()=>{
-    console.log(2);
+
     if(selectedCategory !== ""){
       const responseCategories = await fetch(`http://localhost:3000/categories/${selectedCategory}`, {
         method: 'GET',
@@ -123,8 +128,15 @@ const VideoCard = () => {
 
   },[selectedCategory])
 
+  async function clearVideos (){
+    await setFiltredVideos([]);
+  }
+
   useEffect(async ()=>{
-    console.log(2);
+    let modifiedVideos = [];
+    setFiltredVideos([]);
+
+    console.log("ENTERED", filtredVideos);
     if(filterCategory !== ""){
       // console.log(selectedCategory);
       const responseCategories = await fetch(`http://localhost:3000/categories/${filterCategory}`, {
@@ -133,27 +145,42 @@ const VideoCard = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-      }).then(await setFiltredVideos([]));
-
+      });
+      console.log("BEFORE CLEAT", filtredVideos);
+      await setFiltredVideos([]);
+      console.log("AFTER CLEAT", filtredVideos);
       let dataCategories = await responseCategories.json();
-
       setUnderCategories(dataCategories);
-      console.log("CURRENT CATEGORY", dataCategories);
+        // console.log(1,"CURRENT CATEGORY", dataCategories.name);
       dataCategories.children.forEach(item => {
         let element = videos.filter(video => video.category === item._id);
         // console.log("VIDEOS", videos);
         if(element.length > 0){
-          console.log("element",element[0]);
-          setFiltredVideos([...filtredVideos, element[0]]);
-          // filtredVideos.concat(element[0]);
+          console.log(2,"element",element[0].name);
+          modifiedVideos.push(element[0]);
+          // setFiltredVideos([...filtredVideos, element[0]]);
         }
       })
-      console.log("filtredVideos", filtredVideos);
-      // setIsReady(false);
+      setFiltredVideos(modifiedVideos);
       renderVideos();
+
+
+      // setIsReady(true);
     }
 
   },[filterCategory])
+
+  function filterNewVideos(dataCategories){
+    dataCategories.children.forEach(item => {
+      let element = videos.filter(video => video.category === item._id);
+      // console.log("VIDEOS", videos);
+      if(element.length > 0){
+        console.log(2,"element",element[0].name);
+        setFiltredVideos([...filtredVideos, element[0]]);
+      }
+    })
+    return 0;
+  }
 
   function getId(url) {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -164,8 +191,22 @@ const VideoCard = () => {
         : null;
   }
 
+  async function deleteVideo(id){
+    const response = await fetch(`http://localhost:3000/videos/${id}`, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    await getVideos();
+    await renderVideos();
+  }
+
   function renderVideos(){
-    console.log(filtredVideos);
+    // console.log(filtredVideos);
+    // console.log(4,filtredVideos, "isReady ", isReady);
     return filtredVideos.map((item)=>{
       const {name, url, category} = item;
       const videoId = getId(url);
@@ -176,6 +217,7 @@ const VideoCard = () => {
               <iframe width="100%" height="100%" src={`//www.youtube.com/embed/${videoId}`} frameBorder="0" allowFullScreen ></iframe>
             </div>
             <p className="video_label">{name}</p>
+            <button className="delete-btn" onClick={()=>deleteVideo(item._id)}>Delete</button>
           </div>
       )
     })
