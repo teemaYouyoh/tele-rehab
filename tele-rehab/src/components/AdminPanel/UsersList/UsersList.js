@@ -34,21 +34,25 @@ const UsersList = () => {
 
 
   return (
-    <div>
-      {users.map(item => {
-        return (
-          <div key={item._id}>
-            <div>{item.name}</div>
-            <div>
-              <Link to={{
-                pathname: "/chat",
-                userId: item._id
-              }}>Ссылка</Link>
-            </div>
-            {/* <div onClick={() => { startVideoChat(item._id) }}>Пригласить в видео-чат</div> */}
-          </div>
-        )
-      })}
+    <div className="user-list">
+      <div className="container">
+        <div className="wrapper-user-list">
+          {users.map(item => {
+            return (
+              <div className="user-admin-card" key={item._id}>
+                <div className="user-name">{item.name}</div>
+                <div className="user-link">
+                  <Link to={{
+                    pathname: "/chat",
+                    userId: item._id
+                  }}>Начать видеозвонок</Link>
+                </div>
+                {/* <div onClick={() => { startVideoChat(item._id) }}>Пригласить в видео-чат</div> */}
+              </div>
+            )
+          })}
+        </div>
+      </div>
     </div>
   );
 };

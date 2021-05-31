@@ -15,11 +15,15 @@ import './AdminPanel.css';
 import VideoCard from "./VideoCard/VideoCard";
 import UsersRegistration from "./UsersRegistration/UsersRegistration";
 import UsersList from "./UsersList/UsersList";
+import HeaderMenu from "../Header/HeaderMenu";
+import FrontPageHeader from "../Header/FrontPageHeader";
+import PersonAreaHeader from "../Header/PersonAreaHeader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    alignItems: "center",
   },
 }));
 
@@ -55,6 +59,7 @@ const AdminPanel = () => {
 
   return (
     <div className={classes.root}>
+      <PersonAreaHeader />
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Листы назначений" {...a11yProps(0)} />

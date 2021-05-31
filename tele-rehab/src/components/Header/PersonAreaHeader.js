@@ -101,10 +101,11 @@ const PersonAreaHeader = () => {
                         <span></span>
                       </label> 
                       <ul className="header-menu__list menu__box">
-                          <li><a className="menu__item" href="#">Главная</a></li>
+                          <li><Link to="/" className="menu__item">Главная</Link></li>
                           <li><a className="menu__item" href="#">О проекте</a></li>
                           <li><a className="menu__item" href="#">Вопрос-ответ</a></li>
-                          <li><a className="menu__item" href="#">Контакты</a></li>   
+                          <li><a className="menu__item" href="#">Контакты</a></li>
+                          <li className="mobile menu__item">{currentUser ? <Link to="/personal" >Привет, {currentUser}</Link> : <button onClick={openModal} className="header-log__btn btn" href="#">Кабинет</button>}</li>
                       </ul>
                   </nav>
               </div>

@@ -170,8 +170,8 @@ $blue:#04B1FB;
             display: none;
         }
     }
-    .user-sign-in{
-        @media(max-width: 414px){
+    .header-log{
+        @media(max-width: 768px){
             display: none;
         }
     }
@@ -1123,6 +1123,7 @@ $blue:#04B1FB;
         width: 100%;
         align-items: center;
         margin-bottom: 10px;
+        justify-content: space-between;
     }
     // .statistic-item__name
 

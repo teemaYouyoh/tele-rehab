@@ -90,7 +90,11 @@
 .form-single{
   margin-top: 20px;
 }
-
+@media(max-width: 414px){
+  .form-single{
+    margin-top: 0;
+  }
+}
 
 .form-single-video{
   width: 100%;
@@ -132,4 +136,14 @@
   font-size: 18px;
   font-weight: 500;
   color: #c20000;
+}
+
+.mobile{
+  display: none;
+}
+
+@media(max-width: 768px){
+  .mobile{
+    display: block;
+  }
 }
