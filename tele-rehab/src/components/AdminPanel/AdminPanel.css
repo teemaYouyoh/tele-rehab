@@ -113,3 +113,75 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.wrapper-user-list{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.user-admin-card{
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  max-width: 23%;
+  width: 100%;
+  box-shadow: 0 0 3px rgba(23,23,23,0.3);
+}
+
+.user-name{
+  font-size: 24px;
+  font-weight: 600;
+  color: #232323;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.user-link{
+  width: 100%;
+  background: #3f51b5;
+  padding: 10px 30px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-link a{
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.MuiAppBar-root{
+  align-items: center;
+}
+@media(max-width: 768px){
+  .MuiTabs-flexContainer{
+    flex-wrap: wrap;
+  }
+  .user-admin-card{
+    max-width: 48%;
+  }
+}
+@media(max-width: 414px){
+  .tab__appointment{
+    flex-direction: column;
+  }
+  .user-admin-card{
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+  .category-list,
+  .appointments{
+    width: 100% !important;
+  }
+  .admin-video-wrapper{
+    flex-direction: column-reverse;
+  }
+  .box{
+    max-width: 100%;
+    margin-top: 25px;
+  }
+}
