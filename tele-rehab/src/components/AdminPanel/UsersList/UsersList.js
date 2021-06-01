@@ -42,7 +42,7 @@ const UsersList = () => {
             <div>
               <Link to={{
                 pathname: "/chat",
-                userId: item._id
+                userId: item._id,
               }}>Ссылка</Link>
             </div>
             {/* <div onClick={() => { startVideoChat(item._id) }}>Пригласить в видео-чат</div> */}

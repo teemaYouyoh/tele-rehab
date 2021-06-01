@@ -159,7 +159,6 @@ const PersonArea = () => {
     function renderFunc(currCategory) {
         // console.log(user, categories);
         return user.appointments.map((item, index) => {
-            // console.log(item.comments)
             return categories.map((element) => {
                 const { name } = element;
                 return element.children.map((child) => {
@@ -182,6 +181,7 @@ const PersonArea = () => {
                                     </div>
                                     <div className="person-content__info info-person">
                                         <p className="info-person__main">{item.name} </p>
+                                        <p className="info-person__main">{item.review} </p>
                                         <div className="info-person__statistic">
                                             <div className="statistic-item">
                                                 <p className="statistic-item__name">Количество повторений
@@ -297,7 +297,7 @@ const PersonArea = () => {
                                 {!user.statusCourse &&
                                     categoriesName.map((item) => {
                                         return (
-                                            <TabPanel>
+                                            <TabPanel key={item._id}>
                                                 {isReady && renderFunc(item)}
                                             </TabPanel>
                                         )

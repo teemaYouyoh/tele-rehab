@@ -21,7 +21,7 @@ const VideoChat = (props) => {
 	const [idToCall, setIdToCall] = useState("")
 	const [callEnded, setCallEnded] = useState(false)
 	const [name, setName] = useState("")
-	const [userId, setUserId] = useState("60ae5c975e005a4524e30547")
+	const [userId, setUserId] = useState("")
 	const myVideo = useRef()
 	const userVideo = useRef()
 	const connectionRef = useRef()
@@ -37,11 +37,29 @@ const VideoChat = (props) => {
 			myVideo.current.srcObject = stream
 		})
 
+	// 	navigator.getUserMedia = navigator.getUserMedia ||
+	// 	navigator.webkitGetUserMedia ||
+	// 	navigator.mozGetUserMedia;
+
+	// if (navigator.getUserMedia) {
+
+	// 	navigator.getUserMedia(
+	// 		{ video: true, audio: true },
+	// 		function (stream) {
+	// 			setStream(stream)
+	// 			myVideo.current.srcObject = stream
+	// 		},
+	// 		function (err) {
+	// 			console.log(err);
+	// 		}
+	// 	)
+	// }
+
 		socket.on("me", (id) => {
 			setMe(id)
 
 			if ( props.location.userId !== undefined ) {
-				fetch(`http://localhost:3000/users/${userId}`, {
+				fetch(`http://localhost:3000/users/${props.location.userId}`, {
 					method: 'PUT',
 					mode: 'cors',
 					headers: {
@@ -134,41 +152,6 @@ const VideoChat = (props) => {
 						{callAccepted && !callEnded ?
 							<video playsInline ref={userVideo} autoPlay style={{ width: "300px" }} /> :
 							null}
-					</div>
-				</div>
-				<div className="myId">
-					<TextField
-						id="filled-basic"
-						label="Name"
-						variant="filled"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						style={{ marginBottom: "20px" }}
-					/>
-					<CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
-						<Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
-							Copy ID
-					</Button>
-					</CopyToClipboard>
-
-					<TextField
-						id="filled-basic"
-						label="ID to call"
-						variant="filled"
-						value={idToCall}
-						onChange={(e) => setIdToCall(e.target.value)}
-					/>
-					<div className="call-button">
-						{callAccepted && !callEnded ? (
-							<Button variant="contained" color="secondary" onClick={leaveCall}>
-								End Call
-							</Button>
-						) : (
-							<IconButton color="primary" aria-label="call" onClick={() => callUser(idToCall)}>
-								<PhoneIcon fontSize="large" />
-							</IconButton>
-						)}
-						{idToCall}
 					</div>
 				</div>
 				<div>
