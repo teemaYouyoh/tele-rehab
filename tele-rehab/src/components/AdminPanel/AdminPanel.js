@@ -39,7 +39,7 @@ const AdminPanel = () => {
     if(isAdmin !== "60af4a7804705e2a622185b0"){
       window.location.href = window.location.origin;
     }
-    const response = await fetch('http://localhost:3000/categories', {
+    const response = await fetch('https://tele-rehab-api.vps-touchit.space/categories', {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -48,7 +48,7 @@ const AdminPanel = () => {
     });
 
     let data = await response.json();
-
+    console.log(data)
     setCategories(data);
 
   }, [])

@@ -7,6 +7,7 @@ import FooterBottom from '../Footer/FooterBottom';
 import Modal from 'react-modal';
 import Collapse from '@material-ui/core/Collapse';
 
+
 const customStyles = {
     content: {
         top: '50%',
@@ -66,7 +67,7 @@ const PersonArea = () => {
             setIsAdmin(true);
         }
         if (currentUser) {
-            const response = await fetch(`http://localhost:3000/users/${currentUser}`, {
+            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${currentUser}`, {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -79,7 +80,7 @@ const PersonArea = () => {
             setUser(data);
         }
 
-        const responseNew = await fetch('http://localhost:3000/categories', {
+        const responseNew = await fetch('https://tele-rehab-api.vps-touchit.space/categories', {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -112,7 +113,7 @@ const PersonArea = () => {
     async function sendComment(e) {
         e.preventDefault();
         if (comment) {
-            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
                 method: 'PUT',
                 mode: 'cors',
                 headers: {
@@ -126,7 +127,7 @@ const PersonArea = () => {
     }
 
     async function sendCourseFinish() {
-        const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+        const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -141,7 +142,7 @@ const PersonArea = () => {
         e.preventDefault();
         if (commentSingle) {
             user.appointments[indexAppoint].comments.push(commentSingle);
-            const response = await fetch(`http://localhost:3000/users/${user._id}`, {
+            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
                 method: 'PUT',
                 mode: 'cors',
                 headers: {
@@ -224,12 +225,71 @@ const PersonArea = () => {
         })
     }
 
+    const donwloadAttachment = () => {
+
+        // window.open('/download')
+
+        fetch(`https://tele-rehab-api.vps-touchit.space/download`, {
+            method: 'GET',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(async (res) => { console.log("11") })
+
+        // console.log(browser.downloads)
+
+        // const url = `${window.location.origin}/public/uploads/${user.attachment}`
+        // const path = Path.resolve(__dirname, 'images', 'code.jpg')
+        // const writer = Fs.createWriteStream(path)
+
+        // const response = await Axios({
+        //     url,
+        //     method: 'GET',
+        //     responseType: 'stream'
+        // })
+
+        // response.data.pipe(writer)
+
+        // return new Promise((resolve, reject) => {
+        //     writer.on('finish', resolve)
+        //     writer.on('error', reject)
+        // })
+    }
+
+       const download = (name) => {
+           const url = "https://tele-rehab-api.vps-touchit.space/1.png";
+         if (!url) {
+           throw new Error("Resource URL not provided! You need to provide one");
+         }
+         fetch(url, {mode: "no-cors", method: 'GET'})
+           .then(response => response.blob())
+           .then(blob => {
+             const blobURL = URL.createObjectURL(blob);
+             const a = document.createElement("a");
+             a.href = blobURL;
+             a.style = "display: none";
+     
+             if (name && name.length) a.download = name;
+             document.body.appendChild(a);
+             a.click();
+           })
+       };
+     
+
     return (
         <div className="person-area">
             <PersonAreaHeader />
             <div className="person-section">
                 <div className="container">
                     <div className="person-connections">
+                        {/* <div>
+                            <a href={`https://tele-rehab-api.vps-touchit.space/1.png`} download="1.png">AAAAAAAAAAAAAAAAAAAAAAAAAA</a>
+                            <a href="https://tele-rehab-api.vps-touchit.space/1.png" target="_blank" download>
+                                <img src="https://tele-rehab-api.vps-touchit.space/1.png" alt="W3Schools" width="104" height="142" />
+                            </a>
+                        </div> */}
+                        {/* <img src="https://tele-rehab-api.vps-touchit.space/1.png" onClick={() => {download("1.png")}} /> */}
                         {isAdmin &&
                             <Link to="/admin" className="person-connections__link" >
                                 <svg aria-hidden="true" width="28" height="31" focusable="false" data-prefix="fas" data-icon="user-cog"
@@ -261,7 +321,7 @@ const PersonArea = () => {
                         </a>
                         {user.video_chat_url !== undefined && user.video_chat_url !== "" ?
                             (
-                                <Link className="person-connections__link" to={{pathname: '/chat', doctorId: user.video_chat_url}} >
+                                <Link className="person-connections__link" to={{ pathname: '/chat', doctorId: user.video_chat_url }} >
                                     <svg width="30" height="31" viewBox="0 0 30 31" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path

@@ -33,7 +33,7 @@ const PersonAreaHeader = () => {
     },[])
   async function openModal() {
     setIsOpen(true);
-      let response = await fetch(`http://localhost:3000/users/`, {
+      let response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
           method: 'GET',
           mode: 'cors',
           headers: {

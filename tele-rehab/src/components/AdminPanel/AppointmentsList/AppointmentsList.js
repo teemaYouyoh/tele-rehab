@@ -28,6 +28,7 @@ const VideosList = (props) => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isChanged, setChanged] = useState(false);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     if (selectedUser !== null) {
@@ -71,7 +72,7 @@ const VideosList = (props) => {
   }, [modifiedVideos])
 
   useEffect(async () => {
-    const response = await fetch(`http://localhost:3000/videos/`, {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -86,7 +87,7 @@ const VideosList = (props) => {
   }, [])
 
   useEffect(async () => {
-    const response = await fetch(`http://localhost:3000/users/`, {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -121,29 +122,85 @@ const VideosList = (props) => {
 
     selectedUser.appointments = appointments;
     selectedUser.statusCourse = false;
-    const response = await fetch(`http://localhost:3000/users/${selectedUser._id}`, {
-      method: 'PUT',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(selectedUser)
-    });
 
-    const formData = {
-      email: selectedUser.email
+
+
+      console.log(file);
+    if (file === null) {
+      console.log(file);
+    
+      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${selectedUser._id}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(selectedUser)
+      });
+
+      const formData = {
+        email: selectedUser.email
+      }
+
+      await fetch(`https://tele-rehab-api.vps-touchit.space/update_plan`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(async (res) => { console.log("Success") })
+        .catch((err) => { console.log(err) })
+
+    } else {
+      const formDataFile = new FormData();
+      formDataFile.append("form-file", file)
+      console.log(file);
+
+      fetch(`https://tele-rehab-api.vps-touchit.space/upload`, {
+        method: 'POST',
+        mode: 'cors',
+        body: formDataFile
+      }).then(async (res) => {
+        const file = await res.json();
+        console.log(file);
+
+        const newSelectedUser = selectedUser;
+
+        newSelectedUser.attachment = file.filename;
+
+        const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${newSelectedUser._id}`, {
+          method: 'PUT',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newSelectedUser)
+        });
+
+        const formData = {
+          email: newSelectedUser.email
+        }
+        await fetch(`https://tele-rehab-api.vps-touchit.space/update_plan`, {
+
+        // await fetch(`https://tele-rehab-api.vps-touchit.space/update_plan`, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+          .then(async (res) => { console.log("Success") })
+          .catch((err) => { console.log(err) })
+      })
     }
 
-    await fetch(`http://localhost:3000/update_plan`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body:  JSON.stringify(formData)
-    })
-        .then(async (res) =>{ console.log("Success")})
-        .catch((err) => { console.log(err) })
+
+
+
+
   }
 
   const renderVideos = () => {
@@ -236,6 +293,18 @@ const VideosList = (props) => {
     setModifiedVideos(newModifiedVideos);
   };
 
+  function changeFile(e) {
+    let reader = new FileReader();
+    let fileLoaded = e.target.files[0];
+    console.log(e.target.files[0]);
+
+    reader.onloadend = () => {
+      setFile(e.target.files[0])
+    }
+
+    reader.readAsDataURL(fileLoaded);
+  }
+
   return (
     <div className="appointments">
       <SelectUser
@@ -253,6 +322,14 @@ const VideosList = (props) => {
             :
             "Выберите пользователя"
         }
+      </div>
+      <div>
+        <p className="form-banner__attachment">
+          Прикрепить файл <sup>*</sup>
+          <span>максимум 15 мб</span>
+          <span className="file-name">{file && file.name}</span>
+          <input id="input-file" name="form-file" accept=".png, .jpg, .jpeg" onChange={(e) => changeFile(e)} type="file" />
+        </p>
       </div>
       <Button
         variant="contained"

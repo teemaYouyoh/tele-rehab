@@ -28,7 +28,7 @@ const VideoChat = (props) => {
 
 	useEffect(() => {
 
-		const socket = io.connect('http://localhost:5000')
+		const socket = io.connect('https://tele-rehab-socket-io.vps-touchit.space')
 
 		setSocket(socket);
 
@@ -58,8 +58,10 @@ const VideoChat = (props) => {
 		socket.on("me", (id) => {
 			setMe(id)
 
+			console.log(id);
+
 			if ( props.location.userId !== undefined ) {
-				fetch(`http://localhost:3000/users/${props.location.userId}`, {
+				fetch(`https://tele-rehab-api.vps-touchit.space/users/${props.location.userId}`, {
 					method: 'PUT',
 					mode: 'cors',
 					headers: {

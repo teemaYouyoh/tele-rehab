@@ -1,9 +1,10 @@
 'use strict';
-module.exports = function (app) {
+module.exports = function (app, upload) {
   var Users = require('../controllers/UsersControllers');
   var Categories = require('../controllers/CategoriesControllers');
   var Video = require('../controllers/VideoControllers');
   var NodeMailer = require('../../nodemailer');
+
 
   // Users Routes
   app.route('/users')
@@ -17,19 +18,24 @@ module.exports = function (app) {
     .delete(Users.delete_a_user);
 
 
+  // app.post('/upload', upload.single('upload'), async (req, res) => {
+  //   console.log(req)
+  // }, (err, req, res, next) => res.status(404).send({ error: err.message }))
+
+
   //NodeMailer
   //
   app.route('/send')
-      .post(NodeMailer.nodemailerFunc);
+    .post(NodeMailer.nodemailerFunc);
 
   app.route('/success_registration')
-      .post(NodeMailer.nodemailerSignIn);
+    .post(NodeMailer.nodemailerSignIn);
 
   app.route('/update_plan')
-      .post(NodeMailer.nodemailerUpdatePlan);
+    .post(NodeMailer.nodemailerUpdatePlan);
 
   app.route('/send_call')
-      .post(NodeMailer.nodemailerFooter)
+    .post(NodeMailer.nodemailerFooter)
 
   // app.post('/send', (req, res)=>{
   //   console.log(req.body);

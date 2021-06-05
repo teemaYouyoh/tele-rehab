@@ -19,7 +19,7 @@ const UsersRegistration = () => {
     }, [])
 
     async function getUsers(){
-        const response = await fetch(`http://localhost:3000/users/`, {
+        const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -47,7 +47,7 @@ const UsersRegistration = () => {
                             birthday,
                             diagnosis,
                         }
-                        const response = await fetch(`http://localhost:3000/users/`, {
+                        const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
                             method: 'POST',
                             mode: 'cors',
                             headers: {
@@ -58,7 +58,7 @@ const UsersRegistration = () => {
                             setMsg("Успешно зарегестрирован");
                             await getUsers();
 
-                            await fetch(`http://localhost:3000/success_registration`, {
+                            await fetch(`https://tele-rehab-api.vps-touchit.space/success_registration`, {
                                 method: 'POST',
                                 mode: 'cors',
                                 headers: {

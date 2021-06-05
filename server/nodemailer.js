@@ -13,6 +13,7 @@ exports.nodemailerFooter = async (req, res) => {
       <li style="font-size: 18px; list-style: none">Имя: ${req.body.name}</li>      
       <li style="font-size: 18px; list-style: none">Номер телефона: ${req.body.phone}</li>
     </ul>
+
   `;
 
     // create reusable transporter object using the default SMTP transport
@@ -145,7 +146,8 @@ exports.nodemailerUpdatePlan = async (req, res) => {
 }
 
 exports.nodemailerFunc = async (req, res) =>{
-
+    console.log(req.body);
+    console.log(req.body.name);
     const output = `
     <p style="font-size: 16px">Новый запрос на регистрацию</p>
     <h3 style="font-size: 24px;">Детальная информация</h3>
@@ -171,8 +173,6 @@ exports.nodemailerFunc = async (req, res) =>{
             rejectUnauthorized:false
         }
     });
-
-
     // setup email data with unicode symbols
     let mailOptions = {
         from: `"Форма регистрации - " <${req.body.email}>`,
@@ -180,12 +180,12 @@ exports.nodemailerFunc = async (req, res) =>{
         to: 'touchitworking@gmail.com', // list of receivers
         subject: 'Форма регистрации', // Subject line
         text: 'Hello world?', // plain text body
-        html: output, // html body
-        attachments: [
+        html: output, // html body  
+        attachments: [ 
             {
-                filename: req.body.file.name,
-                contentType: req.body.file.type,
-                path: 'https://support.apple.com/library/content/dam/edam/applecare/images/ru_RU/ios/iphoto/ios13-iphone11-pro-camera-live-photo.jpg',
+                filename: req.body.file, 
+                // contentType: req.body.file.type,
+                path: __dirname + `/public/uploads/${req.body.file}`
             }
         ]
     };
@@ -201,8 +201,5 @@ exports.nodemailerFunc = async (req, res) =>{
         // res.render('login', {msg:'Email has been sent'});
     });
 
-
-
-
-
+    res.send(res)
 }

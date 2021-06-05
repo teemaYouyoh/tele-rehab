@@ -13,7 +13,7 @@ const Footer = () => {
                 name,
                 phone
             }
-            const response = await fetch(`http://localhost:3000/send_call/`, {
+            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/send_call`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -25,7 +25,7 @@ const Footer = () => {
     }
 
   return (
-    <footer className="footer">
+    <footer className="footer" id="footer">
       <div className="footer-top">
       <div className="container">
         <div className="footer-wrap">

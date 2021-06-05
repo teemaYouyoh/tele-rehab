@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 const Banner = () => {
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [birthday, setBirthday] = useState("");
-    const [comment, setComment] = useState("");
+    const [name, setName] = useState(undefined);
+    const [phone, setPhone] = useState(undefined);
+    const [email, setEmail] = useState(undefined);
+    const [birthday, setBirthday] = useState(undefined);
+    const [comment, setComment] = useState(undefined);
     const [errorForm, setErrorForm] = useState(false);
     const [msg, setMsg] = useState("");
     const [file, setFile] = useState({});
@@ -14,49 +14,64 @@ const Banner = () => {
         let nameLabel = document.getElementById("name-label");
         nameLabel.style.display = "none";
     }
-    function focusPhoneClick(e){
+    function focusPhoneClick(e) {
         let phoneLabel = document.getElementById("phone-label");
-        phoneLabel.style.display ="none";
+        phoneLabel.style.display = "none";
     }
-    function focusEmailClick(e){
+    function focusEmailClick(e) {
         let emailLabel = document.getElementById("email-label");
-        emailLabel.style.display ="none";
+        emailLabel.style.display = "none";
     }
-    function onFocusClick(e){
+    function onFocusClick(e) {
         e.preventDefault();
         let inputName = document.getElementById("banner-name");
-        if (inputName.value === ''){
+        if (inputName.value === '') {
             let nameLabel = document.getElementById("name-label");
             nameLabel.style.display = "block";
         }
     }
-    function onFocusPhoneClick(e){
+    function onFocusPhoneClick(e) {
         e.preventDefault();
         let inputPhone = document.getElementById("banner-phone");
-        if (inputPhone.value === ''){
+        if (inputPhone.value === '') {
             let phoneLabel = document.getElementById("phone-label");
             phoneLabel.style.display = "block";
         }
     }
-    function onFocusEmailClick(e){
+    function onFocusEmailClick(e) {
         e.preventDefault();
         let inputEmail = document.getElementById("banner-email");
-        if (inputEmail.value === ''){
+        if (inputEmail.value === '') {
             let emailLabel = document.getElementById("email-label");
             emailLabel.style.display = "block";
         }
     }
-    function changeFile(e){
+
+    function changeFile(e) {
         let reader = new FileReader();
         let fileLoaded = e.target.files[0];
-        console.log(e.target.value);
+        console.log(e.target.files[0]);
+
+        const formData = new FormData();
+        formData.append("form-file", e.target.files[0])
+
         reader.onloadend = () => {
-            setFile(fileLoaded);
+            fetch(`https://tele-rehab-api.vps-touchit.space/upload`, {
+                method: 'POST',
+                mode: 'cors',
+                body: formData
+            }).then(async (res) => {
+                const file = await res.json();
+                console.log(file);
+                // setFile(e.target.files[0])
+                setFile(file.filename);
+            })
+
         }
 
         reader.readAsDataURL(fileLoaded);
     }
-    async function submitForm(event){
+    async function submitForm(event) {
         event.preventDefault();
         await setErrorForm(false);
         const formData = {
@@ -65,91 +80,98 @@ const Banner = () => {
             email,
             birthday,
             comment,
-            file
+            file: file
         }
+        console.log(formData);
         var isError = false;
-        for(let i in formData){
-            if(formData[i] === ""){
+        for (let i in formData) {
+            console.log(1);
+            if (formData[i] === undefined) {
                 isError = true;
+                console.log(isError);
                 await setErrorForm(true);
             }
         }
+        console.log(isError);
         await sendMessage(formData, isError);
 
     }
 
-    async function sendMessage(formData, isError){
-        if(!isError){
-            await fetch(`http://localhost:3000/send`, {
+    async function sendMessage(formData, isError) {
+        console.log("formData",formData);
+        console.log(isError);
+        if (!isError) {
+            console.log(formData);
+            await fetch(`https://tele-rehab-api.vps-touchit.space/send/`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body:  JSON.stringify(formData)
+                body: JSON.stringify(formData)
             })
-                .then(async (res) =>{ messageSuccess(); })
+                .then(async (res) => { console.log(await res.json());messageSuccess(); })
                 .catch((err) => { console.log(err) })
-        } else{
+        } else {
             console.log(isError);
         }
     }
 
-    function messageSuccess(){
+    function messageSuccess() {
         setMsg("Форма успешно отправлена")
     }
 
-  return (
-    <div className="banner-section">
-        <div className="container">
-        <div className="banner-wrap">
-            <div className="banner-info">
-                <h1 className="banner-info__title">Видео реабилитация и программы онлайн</h1>
-                <p className="banner-info__subtitle">Более детальное но краткое описание что это за сайт и чем 
-                он может помочь пользователю. Более детальное но краткое описание что это за сайт и чем он может помочь пользователю Более детальное но краткое описание что это за сайт и чем 
+    return (
+        <div className="banner-section">
+            <div className="container">
+                <div className="banner-wrap">
+                    <div className="banner-info">
+                        <h1 className="banner-info__title">Видео реабилитация и программы онлайн</h1>
+                        <p className="banner-info__subtitle">Более детальное но краткое описание что это за сайт и чем
+                        он может помочь пользователю. Более детальное но краткое описание что это за сайт и чем он может помочь пользователю Более детальное но краткое описание что это за сайт и чем
                 он может помочь пользователю</p>
-            </div>
-            <div className="banner-form form-banner">
-                <div className="form-wrap">
-                    <form encType="multipart/form-data" onSubmit={(event)=>submitForm(event)} name="banner-form" id="banner-form">
-                        <p className="form-banner__title">Пройти регистрацию</p>
-                        <div className="form-item">
-                            <div className="form-item__wrap">
-                                <input type="text" name="name" onChange={(e)=>setName(e.target.value)} id="banner-name" onFocus={focusClick} onBlur={onFocusClick} />
-                                <label htmlFor="banner-name" id="name-label">ФИО <span>*</span></label>
-                            </div>
-                            <div className="form-item__wrap">
-                                <input id="banner-phone" name="phone" type="tel" onChange={(e)=>setPhone(e.target.value)} onFocus={focusPhoneClick} onBlur={onFocusPhoneClick} />
-                                <label htmlFor="banner-phone" id="phone-label">Номер телефона <span>*</span></label>
-                            </div>
+                    </div>
+                    <div className="banner-form form-banner">
+                        <div className="form-wrap">
+                            <form encType="multipart/form-data" onSubmit={(event) => submitForm(event)} name="banner-form" id="banner-form">
+                                <p className="form-banner__title">Пройти регистрацию</p>
+                                <div className="form-item">
+                                    <div className="form-item__wrap">
+                                        <input type="text" name="name" onChange={(e) => setName(e.target.value)} id="banner-name" onFocus={focusClick} onBlur={onFocusClick} />
+                                        <label htmlFor="banner-name" id="name-label">ФИО <span>*</span></label>
+                                    </div>
+                                    <div className="form-item__wrap">
+                                        <input id="banner-phone" name="phone" type="tel" onChange={(e) => setPhone(e.target.value)} onFocus={focusPhoneClick} onBlur={onFocusPhoneClick} />
+                                        <label htmlFor="banner-phone" id="phone-label">Номер телефона <span>*</span></label>
+                                    </div>
+                                </div>
+                                <div className="form-item">
+                                    <div className="form-item__wrap">
+                                        <input type="email" name="email" id="banner-email" onChange={(e) => setEmail(e.target.value)} onFocus={focusEmailClick} onBlur={onFocusEmailClick} />
+                                        <label htmlFor="banner-email" id="email-label">Email <span>*</span></label>
+                                    </div>
+                                    <div className="form-item__wrap">
+                                        <input type="date" name="birthday" onChange={(e) => setBirthday(e.target.value)} id="banner-birthday" placeholder="Дата рождения" />
+                                    </div>
+                                </div>
+                                <textarea name="comment" id="banner-com" onChange={(e) => setComment(e.target.value)} placeholder="Опишите диагноз"></textarea>
+                                <p className="form-banner__attachment">
+                                    Прикрепить файл <sup>*</sup>
+                                    <span>максимум 15 мб</span>
+                                    <span className="file-name">{file && file.name}</span>
+                                    <input id="input-file" name="form-file" accept=".png, .jpg, .jpeg" onChange={(e) => changeFile(e)} type="file" />
+                                </p>
+                                <button className="btn form-banner__btn" type="submit">Зарегистрироваться</button>
+                                <span className="form-banner__addition">После регистрации с вами свяжется специалист обсудит с вами проблемы и ее решение, предложит оптимальную программу</span>
+                                {errorForm && !msg ? <span className="form-banner__addition error-message">Введите все поля пожалуйста</span> : <span className="form-banner__addition"></span>}
+                                {msg ? <span className="form-banner__addition success-message">{msg}</span> : <span className="form-banner__addition"></span>}
+                            </form>
                         </div>
-                        <div className="form-item">
-                            <div className="form-item__wrap">
-                                <input type="email" name="email" id="banner-email" onChange={(e)=>setEmail(e.target.value)} onFocus={focusEmailClick} onBlur={onFocusEmailClick}/>
-                                <label htmlFor="banner-email" id="email-label">Email <span>*</span></label>
-                            </div>
-                            <div className="form-item__wrap">
-                                <input type="date" name="birthday" onChange={(e)=>setBirthday(e.target.value)} id="banner-birthday" placeholder="Дата рождения" />
-                            </div>
-                        </div>
-                        <textarea name="comment" id="banner-com" onChange={(e)=>setComment(e.target.value)} placeholder="Опишите диагноз"></textarea>
-                        <p className="form-banner__attachment">
-                            Прикрепить файл <sup>*</sup>
-                            <span>максимум 15 мб</span>
-                            <span className="file-name">{file && file.name}</span>
-                            <input id="input-file" accept=".png, .jpg, .jpeg" onChange={(e)=>changeFile(e)} type="file"/>
-                        </p>
-                        <button className="btn form-banner__btn" type="submit">Зарегистрироваться</button>
-                        <span className="form-banner__addition">После регистрации с вами свяжется специалист обсудит с вами проблемы и ее решение, предложит оптимальную программу</span>
-                        {errorForm && !msg ? <span className="form-banner__addition error-message">Введите все поля пожалуйста</span> : <span className="form-banner__addition"></span>}
-                        {msg ? <span className="form-banner__addition success-message">{msg}</span> : <span className="form-banner__addition"></span>}
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-    </div>
-  );
+    );
 };
 
 export default Banner;
