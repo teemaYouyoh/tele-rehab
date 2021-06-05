@@ -323,9 +323,9 @@ const VideosList = (props) => {
             "Выберите пользователя"
         }
       </div>
-      <div>
+      <div className="wrapper-form-attachment">
         <p className="form-banner__attachment">
-          Прикрепить файл <sup>*</sup>
+          <span className="load">Прикрепить файл</span> <sup>*</sup>
           <span>максимум 15 мб</span>
           <span className="file-name">{file && file.name}</span>
           <input id="input-file" name="form-file" accept=".png, .jpg, .jpeg" onChange={(e) => changeFile(e)} type="file" />
