@@ -13,7 +13,7 @@ const Footer = () => {
                 name,
                 phone
             }
-            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/send_call`, {
+            const response = await fetch(`http://localhost:3001/send_call`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

@@ -6,6 +6,9 @@ import PersonAreaHeader from '../Header/PersonAreaHeader';
 import FooterBottom from '../Footer/FooterBottom';
 import Modal from 'react-modal';
 import Collapse from '@material-ui/core/Collapse';
+import Axios from "axios";
+import download from 'downloadjs'
+import $ from "jquery";
 
 
 const customStyles = {
@@ -71,7 +74,9 @@ const PersonArea = () => {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Request-Origin': '*',
                 },
             });
 
@@ -225,57 +230,61 @@ const PersonArea = () => {
         })
     }
 
-    const donwloadAttachment = () => {
 
-        // window.open('/download')
 
-        fetch(`https://tele-rehab-api.vps-touchit.space/download`, {
+    const downloadFile = () => {
+        const url = "http://localhost:3001/1.png";
+        if (!url) {
+            throw new Error("Resource URL not provided! You need to provide one");
+        }
+        fetch(url,
+            {
+                mode: "no-cors",
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(async (resp) => { console.log(await resp.blob()) })
+
+
+        // var x=new XMLHttpRequest();
+        // x.open("GET", url, true);
+        // x.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+
+        // x.responseType = 'blob';
+        // x.onload=function(e){download(x.response, "dlBinAjax.png", "image/png" ); }
+        // x.send();
+    };
+
+    function someFunction(values = "") {
+        const method = 'GET';
+        const url = 'https://tele-rehab-api.vps-touchit.space/1.png';
+
+        fetch(url, {
             method: 'GET',
-            mode: 'no-cors',
+            mode: 'cors',
             headers: {
-                'Content-Type': 'application/json'
-            },
-        }).then(async (res) => { console.log("11") })
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+            .then(response => { return response.blob() })
+            .then(blob => {
+                const downloadUrl = window.URL.createObjectURL(new Blob([blob]));
+                const link = document.createElement('a');
 
-        // console.log(browser.downloads)
+                link.href = downloadUrl;
+                link.setAttribute('download', 'file.png'); //any other extension
+                document.body.appendChild(link);
 
-        // const url = `${window.location.origin}/public/uploads/${user.attachment}`
-        // const path = Path.resolve(__dirname, 'images', 'code.jpg')
-        // const writer = Fs.createWriteStream(path)
-
-        // const response = await Axios({
-        //     url,
-        //     method: 'GET',
-        //     responseType: 'stream'
-        // })
-
-        // response.data.pipe(writer)
-
-        // return new Promise((resolve, reject) => {
-        //     writer.on('finish', resolve)
-        //     writer.on('error', reject)
-        // })
+                link.click();
+                link.remove();
+            })
     }
 
-       const download = (name) => {
-           const url = "https://tele-rehab-api.vps-touchit.space/1.png";
-         if (!url) {
-           throw new Error("Resource URL not provided! You need to provide one");
-         }
-         fetch(url, {mode: "no-cors", method: 'GET'})
-           .then(response => response.blob())
-           .then(blob => {
-             const blobURL = URL.createObjectURL(blob);
-             const a = document.createElement("a");
-             a.href = blobURL;
-             a.style = "display: none";
-     
-             if (name && name.length) a.download = name;
-             document.body.appendChild(a);
-             a.click();
-           })
-       };
-     
 
     return (
         <div className="person-area">
@@ -289,7 +298,7 @@ const PersonArea = () => {
                                 <img src="https://tele-rehab-api.vps-touchit.space/1.png" alt="W3Schools" width="104" height="142" />
                             </a>
                         </div> */}
-                        {/* <img src="https://tele-rehab-api.vps-touchit.space/1.png" onClick={() => {download("1.png")}} /> */}
+                        {/* <img src="https://tele-rehab-api.vps-touchit.space/1.png" onClick={() => { someFunction() }} /> */}
                         {isAdmin &&
                             <Link to="/admin" className="person-connections__link" >
                                 <svg aria-hidden="true" width="28" height="31" focusable="false" data-prefix="fas" data-icon="user-cog"

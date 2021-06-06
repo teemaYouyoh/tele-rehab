@@ -4,7 +4,9 @@ module.exports = function (app, upload) {
   var Categories = require('../controllers/CategoriesControllers');
   var Video = require('../controllers/VideoControllers');
   var NodeMailer = require('../../nodemailer');
-
+  const fetch = require('node-fetch');
+  const Blob = require("cross-blob");
+  require('url-polyfill')
 
   // Users Routes
   app.route('/users')
@@ -16,6 +18,7 @@ module.exports = function (app, upload) {
     .get(Users.read_a_user)
     .put(Users.update_a_user)
     .delete(Users.delete_a_user);
+
 
 
   // app.post('/upload', upload.single('upload'), async (req, res) => {

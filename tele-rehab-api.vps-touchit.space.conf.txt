@@ -1,0 +1,202 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    location / {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+
+         if ($request_method = 'OPTIONS') {
+
+             add_header 'Access-Control-Allow-Origin' '*';
+        
+             #
+             # cookies
+             #
+
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        
+              #
+              # Custom headers and headers various browsers *should* be OK with but aren't
+              #
+
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+        
+              #
+              # Tell client that this pre-flight info is valid for 20 days
+              #
+
+              add_header 'Access-Control-Max-Age' 1728000;
+              add_header 'Content-Type' 'text/plain charset=UTF-8';
+              add_header 'Content-Length' 0;
+
+              return 204;
+         }
+
+         if ($request_method = 'POST') {
+
+              add_header 'Access-Control-Allow-Origin' '*';
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+          }
+
+          if ($request_method = 'GET') {
+
+              add_header 'Access-Control-Allow-Origin' '*';
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+          }
+    }
+
+    server_name tele-rehab-api.vps-touchit.space www.tele-rehab-api.vps-touchit.space;
+    return 301 https://tele-rehab-api.vps-touchit.space$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    
+    location / {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+
+         if ($request_method = 'OPTIONS') {
+
+             add_header 'Access-Control-Allow-Origin' '*';
+        
+             #
+             # cookies
+             #
+
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        
+              #
+              # Custom headers and headers various browsers *should* be OK with but aren't
+              #
+
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+        
+              #
+              # Tell client that this pre-flight info is valid for 20 days
+              #
+
+              add_header 'Access-Control-Max-Age' 1728000;
+              add_header 'Content-Type' 'text/plain charset=UTF-8';
+              add_header 'Content-Length' 0;
+
+              return 204;
+         }
+
+         if ($request_method = 'POST') {
+
+              add_header 'Access-Control-Allow-Origin' '*';
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+          }
+
+          if ($request_method = 'GET') {
+
+              add_header 'Access-Control-Allow-Origin' '*';
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+          }
+      }
+
+    server_name www.tele-rehab-api.vps-touchit.space;
+    return 301 https://tele-rehab-api.vps-touchit.space$request_uri;
+
+    ssl_certificate /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/chain.pem;
+
+    include snippets/ssl-params.conf;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+
+    location / {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+
+         if ($request_method = 'OPTIONS') {
+
+             add_header 'Access-Control-Allow-Origin' '*';
+        
+             #
+             # cookies
+             #
+
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        
+              #
+              # Custom headers and headers various browsers *should* be OK with but aren't
+              #
+
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+        
+              #
+              # Tell client that this pre-flight info is valid for 20 days
+              #
+
+              add_header 'Access-Control-Max-Age' 1728000;
+              add_header 'Content-Type' 'text/plain charset=UTF-8';
+              add_header 'Content-Length' 0;
+
+              return 204;
+         }
+
+         if ($request_method = 'POST') {
+
+              add_header 'Access-Control-Allow-Origin' '*';
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+          }
+
+          if ($request_method = 'GET') {
+
+              add_header 'Access-Control-Allow-Origin' '*';
+              add_header 'Access-Control-Allow-Credentials' 'true';
+              add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+
+          }
+    }
+
+    server_name tele-rehab-api.vps-touchit.space;
+    root /var/www/tele-rehab-api.vps-touchit.space/html;
+    index index.html index.xml;
+
+    ssl_certificate /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/tele-rehab-api.vps-touchit.space/chain.pem;
+
+    include snippets/ssl-params.conf;
+}

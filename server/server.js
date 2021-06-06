@@ -2,7 +2,7 @@
 var express = require('express'),
   app = express(),
   cors = require('cors'),
-  port = process.env.PORT || 3000,
+  port = process.env.PORT || 3001,
   mongoose = require('mongoose'),
   User = require('./api/models/UsersModel'), //created model loading here
   Video = require('./api/models/VideosModel'), //created model loading here
@@ -12,7 +12,7 @@ var express = require('express'),
   path = require('path');
 
   
-var whitelist = ['https://tele-rehab.vps-touchit.space']
+var whitelist = ['https://tele-rehab.vps-touchit.space', 'http://localhost:3000']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -54,10 +54,10 @@ app.post('/upload', cors(corsOptions), (req, res) => {
 
 
 // Download files
-app.get('/download', function (req, res) {
-  console.log("1")
-  res.download(__dirname + '/public/uploads/1.png', '1.png');
-})
+// app.get('/download', function (req, res) {
+//   console.log("1")
+//   res.download(__dirname + '/public/uploads/1.png', '1.png');
+// })
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;

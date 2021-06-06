@@ -4,7 +4,6 @@ const router = express.Router();
 const multer = require('multer');
 var path = require('path')
 
-
 exports.nodemailerFooter = async (req, res) => {
     const output = `
     <p style="font-size: 16px">Обратная связь</p>

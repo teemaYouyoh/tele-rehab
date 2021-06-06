@@ -85,7 +85,6 @@ const Banner = () => {
         console.log(formData);
         var isError = false;
         for (let i in formData) {
-            console.log(1);
             if (formData[i] === undefined) {
                 isError = true;
                 console.log(isError);
