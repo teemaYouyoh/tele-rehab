@@ -2,7 +2,7 @@ import React from 'react';
 import about from '../../img/About/about-photo.png'
 const About = () => {
   return (
-    <div className="about">
+    <div className="about" id="about">
         <div className="container">
             <div className="about-wrap">
                 <div className="about-photo">

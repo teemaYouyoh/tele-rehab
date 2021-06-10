@@ -43,6 +43,10 @@ var UserSchema= new Schema({
     type: String,
     default: "",
   },
+  attachment: {
+    type: String,
+    default: "",
+  },
   status: {
     type: [{
       type: String,

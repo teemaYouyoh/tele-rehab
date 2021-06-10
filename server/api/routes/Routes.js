@@ -1,9 +1,12 @@
 'use strict';
-module.exports = function (app) {
+module.exports = function (app, upload) {
   var Users = require('../controllers/UsersControllers');
   var Categories = require('../controllers/CategoriesControllers');
   var Video = require('../controllers/VideoControllers');
   var NodeMailer = require('../../nodemailer');
+  const fetch = require('node-fetch');
+  const Blob = require("cross-blob");
+  require('url-polyfill')
 
   // Users Routes
   app.route('/users')
@@ -17,19 +20,31 @@ module.exports = function (app) {
     .delete(Users.delete_a_user);
 
 
+
+  // app.post('/upload', upload.single('upload'), async (req, res) => {
+  //   console.log(req)
+  // }, (err, req, res, next) => res.status(404).send({ error: err.message }))
+
+
   //NodeMailer
   //
   app.route('/send')
-      .post(NodeMailer.nodemailerFunc);
+    .post(NodeMailer.nodemailerFunc);
 
   app.route('/success_registration')
-      .post(NodeMailer.nodemailerSignIn);
+    .post(NodeMailer.nodemailerSignIn);
 
   app.route('/update_plan')
-      .post(NodeMailer.nodemailerUpdatePlan);
+    .post(NodeMailer.nodemailerUpdatePlan);
 
   app.route('/send_call')
-      .post(NodeMailer.nodemailerFooter)
+    .post(NodeMailer.nodemailerFooter);
+
+  app.route('/send_feedback')
+      .post(NodeMailer.nodemailerFeedback);
+
+  app.route('/send_mess_videochat')
+      .post(NodeMailer.nodemailerCall);
 
   // app.post('/send', (req, res)=>{
   //   console.log(req.body);

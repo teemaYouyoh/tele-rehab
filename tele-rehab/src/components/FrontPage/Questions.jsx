@@ -12,7 +12,7 @@ import {
 import 'react-accessible-accordion/dist/fancy-example.css';
 const Questions = () => {
   return (
-    <div className="questions">
+    <div className="questions" id="questions">
         <div className="container">
             <div className="questions-wrap">
                 <h2 className="questions-title">Вопрос-Ответ</h2>

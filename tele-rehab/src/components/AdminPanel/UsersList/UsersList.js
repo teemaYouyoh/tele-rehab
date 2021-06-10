@@ -9,9 +9,10 @@ const UsersList = () => {
   const history = useHistory();
 
   const [users, setUsers] = useState([]);
+  const [file, setFile] = useState({});
 
   useEffect(async () => {
-    const response = await fetch(`http://localhost:3000/users/`, {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -32,9 +33,14 @@ const UsersList = () => {
   //   });
   // }
 
+  const submitForm = (event) => {
+    console.log(event)
+  }
+
 
   return (
     <div className="user-list">
+
       <div className="container">
         <div className="wrapper-user-list">
           {users.map(item => {
@@ -44,7 +50,8 @@ const UsersList = () => {
                 <div className="user-link">
                   <Link to={{
                     pathname: "/chat",
-                    userId: item._id
+                    userId: item._id,
+                    userName: item.name,
                   }}>Начать видеозвонок</Link>
                 </div>
                 {/* <div onClick={() => { startVideoChat(item._id) }}>Пригласить в видео-чат</div> */}

@@ -35,7 +35,7 @@ const VideosList = (props) => {
   }, [isChanged])
 
   useEffect(async () => {
-    const response = await fetch(`http://localhost:3000/videos/`, {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -49,7 +49,7 @@ const VideosList = (props) => {
   }, [])
 
   useEffect(async () => {
-    const response = await fetch(`http://localhost:3000/users/`, {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -78,7 +78,7 @@ const VideosList = (props) => {
 
   const updateUser = async () => {
     console.log(selectedUser);
-    const response = await fetch(`http://localhost:3000/users/${selectedUser._id}`, {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${selectedUser._id}`, {
       method: 'PUT',
       mode: 'cors',
       headers: {

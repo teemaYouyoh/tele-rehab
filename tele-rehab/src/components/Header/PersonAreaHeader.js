@@ -33,7 +33,7 @@ const PersonAreaHeader = () => {
     },[])
   async function openModal() {
     setIsOpen(true);
-      let response = await fetch(`http://localhost:3000/users/`, {
+      let response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
           method: 'GET',
           mode: 'cors',
           headers: {
@@ -78,7 +78,7 @@ const PersonAreaHeader = () => {
               <label>{!errorMsg ? "Email" : <span className="error-message">{errorMsg}</span>}</label>
               <input onChange={(e)=>setEmail(e.target.value)}></input>
               <label>{!errorMsg ? "Пароль" : <span className="error-message">{errorMsg}</span>}</label>
-              <input onChange={(e)=>setPassword(e.target.value)}></input>
+              <input type="password" onChange={(e)=>setPassword(e.target.value)}></input>
               <button type="submit" className="btn">Вход</button>
           </form>
           <button className="popup-close" onClick={closeModal}>

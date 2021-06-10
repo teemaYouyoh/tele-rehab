@@ -1,12 +1,12 @@
 .appointments {
   width: 70%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: flex-end; */
 }
 @media(max-width: 414px){
   .appointments{
-    align-items: center;
+    /* align-items: center; */
   }
   .MuiTabs-flexContainer{
     flex-wrap: nowrap;
@@ -14,6 +14,12 @@
   }
   .PrivateTabIndicator-colorSecondary-4{
     background: none !important;
+  }
+}
+@media(max-width: 768px){
+  .appointments{
+      display: flex; 
+      flex-direction: column;
   }
 }
 

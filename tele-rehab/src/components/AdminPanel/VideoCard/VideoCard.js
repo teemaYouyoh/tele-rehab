@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
@@ -6,7 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +31,7 @@ const VideoCard = () => {
   const [videos, setVideos] = useState([]);
   const [isReady, setIsReady] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("none");
   const [underCategories, setUnderCategories] = useState([]);
   const [videoURL, setVideoURL] = useState("");
   const [name, setName] = useState("");
@@ -39,10 +39,11 @@ const VideoCard = () => {
   const [filtredVideos, setFiltredVideos] = useState([]);
   const [filterCategory, setFilterCategory] = useState("");
   const [isFinished, setIsFinished] = useState(false);
+  const [changebleVideo, setChangebleVideo] = useState(null);
 
-  useEffect(async ()=>{
+  useEffect(async () => {
     await getVideos();
-    const responseCategories = await fetch('http://localhost:3000/categories', {
+    const responseCategories = await fetch('https://tele-rehab-api.vps-touchit.space/categories', {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -59,7 +60,7 @@ const VideoCard = () => {
 
 
   async function getVideos() {
-    const response = await fetch(`http://localhost:3000/videos/`, {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -73,15 +74,15 @@ const VideoCard = () => {
     // setFiltredVideos(data);
   }
 
-  async function addVideo(){
-    if(name && videoURL && category){
+  async function addVideo() {
+    if (name && videoURL && category) {
       const formData = {
         name,
         url: videoURL,
         category,
         // review: "Тупо лучшее"
       }
-      const response = await fetch(`http://localhost:3000/videos/`, {
+      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -97,85 +98,68 @@ const VideoCard = () => {
     }
   }
 
-  useEffect(async ()=>{
+  useEffect(async () => {
 
-    if(selectedCategory !== ""){
-      const responseCategories = await fetch(`http://localhost:3000/categories/${selectedCategory}`, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
-
-      let dataCategories = await responseCategories.json();
-
-      setUnderCategories(dataCategories);
-      // console.log("CURRENT CATEGORY", dataCategories);
-      // dataCategories.children.forEach(item => {
-      //   let element = videos.filter(video => video.category === item._id);
-      //   // console.log("VIDEOS", videos);
-      //   if(element.length > 0){
-      //     console.log("element",element[0]);
-      //     setFiltredVideos([...filtredVideos, element[0]]);
-      //     // filtredVideos.concat(element[0]);
-      //   }
-      // })
-      // console.log("filtredVideos", filtredVideos);
-      // // setIsReady(false);
-      // renderVideos();
+    if (selectedCategory !== "") {
+      categories.forEach((item) => {
+        if ( selectedCategory === item._id ) {
+          setUnderCategories(item);
+          return;
+        }
+      })
     }
 
-  },[selectedCategory])
+  }, [selectedCategory])
 
-  async function clearVideos (){
+  async function clearVideos() {
     await setFiltredVideos([]);
   }
 
-  useEffect(async ()=>{
-    let modifiedVideos = [];
-    setFiltredVideos([]);
+  // useEffect(async () => {
+  //   let modifiedVideos = [];
+  //   setFiltredVideos([]);
 
-    console.log("ENTERED", filtredVideos);
-    if(filterCategory !== ""){
-      // console.log(selectedCategory);
-      const responseCategories = await fetch(`http://localhost:3000/categories/${filterCategory}`, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
-      console.log("BEFORE CLEAT", filtredVideos);
-      await setFiltredVideos([]);
-      console.log("AFTER CLEAT", filtredVideos);
-      let dataCategories = await responseCategories.json();
-      setUnderCategories(dataCategories);
-        // console.log(1,"CURRENT CATEGORY", dataCategories.name);
-      dataCategories.children.forEach(item => {
-        let element = videos.filter(video => video.category === item._id);
-        // console.log("VIDEOS", videos);
-        if(element.length > 0){
-          console.log(2,"element",element[0].name);
-          modifiedVideos.push(element[0]);
-          // setFiltredVideos([...filtredVideos, element[0]]);
-        }
-      })
-      setFiltredVideos(modifiedVideos);
-      renderVideos();
+  //   console.log("ENTERED", filtredVideos);
+  //   if (filterCategory !== "") {
+  //     // console.log(filterCategory);
+  //     const responseCategories = await fetch(`https://tele-rehab-api.vps-touchit.space/categories/${filterCategory}`, {
+  //       method: 'GET',
+  //       mode: 'cors',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //     });
+  //     console.log("BEFORE CLEAT", filtredVideos);
+  //     await setFiltredVideos([]);
+  //     console.log("AFTER CLEAT", filtredVideos);
+  //     let dataCategories = await responseCategories.json();
+  //     setUnderCategories(dataCategories);
+
+  //     dataCategories.children.forEach(item => {
+  //       let element = videos.filter(video => video.category === item._id);
+  //       // console.log("VIDEOS", videos);
+  //       if (element.length > 0) {
+  //         console.log(2, "element", element[0].name);
+  //         modifiedVideos.push(element[0]);
+  //         // setFiltredVideos([...filtredVideos, element[0]]);
+  //       }
+  //     })
+
+  //     setFiltredVideos(modifiedVideos);
+  //     renderVideos();
 
 
-      // setIsReady(true);
-    }
+  //     // setIsReady(true);
+  //   }
 
-  },[filterCategory])
+  // }, [filterCategory])
 
-  function filterNewVideos(dataCategories){
+  function filterNewVideos(dataCategories) {
     dataCategories.children.forEach(item => {
       let element = videos.filter(video => video.category === item._id);
       // console.log("VIDEOS", videos);
-      if(element.length > 0){
-        console.log(2,"element",element[0].name);
+      if (element.length > 0) {
+        console.log(2, "element", element[0].name);
         setFiltredVideos([...filtredVideos, element[0]]);
       }
     })
@@ -187,12 +171,12 @@ const VideoCard = () => {
     const match = url.match(regExp);
 
     return (match && match[2].length === 11)
-        ? match[2]
-        : null;
+      ? match[2]
+      : null;
   }
 
-  async function deleteVideo(id){
-    const response = await fetch(`http://localhost:3000/videos/${id}`, {
+  async function deleteVideo(id) {
+    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/${id}`, {
       method: 'DELETE',
       mode: 'cors',
       headers: {
@@ -204,23 +188,143 @@ const VideoCard = () => {
     await renderVideos();
   }
 
-  function renderVideos(){
+
+  const changeVideoName = (value, id) => {
+    let videosList = [...videos];
+
+    console.log(value)
+
+
+    videosList.map(video => {
+      if (id === video._id) {
+        if (value !== video.name) {
+          video.name = value
+
+          fetch(`https://tele-rehab-api.vps-touchit.space/videos/${video._id}`, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(video)
+          })
+            .then(async (res) => { console.log(await res.json()); getVideos(); })
+            .catch((err) => { console.log(err) })
+
+          return;
+        }
+      }
+    })
+
+    getVideos();
+    setChangebleVideo(null);
+  }
+
+  function renderVideos() {
     // console.log(filtredVideos);
     // console.log(4,filtredVideos, "isReady ", isReady);
-    return filtredVideos.map((item)=>{
-      const {name, url, category} = item;
+    return filtredVideos.map((item) => {
+      const { _id, name, url, category } = item;
       const videoId = getId(url);
 
-      return(
+      return (
+        <div className="video-page-wrapper-card">
+          <div className="video_iframe">
+            <iframe width="100%" height="100%" src={`//www.youtube.com/embed/${videoId}`} frameBorder="0" allowFullScreen ></iframe>
+          </div>
+          <p className="video_label">
+            {
+              changebleVideo === _id ?
+                (
+                  <div className="category-item">
+                    <TextField
+                      autoFocus
+                      variant="outlined"
+                      defaultValue={name}
+                      onFocus={() => { setChangebleVideo(_id) }}
+                      onBlur={(e) => { changeVideoName(e.target.value, _id) }}
+                    />
+                  </div>
+                )
+                :
+                (
+                  <span
+                    onDoubleClick={(e) => { setChangebleVideo(_id) }}
+                  >
+                    {name}
+                  </span>
+                )
+            }
+          </p>
+
+          <button className="delete-btn" onClick={() => deleteVideo(item._id)}>Delete</button>
+        </div>
+      )
+    })
+  }
+
+  const renderCategoriesList = () => {
+    return categories.map((parent) => {
+      return parent.children.map((child) => {
+        return (
+          <MenuItem value={child._id} key={child._id}>{child.name}</MenuItem>
+        )
+      })
+    })
+  }
+
+  const newRenderVideo = () => {
+    let isEmpty = true;
+
+    return videos.map(video => {
+
+      if ( filterCategory === video.category || filterCategory === "none") {
+        const { _id, name, url, category } = video;
+        const videoId = getId(url);
+
+        return (
           <div className="video-page-wrapper-card">
             <div className="video_iframe">
               <iframe width="100%" height="100%" src={`//www.youtube.com/embed/${videoId}`} frameBorder="0" allowFullScreen ></iframe>
             </div>
-            <p className="video_label">{name}</p>
-            <button className="delete-btn" onClick={()=>deleteVideo(item._id)}>Delete</button>
+            <p className="video_label">
+              {
+                changebleVideo === _id ?
+                  (
+                    <div className="category-item">
+                      <TextField
+                        autoFocus
+                        variant="outlined"
+                        defaultValue={name}
+                        onFocus={() => { setChangebleVideo(_id) }}
+                        onBlur={(e) => { changeVideoName(e.target.value, _id) }}
+                      />
+                    </div>
+                  )
+                  :
+                  (
+                    <span
+                      onDoubleClick={(e) => { setChangebleVideo(_id) }}
+                    >
+                      {name}
+                    </span>
+                  )
+              }
+            </p>
+  
+            <button className="delete-btn" onClick={() => deleteVideo(video._id)}>Delete</button>
           </div>
-      )
+        )
+      } else {
+        isEmpty = true;
+      }
+
     })
+
+    
+    if ( isEmpty ) {
+      return (<div>В данной категории нет видео</div>)
+    }
   }
 
   return (
@@ -228,44 +332,39 @@ const VideoCard = () => {
       <div className="box">
         <FormControl variant="outlined" >
           <div className="select-group">
-            <InputLabel id="demo-simple-select-outlined-label">Родительская категория</InputLabel>
+            <InputLabel id="demo-simple-select-outlined-label">Категория</InputLabel>
             <Select
-                className="user_selected-input"
-                labelId="demo-simple-select-outlined-label"
-                onChange={(e)=>setFilterCategory(e.target.value)}
-                // value={parentCategoryId || ""}
-                // onChange={(e) => { setParentCategoryId(e.target.value) }}
-                label="Выберите пользователя"
+              className="user_selected-input"
+              labelId="demo-simple-select-outlined-label"
+              onChange={(e) => setFilterCategory(e.target.value)}
+              // value={parentCategoryId || ""}
+              // onChange={(e) => { setParentCategoryId(e.target.value) }}
+              label="Выберите пользователя"
+              defaultValue="none"
             >
               <MenuItem value="none">
-                Выберите родительскую категорию
+                Выберите категорию
               </MenuItem>
-              {
-                categories.map((item) => {
-                  return (
-                      <MenuItem value={item._id} key={item._id}>{item.name}</MenuItem>
-                  )
-                })
-              }
+              { renderCategoriesList() }
             </Select>
           </div>
         </FormControl>
         <div className="box-items">
-          {isReady && renderVideos()}
+          {newRenderVideo()}
         </div>
       </div>
       <div className="controls">
         <TextField
-            id="outlined-basic"
-            label="Название видео"
-            variant="outlined"
-            onChange={(e) => { setName(e.target.value) }}
+          id="outlined-basic"
+          label="Название видео"
+          variant="outlined"
+          onChange={(e) => { setName(e.target.value) }}
         />
         <TextField
-            id="outlined-basic"
-            label="Ссылка на видео"
-            variant="outlined"
-            onChange={(e) => { setVideoURL(e.target.value) }}
+          id="outlined-basic"
+          label="Ссылка на видео"
+          variant="outlined"
+          onChange={(e) => { setVideoURL(e.target.value) }}
         />
 
 
@@ -273,12 +372,12 @@ const VideoCard = () => {
           <div className="select-group">
             <InputLabel id="demo-simple-select-outlined-label">Родительская категория</InputLabel>
             <Select
-                className="user_selected-input"
-                labelId="demo-simple-select-outlined-label"
-                onChange={(e)=>setSelectedCategory(e.target.value)}
-                // value={parentCategoryId || ""}
-                // onChange={(e) => { setParentCategoryId(e.target.value) }}
-                label="Выберите пользователя"
+              className="user_selected-input"
+              labelId="demo-simple-select-outlined-label"
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              // value={parentCategoryId || ""}
+              // onChange={(e) => { setParentCategoryId(e.target.value) }}
+              label="Выберите пользователя"
             >
               <MenuItem value="none">
                 Выберите родительскую категорию
@@ -286,59 +385,40 @@ const VideoCard = () => {
               {
                 categories.map((item) => {
                   return (
-                      <MenuItem value={item._id} key={item._id}>{item.name}</MenuItem>
+                    <MenuItem value={item._id} key={item._id}>{item.name}</MenuItem>
                   )
                 })
               }
             </Select>
             {underCategories.children &&
-                <div>
-                  {/*<InputLabel id="demo-simple-select-outlined-label-podcat">Подкатегория</InputLabel>*/}
-                  {/*<Select*/}
-                  {/*    onChange={(e) => setCategory(e.target.value)}*/}
-                  {/*    className="user_selected-input"*/}
-                  {/*    labelId="demo-simple-select-outlined-label-podcat"*/}
-                  {/*    label="Выберите подкатегорию"*/}
-                  {/*>*/}
-                  {/*  <MenuItem value="none">*/}
-                  {/*    Выберите подкатегорию*/}
-                  {/*  </MenuItem>*/}
-                  {/*  {*/}
-                  {/*    underCategories.children.map((item) => {*/}
-                  {/*      return (*/}
-                  {/*          <MenuItem value={item._id} key={item._id}>{item.name}</MenuItem>*/}
-                  {/*      )*/}
-                  {/*    })*/}
-                  {/*  }*/}
-                  {/*</Select>*/}
-                  <select name="" id="dop-category" onChange={(e) => setCategory(e.target.value)} className="user_selected-input">
-                    <option defaultChecked defaultValue="Выберите подкатегорию" value=""></option>
-                    {
-                      underCategories.children.map((item) => {
-                        return (
-                            <option value={item._id} key={item._id}>{item.name}</option>
-                        )
-                      })
-                    }
-                  </select>
-                </div>
-
+              <div>
+                <select name="" id="dop-category" onChange={(e) => setCategory(e.target.value)} className="user_selected-input">
+                  <option defaultChecked defaultValue="Выберите подкатегорию" value=""></option>
+                  {
+                    underCategories.children.map((item) => {
+                      return (
+                        <option value={item._id} key={item._id}>{item.name}</option>
+                      )
+                    })
+                  }
+                </select>
+              </div>
             }
           </div>
 
         </FormControl>
 
-        <Button variant="contained" onClick={()=>addVideo()} color="primary" >
+        <Button variant="contained" onClick={() => addVideo()} color="primary" >
           Добавить
         </Button>
         {videoURL &&
-        <div className="video_iframe-preload">
-          <iframe width="100%" height="100%" src={`//www.youtube.com/embed/${getId(videoURL)}`} frameBorder="0" allowFullScreen ></iframe>
-        </div>
+          <div className="video_iframe-preload">
+            <iframe width="100%" height="100%" src={`//www.youtube.com/embed/${getId(videoURL)}`} frameBorder="0" allowFullScreen ></iframe>
+          </div>
         }
 
       </div>
-     </div>
+    </div>
   );
 };
 

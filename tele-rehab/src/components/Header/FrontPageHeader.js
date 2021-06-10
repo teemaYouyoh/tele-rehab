@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link, useHistory } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 // import HeaderMenu from './HeaderMenu';
@@ -19,6 +19,8 @@ const customStyles = {
 Modal.setAppElement('#root')
 
 const FrontPageHeader = () => {
+  const history = useHistory();
+
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [users, setUsers] = useState([]);
   const [emailUser, setEmail] = useState("");
@@ -34,7 +36,7 @@ const FrontPageHeader = () => {
 
   async function openModal() {
     setIsOpen(true);
-    let response = await fetch(`http://localhost:3000/users/`, {
+    let response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -42,6 +44,7 @@ const FrontPageHeader = () => {
       },
     });
     let data = await response.json();
+    console.log(data)
     await setUsers(data);
   }
   function afterOpenModal() {
@@ -58,7 +61,9 @@ const FrontPageHeader = () => {
       if (email === emailUser && password === passwordUser) {
         localStorage.setItem("user", name);
         localStorage.setItem("id", _id);
-        window.location.href = window.location.origin + "/personal";
+        history.push({
+          pathname: "/personal"
+        })
       } else {
         setErrorMsg("Email или пароль не совпадают*")
       }
@@ -77,10 +82,13 @@ const FrontPageHeader = () => {
           contentLabel="Example Modal">
           <h2 className="popup-title">Зайти в личный кабинет</h2>
           <form name="login-form" onSubmit={(e) => signIn(e)} id="login-form">
-            <label>{!errorMsg ? "Email" : <span className="error-message">{errorMsg}</span>}</label>
+            <label>Email</label>
             <input onChange={(e) => setEmail(e.target.value)}></input>
-            <label>{!errorMsg ? "Пароль" : <span className="error-message">{errorMsg}</span>}</label>
-            <input onChange={(e) => setPassword(e.target.value)}></input>
+
+            <label>Пароль</label>
+            <input type="password" onChange={(e) => setPassword(e.target.value)}></input>
+
+            {!errorMsg ? "" : <span className="error-message">{errorMsg}</span>}
             <button type="submit" className="btn">Вход</button>
           </form>
           <button className="popup-close" onClick={closeModal}>
@@ -99,15 +107,15 @@ const FrontPageHeader = () => {
             <div className="header-menu">
               <nav className="hamburger-menu">
                 <input id="menu__toggle" type="checkbox" />
-                <label className="menu__btn" for="menu__toggle">
+                <label className="menu__btn" htmlFor="menu__toggle">
                   <span></span>
                 </label>
                 <ul className="header-menu__list menu__box">
                   {/* <li><a className="menu__item menu__item_mob" href="#"><img src="img/logo-header.svg" alt="Logo"></a></li>  */}
                   <li><Link to="/" className="menu__item">Главная</Link></li>
-                  <li><a className="menu__item" href="#">О проекте</a></li>
-                  <li><a className="menu__item" href="#">Вопрос-ответ</a></li>
-                  <li><a className="menu__item" href="#">Контакты</a></li>
+                  <li><a className="menu__item" href="#about">О проекте</a></li>
+                  <li><a className="menu__item" href="#questions">Вопрос-ответ</a></li>
+                  <li><a className="menu__item" href="#footer">Контакты</a></li>
                   <li className="mobile menu__item">{currentUser ? <Link to="/personal" >Привет, {currentUser}</Link> : <button onClick={openModal} className="header-log__btn btn" href="#">Кабинет</button>}</li>
                 </ul>
               </nav>
