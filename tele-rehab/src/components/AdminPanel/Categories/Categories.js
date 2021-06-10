@@ -42,6 +42,7 @@ const Categories = (props) => {
   const [isChanged, setChanged] = useState(false);
   const [changebleCategory, setChangebleCategory] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   useEffect(() => {
     setCategories(props.categories)
@@ -148,9 +149,11 @@ const Categories = (props) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(parentCategory)
+      }).then(async (res)=>{
+        await setIsOpenDelete(true);
       });
 
-      console.log(await response.json());
+      // console.log(await response.json());
 
     } else {
 
@@ -160,9 +163,11 @@ const Categories = (props) => {
         headers: {
           'Content-Type': 'application/json'
         },
+      }).then(async (res)=>{
+        await setIsOpenDelete(true);
       });
 
-      console.log(await response.json());
+      // console.log(await response.json());
 
     }
 
@@ -226,6 +231,7 @@ const Categories = (props) => {
 
   function updateModal(value) {
     setIsOpen(value);
+    setIsOpenDelete(value);
   }
 
   function openModal() {
@@ -352,6 +358,15 @@ const Categories = (props) => {
           buttonClick = {updateModal}
           updateModal = {updateModal}
           isOpen={isOpen}
+          svg={false}
+      />
+
+      <ModalCustom
+          title = {"Категория успешно удалена!"}
+          buttonText = {"Ок"}
+          buttonClick = {updateModal}
+          updateModal = {updateModal}
+          isOpen={isOpenDelete}
           svg={false}
       />
 
