@@ -273,7 +273,10 @@ const VideoChat = (props) => {
 
 	const leaveCall = () => {
 		setCallEnded(true)
-		connectionRef.current.destroy()
+
+		if ( connectionRef.current !== undefined ) {
+			connectionRef.current.destroy()
+		}
 
 		socket.disconnect()
 
