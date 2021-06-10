@@ -40,6 +40,9 @@ module.exports = function (app, upload) {
   app.route('/send_call')
     .post(NodeMailer.nodemailerFooter);
 
+  app.route('/registration_mail')
+      .post(NodeMailer.nodemailerRegistration);
+
 
   app.route('/send_feedback')
       .post(NodeMailer.nodemailerFeedback);

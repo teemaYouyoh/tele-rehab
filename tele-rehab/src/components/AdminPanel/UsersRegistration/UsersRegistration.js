@@ -3,6 +3,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
+import ModalCustom from "../../Modal/Modal";
 
 const UsersRegistration = () => {
     const [users, setUsers] = useState([]);
@@ -13,6 +14,7 @@ const UsersRegistration = () => {
     const [birthday, setBirthday] = useState("");
     const [diagnosis, setDiagnosis] = useState("");
     const [msg, setMsg] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(async ()=>{
         await getUsers();
@@ -30,6 +32,10 @@ const UsersRegistration = () => {
         let data = await response.json();
 
         setUsers(data);
+    }
+
+    function updateModal(value) {
+        setIsOpen(value);
     }
 
     async function signUp(){
@@ -66,7 +72,23 @@ const UsersRegistration = () => {
                                 },
                                 body:  JSON.stringify(formData)
                             })
-                                .then(async (res) =>{ console.log("Success")})
+                                .then(async (res) =>{
+                                    console.log("Success");
+                                    await setIsOpen(true);
+                                    // const mailData = {
+                                    //     email,
+                                    //     password,
+                                    //     name
+                                    // }
+                                    // await fetch(`http://localhost:3001/registration_mail`, {
+                                    //     method: 'POST',
+                                    //     mode: 'cors',
+                                    //     headers: {
+                                    //         'Content-Type': 'application/json'
+                                    //     },
+                                    //     body:  JSON.stringify(mailData)
+                                    // })
+                                })
                                 .catch((err) => { console.log(err) })
 
                             // success_registration
@@ -103,6 +125,15 @@ const UsersRegistration = () => {
                 </Button>
                 <p className="message">{msg ? msg : ""}</p>
             </FormControl>
+
+            <ModalCustom
+                title = {"Пользователь успешно зарегестрирован!"}
+                buttonText = {"Ок"}
+                buttonClick = {updateModal}
+                updateModal = {updateModal}
+                isOpen={isOpen}
+                svg={false}
+            />
         </div>
     )
 }
