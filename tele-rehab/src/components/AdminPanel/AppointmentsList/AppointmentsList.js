@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import './AppointmentsList.css';
+import ModalCustom from "../../Modal/Modal";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +30,7 @@ const VideosList = (props) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isChanged, setChanged] = useState(false);
   const [file, setFile] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (selectedUser !== null) {
@@ -150,7 +152,7 @@ const VideosList = (props) => {
         },
         body: JSON.stringify(formData)
       })
-        .then(async (res) => { console.log("Success") })
+        .then(async (res) => { console.log("Success"); await setIsOpen(true);})
         .catch((err) => { console.log(err) })
 
     } else {
@@ -192,7 +194,7 @@ const VideosList = (props) => {
           },
           body: JSON.stringify(formData)
         })
-          .then(async (res) => { console.log("Success") })
+          .then(async (res) => { console.log("Success"); await setIsOpen(true); })
           .catch((err) => { console.log(err) })
       })
     }
@@ -201,6 +203,10 @@ const VideosList = (props) => {
 
 
 
+  }
+
+  function updateModal(value) {
+    setIsOpen(value);
   }
 
   const renderVideos = () => {
@@ -337,6 +343,15 @@ const VideosList = (props) => {
         onClick={updateUser}>
         Сохранить
       </Button>
+
+      <ModalCustom
+          title = {"План успешно обновлен!"}
+          buttonText = {"Ок"}
+          buttonClick = {updateModal}
+          updateModal = {updateModal}
+          isOpen={isOpen}
+          svg={false}
+      />
     </div>
   );
 };
