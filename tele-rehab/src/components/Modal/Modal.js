@@ -47,7 +47,7 @@ const ModalCustom = ({isOpen, onAfterOpen, onRequestClose, updateModal, title, b
 
                 <h2 className="popup-title">{title}</h2>
                 <button onClick={()=>buttonClick()} className="btn">{buttonText}</button>
-                {buttonTextSecond && <button onClick={()=>buttonClick()} className="btn m-t-10">{buttonTextSecond}</button>}
+                {buttonTextSecond && <button onClick={()=>updateModal(false)} className="btn m-t-10">{buttonTextSecond}</button>}
                 <button className="popup-close" onClick={()=>updateModal(false)}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
