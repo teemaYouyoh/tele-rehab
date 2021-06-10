@@ -7,6 +7,7 @@ import Modal from 'react-modal';
 import Collapse from '@material-ui/core/Collapse';
 import ModalCustom from "../Modal/Modal";
 import { BrowserRouter, Route, Link, useHistory } from "react-router-dom";
+import FeedBackModal from "../Modal/FeedBackModal";
 
 
 const customStyles = {
@@ -36,6 +37,7 @@ const PersonArea = () => {
     const [open, setOpen] = useState("");
     const [validationFull, setValidationFull] = useState("");
     const [validationSingle, setValidationSingle] = useState("");
+    const [isOpenFeedback, setIsOpenFeedback] = useState(false);
     const handleClick = (id) => {
         id === open ? setOpen("") : setOpen(id);
         setValidationSingle("");
@@ -44,6 +46,7 @@ const PersonArea = () => {
     function updateModal(value) {
         setIsOpen(value);
         setModalFinish(value);
+        setIsOpenFeedback(value);
     }
 
 
@@ -310,7 +313,7 @@ const PersonArea = () => {
                             </svg>
                             Выйти с аккаунта
                         </Link>
-                        <a className="person-connections__link" href="#">
+                        <button onClick={()=>setIsOpenFeedback(true)} className="person-connections__link">
                             <svg width="28" height="31" viewBox="0 0 28 31" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -318,7 +321,7 @@ const PersonArea = () => {
                                     fill="#00398F" />
                             </svg>
                             Обратная связь
-                        </a>
+                        </button>
                         {user.video_chat_url !== undefined && user.video_chat_url !== "" ?
                             (
                                 <Link className="person-connections__link" to={{ pathname: '/chat', doctorId: user.video_chat_url }} >
@@ -393,6 +396,13 @@ const PersonArea = () => {
             </div>
             <div>
 
+                <FeedBackModal
+                    updateModal={updateModal}
+                    isOpen={isOpenFeedback}
+                    username={user.name}
+                    email = {user.email}
+                />
+
                 <ModalCustom
                     title = {"Вы хотите написать отзыв по курсу?"}
                     buttonText = {"Да"}
@@ -402,6 +412,7 @@ const PersonArea = () => {
                     isOpen={modalFinish}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
+                    svg={true}
                 />
 
                 <ModalCustom
@@ -412,6 +423,7 @@ const PersonArea = () => {
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
                     buttonClick = {donwloadAttachment}
+                    svg={true}
                 />
             </div>
             <FooterBottom />
