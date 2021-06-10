@@ -7,6 +7,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import ModalCustom from "../../Modal/Modal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,9 @@ const VideoCard = () => {
   const [filterCategory, setFilterCategory] = useState("");
   const [isFinished, setIsFinished] = useState(false);
   const [changebleVideo, setChangebleVideo] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+
 
   useEffect(async () => {
     await getVideos();
@@ -89,6 +93,8 @@ const VideoCard = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
+      }).then(async (res) => {
+        await setIsOpen(true);
       });
       await setName("");
       await setVideoURL("");
@@ -182,6 +188,8 @@ const VideoCard = () => {
       headers: {
         'Content-Type': 'application/json'
       },
+    }).then(async (res)=>{
+      await setIsOpenDelete(true);
     });
 
     await getVideos();
@@ -261,6 +269,11 @@ const VideoCard = () => {
         </div>
       )
     })
+  }
+
+  function updateModal(value) {
+    setIsOpen(value);
+    setIsOpenDelete(value);
   }
 
   const renderCategoriesList = () => {
@@ -418,6 +431,23 @@ const VideoCard = () => {
         }
 
       </div>
+      <ModalCustom
+          title = {"Видео успешно добавлено!"}
+          buttonText = {"Ок"}
+          buttonClick = {updateModal}
+          updateModal = {updateModal}
+          isOpen={isOpen}
+          svg={false}
+      />
+
+      <ModalCustom
+          title = {"Видео успешно удалено!"}
+          buttonText = {"Ок"}
+          buttonClick = {updateModal}
+          updateModal = {updateModal}
+          isOpen={isOpenDelete}
+          svg={false}
+      />
     </div>
   );
 };

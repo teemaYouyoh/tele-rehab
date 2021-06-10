@@ -1362,3 +1362,7 @@ $blue:#04B1FB;
         display: flex;
     }
 }
+
+.ReactModal__Overlay{
+    z-index: 9;
+}
