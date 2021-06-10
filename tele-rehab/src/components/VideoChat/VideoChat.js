@@ -133,8 +133,12 @@ const VideoChat = (props) => {
 					},
 					body: JSON.stringify({ video_chat_url: id })
 				})
-					.then(async (res) => { console.log(await res.json()) })
-					.catch(err => { console.error(err) })
+				.then(async (res) => {
+					// console.log( await res.json() );
+					let user = await res.json();
+					await sendMessage(user);
+				})
+				.catch(err => { console.error(err) })
 			}
 		})
 
@@ -160,6 +164,22 @@ const VideoChat = (props) => {
 			// window.location.href = "/";
 		})
 	}, [])
+
+	async function sendMessage(responseUser){
+		const user = responseUser;
+		console.log(user);
+		const formData = {
+			email: user.email,
+		}
+		const response = await fetch(`http://localhost:3000/send_mess_videochat`, {
+			method: 'POST',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formData)
+		});
+	}
 
 	useEffect(() => {
 

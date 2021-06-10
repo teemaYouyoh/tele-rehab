@@ -38,7 +38,13 @@ module.exports = function (app, upload) {
     .post(NodeMailer.nodemailerUpdatePlan);
 
   app.route('/send_call')
-    .post(NodeMailer.nodemailerFooter)
+    .post(NodeMailer.nodemailerFooter);
+
+  app.route('/send_feedback')
+      .post(NodeMailer.nodemailerFeedback);
+
+  app.route('/send_mess_videochat')
+      .post(NodeMailer.nodemailerCall);
 
   // app.post('/send', (req, res)=>{
   //   console.log(req.body);

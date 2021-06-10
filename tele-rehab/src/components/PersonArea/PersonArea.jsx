@@ -10,6 +10,7 @@ import download from 'downloadjs'
 import $ from "jquery";
 import ModalCustom from "../Modal/Modal";
 import { BrowserRouter, Route, Link, useHistory } from "react-router-dom";
+import FeedBackModal from "../Modal/FeedBackModal";
 
 
 const customStyles = {
@@ -34,14 +35,19 @@ const PersonArea = () => {
     
     const [validationFull, setValidationFull] = useState("");
     const [validationSingle, setValidationSingle] = useState("");
-    const [commentSingle, setCommentSingle] = useState("");
+    const [isOpenFeedback, setIsOpenFeedback] = useState(false);
     const [comment, setComment] = useState("");
+    const [commentSingle, setCommentSingle] = useState("");
 
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [modalFinish, setModalFinish] = useState(false);
-    const [isReady, setIsReady] = useState(false);
-    const [open, setOpen] = useState("");
-   
+
+    	// MODAL VARIABLES
+	const [modalText, setModalText] = useState("");
+	const [modalButton, setModalButton] = useState("");
+	const [modalIsOpen, setIsOpen] = useState(false);
+	const [modalFinish, setModalFinish] = useState(false);
+	const [isReady, setIsReady] = useState(false);
+	const [open, setOpen] = useState("");
+	// END MODAL VARIABLES
 
     const handleClick = (id) => {
         id === open ? setOpen("") : setOpen(id);
@@ -51,6 +57,7 @@ const PersonArea = () => {
     function updateModal(value) {
         setIsOpen(value);
         setModalFinish(value);
+        setIsOpenFeedback(value);
     }
 
     useEffect(() => {
@@ -345,7 +352,7 @@ const PersonArea = () => {
                             </svg>
                             Выйти с аккаунта
                         </Link>
-                        <a className="person-connections__link" href="#">
+                        <button onClick={()=>setIsOpenFeedback(true)} className="person-connections__link">
                             <svg width="28" height="31" viewBox="0 0 28 31" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -353,7 +360,7 @@ const PersonArea = () => {
                                     fill="#00398F" />
                             </svg>
                             Обратная связь
-                        </a>
+                        </button>
                         {user.video_chat_url !== undefined && user.video_chat_url !== "" ?
                             (
                                 <Link className="person-connections__link" to={{ pathname: '/chat', doctorId: user.video_chat_url }} >
@@ -428,6 +435,13 @@ const PersonArea = () => {
             </div>
             <div>
 
+                <FeedBackModal
+                    updateModal={updateModal}
+                    isOpen={isOpenFeedback}
+                    username={user.name}
+                    email = {user.email}
+                />
+
                 <ModalCustom
                     title = {"Вы хотите написать отзыв по курсу?"}
                     buttonText = {"Да"}
@@ -437,6 +451,7 @@ const PersonArea = () => {
                     isOpen={modalFinish}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
+                    svg={true}
                 />
 
                 <ModalCustom
@@ -447,6 +462,7 @@ const PersonArea = () => {
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
                     buttonClick = {donwloadAttachment}
+                    svg={true}
                 />
             </div>
             <FooterBottom />

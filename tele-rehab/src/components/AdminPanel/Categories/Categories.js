@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import "./Categories.css";
 
 import ObjectID from 'bson-objectid';
+import ModalCustom from "../../Modal/Modal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +41,7 @@ const Categories = (props) => {
   const [categoryName, setCategoryName] = useState();
   const [isChanged, setChanged] = useState(false);
   const [changebleCategory, setChangebleCategory] = useState(null);
-
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setCategories(props.categories)
@@ -91,7 +92,7 @@ const Categories = (props) => {
             },
             body: JSON.stringify(item)
           })
-            .then((res) => { console.log(res) })
+            .then(async (res) => { console.log(res); await setIsOpen(true); })
             .catch((err) => { console.log(err) })
 
           setCategories(categoriesList);
@@ -109,6 +110,8 @@ const Categories = (props) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ name: categoryName })
+      }).then(async (res)=>{
+        await setIsOpen(true);
       });
 
     }
@@ -219,6 +222,14 @@ const Categories = (props) => {
     setCategories(categoriesList);
     setChangebleCategory(null);
 
+  }
+
+  function updateModal(value) {
+    setIsOpen(value);
+  }
+
+  function openModal() {
+    setIsOpen(true);
   }
 
   const renderCategories = () => {
@@ -334,6 +345,15 @@ const Categories = (props) => {
       <Button variant="contained" color="primary" onClick={addCategory}>
         Добавить
       </Button>
+
+      <ModalCustom
+          title = {"Категория успешно добавлена!"}
+          buttonText = {"Ок"}
+          buttonClick = {updateModal}
+          updateModal = {updateModal}
+          isOpen={isOpen}
+          svg={false}
+      />
 
       {renderCategories()}
     </div>
