@@ -94,7 +94,7 @@ const UsersRegistration = () => {
             <FormControl>
                 <TextField onChange={(e)=>setName(e.target.value)} id="outlined-basic" label="ФИО" variant="outlined" />
                 <TextField onChange={(e)=>setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
-                <TextField onChange={(e)=>setPassword(e.target.value)} id="outlined-basic" label="Пароль" variant="outlined" />
+                <TextField onChange={(e)=>setPassword(e.target.value)} id="outlined-basic" label="Пароль" type="password"  variant="outlined" />
                 <TextField onChange={(e)=>setPhone(e.target.value)} id="outlined-basic" label="Телефон" variant="outlined" />
                 <TextField onChange={(e)=>setBirthday(e.target.value)} id="outlined-basic"  type="date" variant="outlined" />
                 <TextField onChange={(e)=>setDiagnosis(e.target.value)} id="outlined-basic" label="Диагноз" variant="outlined" />

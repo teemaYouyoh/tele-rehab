@@ -44,6 +44,7 @@ const FrontPageHeader = () => {
       },
     });
     let data = await response.json();
+    console.log(data)
     await setUsers(data);
   }
   function afterOpenModal() {
@@ -81,10 +82,13 @@ const FrontPageHeader = () => {
           contentLabel="Example Modal">
           <h2 className="popup-title">Зайти в личный кабинет</h2>
           <form name="login-form" onSubmit={(e) => signIn(e)} id="login-form">
-            <label>{!errorMsg ? "Email" : <span className="error-message">{errorMsg}</span>}</label>
+            <label>Email</label>
             <input onChange={(e) => setEmail(e.target.value)}></input>
-            <label>{!errorMsg ? "Пароль" : <span className="error-message">{errorMsg}</span>}</label>
-            <input onChange={(e) => setPassword(e.target.value)}></input>
+
+            <label>Пароль</label>
+            <input type="password" onChange={(e) => setPassword(e.target.value)}></input>
+
+            {!errorMsg ? "" : <span className="error-message">{errorMsg}</span>}
             <button type="submit" className="btn">Вход</button>
           </form>
           <button className="popup-close" onClick={closeModal}>
@@ -103,7 +107,7 @@ const FrontPageHeader = () => {
             <div className="header-menu">
               <nav className="hamburger-menu">
                 <input id="menu__toggle" type="checkbox" />
-                <label className="menu__btn" for="menu__toggle">
+                <label className="menu__btn" htmlFor="menu__toggle">
                   <span></span>
                 </label>
                 <ul className="header-menu__list menu__box">

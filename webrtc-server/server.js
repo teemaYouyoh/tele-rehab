@@ -4,7 +4,8 @@ const app = express()
 const server = http.createServer(app)
 const io = require("socket.io")(server, {
 	cors: {
-		origin: "https://tele-rehab-api.vps-touchit.space",
+		origin: "http://localhost:3000",
+		// origin: "https://tele-rehab-api.vps-touchit.space",
 		methods: [ "GET", "POST" ]
 	}
 })
@@ -23,6 +24,7 @@ io.on("connection", (socket) => {
 	socket.on("answerCall", (data) => {
 		io.to(data.to).emit("callAccepted", data.signal)
 	})
+	
 })
 
 server.listen(5000, () => console.log("server is running on port 5000"))

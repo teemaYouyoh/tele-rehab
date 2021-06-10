@@ -21,20 +21,20 @@ exports.nodemailerFooter = async (req, res) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'touchitworking@gmail.com', // generated ethereal user
-            pass: 'xymletdnizoezehh'  // generated ethereal password
+            user: 'telerehab.fenix@gmail.com', // generated ethereal user
+            pass: 'zflgxlfakjebzxnr'  // generated ethereal password
         },
-        tls:{
-            rejectUnauthorized:false
+        tls: {
+            rejectUnauthorized: false
         }
     });
 
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: `touchitworking@gmail.com`,
+        from: `telerehab.fenix@gmail.com`,
         // from: 'sergejjolejj@gmail.com', // sender address
-        to: `touchitworking@gmail.com`, // list of receivers
+        to: `telerehab.fenix@gmail.com`, // list of receivers
         subject: 'Обратный звонок', // Subject line
         text: 'Hello world?', // plain text body
         html: output, // html body
@@ -43,10 +43,12 @@ exports.nodemailerFooter = async (req, res) => {
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
+            res.send(error)
             return console.log(error);
         }
         console.log('Message sent: %s', info.messageId);
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        res.json({message: "Message sent successfully", success: true})
 
         // res.render('login', {msg:'Email has been sent'});
     });
@@ -70,18 +72,18 @@ exports.nodemailerSignIn = async (req, res) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'touchitworking@gmail.com', // generated ethereal user
-            pass: 'xymletdnizoezehh'  // generated ethereal password
+            user: 'telerehab.fenix@gmail.com', // generated ethereal user
+            pass: 'zflgxlfakjebzxnr'  // generated ethereal password
         },
-        tls:{
-            rejectUnauthorized:false
+        tls: {
+            rejectUnauthorized: false
         }
     });
 
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: `touchitworking@gmail.com`,
+        from: `telerehab.fenix@gmail.com`,
         // from: 'sergejjolejj@gmail.com', // sender address
         to: `${req.body.email}`, // list of receivers
         subject: 'Регистрация успешна', // Subject line
@@ -92,10 +94,12 @@ exports.nodemailerSignIn = async (req, res) => {
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
+            res.send(error)
             return console.log(error);
         }
         console.log('Message sent: %s', info.messageId);
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        res.json({message: "Message sent successfully", success: true})
 
         // res.render('login', {msg:'Email has been sent'});
     });
@@ -113,18 +117,18 @@ exports.nodemailerUpdatePlan = async (req, res) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'touchitworking@gmail.com', // generated ethereal user
-            pass: 'xymletdnizoezehh'  // generated ethereal password
+            user: 'telerehab.fenix@gmail.com', // generated ethereal user
+            pass: 'zflgxlfakjebzxnr'  // generated ethereal password
         },
-        tls:{
-            rejectUnauthorized:false
+        tls: {
+            rejectUnauthorized: false
         }
     });
 
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: `touchitworking@gmail.com`,
+        from: `telerehab.fenix@gmail.com`,
         // from: 'sergejjolejj@gmail.com', // sender address
         to: `${req.body.email}`, // list of receivers
         subject: 'Изменение курса', // Subject line
@@ -135,16 +139,18 @@ exports.nodemailerUpdatePlan = async (req, res) => {
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
+            res.send(error)
             return console.log(error);
         }
         console.log('Message sent: %s', info.messageId);
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        res.json({message: "Message sent successfully", success: true})
 
         // res.render('login', {msg:'Email has been sent'});
     });
 }
 
-exports.nodemailerFunc = async (req, res) =>{
+exports.nodemailerFunc = async (req, res) => {
     console.log(req.body);
     console.log(req.body.name);
     const output = `
@@ -165,40 +171,45 @@ exports.nodemailerFunc = async (req, res) =>{
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'touchitworking@gmail.com', // generated ethereal user
-            pass: 'xymletdnizoezehh'  // generated ethereal password
+            user: 'telerehab.fenix@gmail.com', // generated ethereal user
+            pass: 'zflgxlfakjebzxnr'  // generated ethereal password
         },
-        tls:{
-            rejectUnauthorized:false
+        tls: {
+            rejectUnauthorized: false
         }
     });
     // setup email data with unicode symbols
     let mailOptions = {
         from: `"Форма регистрации - " <${req.body.email}>`,
         // from: 'sergejjolejj@gmail.com', // sender address
-        to: 'touchitworking@gmail.com', // list of receivers
+        to: 'telerehab.fenix@gmail.com', // list of receivers
         subject: 'Форма регистрации', // Subject line
         text: 'Hello world?', // plain text body
-        html: output, // html body  
-        attachments: [ 
+        html: output // html body  
+    };
+
+
+    if (req.body.file !== "") {
+        mailOptions.attachments = [
             {
-                filename: req.body.file, 
+                filename: req.body.file,
                 // contentType: req.body.file.type,
                 path: __dirname + `/public/uploads/${req.body.file}`
             }
         ]
-    };
+    }
 
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
+            res.send(error)
             return console.log(error);
         }
         console.log('Message sent: %s', info.messageId);
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        res.json({message: "Message sent successfully", success: true})
 
         // res.render('login', {msg:'Email has been sent'});
     });
 
-    res.send(res)
 }
