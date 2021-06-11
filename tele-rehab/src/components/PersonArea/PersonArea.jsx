@@ -43,14 +43,15 @@ const PersonArea = () => {
 
 
     // MODAL VARIABLES
-    const [modalText, setModalText] = useState("");
-    const [modalButton, setModalButton] = useState("");
-    const [modalIsOpen, setIsOpen] = useState(false);
+	const [modalText, setModalText] = useState("");
+	const [modalButton, setModalButton] = useState("");
+	const [modalIsOpen, setIsOpen] = useState(false);
+	const [modalFinish, setModalFinish] = useState(false);
     const [modalCourseCommentIsOpen, setModalCourseCommentIsOpen] = useState(false);
-    const [modalFinish, setModalFinish] = useState(false);
-    const [isReady, setIsReady] = useState(false);
-    const [open, setOpen] = useState("");
-    // END MODAL VARIABLES
+	const [isReady, setIsReady] = useState(false);
+	const [open, setOpen] = useState("");
+	const [isOpenSuccess, setIsOpenSuccess] = useState(false);
+	// END MODAL VARIABLES
 
     const handleClick = (id) => {
         id === open ? setOpen("") : setOpen(id);
@@ -61,6 +62,7 @@ const PersonArea = () => {
         setIsOpen(value);
         setModalFinish(value);
         setIsOpenFeedback(value);
+        setIsOpenSuccess(value);
     }
 
     useEffect(() => {
@@ -174,7 +176,7 @@ const PersonArea = () => {
         }).then(async (res) => {
             const data = await res.json()
             setUser(data);
-            setModalFinish(false);
+            await setModalFinish(false);
         })
 
 
@@ -375,7 +377,7 @@ const PersonArea = () => {
                                 <img src="https://tele-rehab-api.vps-touchit.space/1.png" alt="W3Schools" width="104" height="142" />
                             </a>
                         </div> */}
-                        <img src="https://tele-rehab-api.vps-touchit.space/1.png" onClick={() => { someFunction('http://localhost:3001/1.png') }} />
+                        {/* <img src="https://tele-rehab-api.vps-touchit.space/1.png" onClick={() => { someFunction('http://localhost:3001/1.png') }} /> */}
                         {isAdmin &&
                             <Link to="/admin" className="person-connections__link" >
                                 <svg aria-hidden="true" width="28" height="31" focusable="false" data-prefix="fas" data-icon="user-cog"
@@ -487,11 +489,12 @@ const PersonArea = () => {
                 />
 
                 <ModalCustom
-                    title={"Вы хотите написать отзыв по курсу?"}
-                    buttonText={"Да"}
-                    buttonClick={sendCourseFinish}
-                    buttonTextSecond={"Нет"}
-                    updateModal={updateModal}
+                    title = {"Вы хотите написать отзыв по курсу?"}
+                    buttonText = {"Да"}
+                    buttonClick = {sendCourseFinish}
+                    btnClickSecond = {updateModal}
+                    buttonTextSecond = {"Нет"}
+                    updateModal = {updateModal}
                     isOpen={modalFinish}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
@@ -499,9 +502,21 @@ const PersonArea = () => {
                 />
 
                 <ModalCustom
-                    title={"Лист назначений"}
-                    buttonText={"Скачать"}
-                    updateModal={updateModal}
+                    title = {"Вы успешно закончили курс!"}
+                    buttonText = {"Ок"}
+                    buttonClick = {updateModal}
+                    // buttonTextSecond = {"Нет"}
+                    updateModal = {updateModal}
+                    isOpen={isOpenSuccess}
+                    onAfterOpen={afterOpenModal}
+                    onRequestClose={closeModal}
+                    svg={false}
+                />
+
+                <ModalCustom
+                    title = {"Лист назначений"}
+                    buttonText = {"Скачать"}
+                    updateModal = {updateModal}
                     isOpen={modalIsOpen}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}

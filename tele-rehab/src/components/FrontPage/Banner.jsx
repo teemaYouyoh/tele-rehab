@@ -1,7 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ModalCustom from "../Modal/Modal";
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import InputMask from 'react-input-mask';
+import { useForm, Controller } from "react-hook-form";
+import { TextField, Grid } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 const Banner = () => {
+  const { control, handleSubmit, errors, register } = useForm({
+    mode: "onChange"
+  });
+  const formPhone = useRef();
   const [name, setName] = useState(undefined);
   const [phone, setPhone] = useState(undefined);
   const [email, setEmail] = useState(undefined);
@@ -18,8 +36,9 @@ const Banner = () => {
   const [modalFinish, setModalFinish] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [open, setOpen] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   // END MODAL VARIABLES
-
+  const classes = useStyles();
   function focusClick(e) {
     e.preventDefault();
     let nameLabel = document.getElementById("name-label");
@@ -109,6 +128,7 @@ const Banner = () => {
   }
 
   async function sendMessage(formData, isError) {
+    await setIsLoading(true);
     console.log("formData", formData);
     console.log(isError);
     if (!isError) {
@@ -129,14 +149,15 @@ const Banner = () => {
             setModalText("Запрос на регистрацию успешно отправлен")
             setModalButton("Закрыть")
             setIsOpen(true)
-
-            setName("")
-            setPhone("")
-            setEmail("")
-            setBirthday("")
-            setComment("")
+            await setIsLoading(false);
+            await setName("")
+            await setPhone("")
+            await setEmail("")
+            await setBirthday("")
+            await setComment("")
           } else {
             console.error(res);
+            await setIsLoading(false);
             onSendMessageError();
           }
 
@@ -194,34 +215,44 @@ const Banner = () => {
             <div className="banner-form form-banner">
               <div className="form-wrap">
                 <form encType="multipart/form-data" onSubmit={(event) => submitForm(event)} name="banner-form" id="banner-form">
+                  {isLoading && <CircularProgress />}
                   <p className="form-banner__title">Пройти регистрацию</p>
                   <div className="form-item">
                     <div className="form-item__wrap">
-                      <input type="text" name="name" onChange={(e) => setName(e.target.value)} id="banner-name" onFocus={focusClick} onBlur={onFocusClick} />
+                      <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} id="banner-name" onFocus={focusClick} onBlur={onFocusClick} />
                       <label htmlFor="banner-name" id="name-label">ФИО <span>*</span></label>
                     </div>
                     <div className="form-item__wrap">
-                      <input id="banner-phone" name="phone" type="tel" onChange={(e) => setPhone(e.target.value)} onFocus={focusPhoneClick} onBlur={onFocusPhoneClick} />
+                      {/*<input id="banner-phone" name="phone" value={phone} type="tel" onChange={(e) => setPhone(e.target.value)} onFocus={focusPhoneClick} onBlur={onFocusPhoneClick} />*/}
+                      <InputMask
+                          mask="+38(999)-999-9999"
+                          value={phone}
+                          onChange={(e)=>setPhone(e.target.value)}
+                          id="banner-phone"
+                          name="phone"
+                          onFocus={focusPhoneClick}
+                          onBlur={onFocusPhoneClick}
+                      />
                       <label htmlFor="banner-phone" id="phone-label">Номер телефона <span>*</span></label>
                     </div>
                   </div>
                   <div className="form-item">
                     <div className="form-item__wrap">
-                      <input type="email" name="email" id="banner-email" onChange={(e) => setEmail(e.target.value)} onFocus={focusEmailClick} onBlur={onFocusEmailClick} />
+                      <input type="email" name="email" value={email} id="banner-email" onChange={(e) => setEmail(e.target.value)} onFocus={focusEmailClick} onBlur={onFocusEmailClick} />
                       <label htmlFor="banner-email" id="email-label">Email <span>*</span></label>
                     </div>
                     <div className="form-item__wrap">
-                      <input type="date" name="birthday" onChange={(e) => setBirthday(e.target.value)} id="banner-birthday" placeholder="Дата рождения" />
+                      <input type="date" name="birthday" value={birthday} onChange={(e) => setBirthday(e.target.value)} id="banner-birthday" placeholder="Дата рождения" />
                     </div>
                   </div>
-                  <textarea name="comment" id="banner-com" onChange={(e) => setComment(e.target.value)} placeholder="Опишите диагноз"></textarea>
+                  <textarea name="comment" id="banner-com" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Опишите диагноз"></textarea>
                   <p className="form-banner__attachment">
                     Прикрепить файл <sup>*</sup>
                     <span>максимум 15 мб</span>
                     <p className="file-name">{file}</p>
-                    <input id="input-file" name="form-file" accept=".png, .jpg, .jpeg" onChange={(e) => changeFile(e)} type="file" />
+                    <input id="input-file" value={file} name="form-file" accept=".png, .jpg, .jpeg" onChange={(e) => changeFile(e)} type="file" />
                   </p>
-                  <button className="btn form-banner__btn" type="submit">Зарегистрироваться</button>
+                  <button className="btn form-banner__btn" type={isLoading ? "button" : "submit"}>Зарегистрироваться</button>
                   <span className="form-banner__addition">После регистрации с вами свяжется специалист обсудит с вами проблемы и ее решение, предложит оптимальную программу</span>
                   {errorForm && !msg ? <span className="form-banner__addition error-message">Необходимо заполнить все поля</span> : <span className="form-banner__addition"></span>}
                   {msg ? <span className="form-banner__addition success-message">{msg}</span> : <span className="form-banner__addition"></span>}
@@ -231,7 +262,6 @@ const Banner = () => {
           </div>
         </div>
       </div>
-
       <ModalCustom
         title={modalText}
         buttonText={modalButton}
