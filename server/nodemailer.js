@@ -21,8 +21,8 @@ exports.nodemailerRegistration = async (req, res) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'touchitworking@gmail.com', // generated ethereal user
-            pass: 'xymletdnizoezehh'  // generated ethereal password
+            user: 'telerehab.fenix@gmail.com', // generated ethereal user
+            pass: 'zflgxlfakjebzxnr'  // generated ethereal password
         },
         tls:{
             rejectUnauthorized:false
@@ -32,7 +32,7 @@ exports.nodemailerRegistration = async (req, res) => {
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: `touchitworking@gmail.com`,
+        from: `telerehab.fenix@gmail.com`,
         // from: 'sergejjolejj@gmail.com', // sender address
         to: `${req.body.email}`, // list of receivers
         subject: 'Обратная связь', // Subject line
@@ -64,8 +64,8 @@ exports.nodemailerCall = async (req, res) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'touchitworking@gmail.com', // generated ethereal user
-            pass: 'xymletdnizoezehh'  // generated ethereal password
+            user: 'telerehab.fenix@gmail.com', // generated ethereal user
+            pass: 'zflgxlfakjebzxnr'  // generated ethereal password
         },
         tls:{
             rejectUnauthorized:false
@@ -75,7 +75,7 @@ exports.nodemailerCall = async (req, res) => {
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: `touchitworking@gmail.com`,
+        from: `telerehab.fenix@gmail.com`,
         // from: 'sergejjolejj@gmail.com', // sender address
         to: `${req.body.email}`, // list of receivers
         subject: 'Обратная связь', // Subject line
@@ -114,8 +114,8 @@ exports.nodemailerFeedback = async (req, res) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'touchitworking@gmail.com', // generated ethereal user
-            pass: 'xymletdnizoezehh'  // generated ethereal password
+            user: 'telerehab.fenix@gmail.com', // generated ethereal user
+            pass: 'zflgxlfakjebzxnr'  // generated ethereal password
         },
         tls:{
             rejectUnauthorized:false
@@ -127,7 +127,7 @@ exports.nodemailerFeedback = async (req, res) => {
     let mailOptions = {
         from: `${req.body.email}`,
         // from: 'sergejjolejj@gmail.com', // sender address
-        to: `touchitworking@gmail.com`, // list of receivers
+        to: `telerehab.fenix@gmail.com`, // list of receivers
         subject: 'Обратная связь', // Subject line
         text: 'Hello world?', // plain text body
         html: output, // html body

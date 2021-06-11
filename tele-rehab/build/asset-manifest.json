@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/static/css/main.31a04df5.chunk.css",
-    "main.js": "/static/js/main.7bd7247a.chunk.js",
-    "main.js.map": "/static/js/main.7bd7247a.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.5c5ed85e.js",
-    "runtime-main.js.map": "/static/js/runtime-main.5c5ed85e.js.map",
+    "main.css": "/static/css/main.83eb9bdb.chunk.css",
+    "main.js": "/static/js/main.9e68c7d0.chunk.js",
+    "main.js.map": "/static/js/main.9e68c7d0.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.a97f75e4.js",
+    "runtime-main.js.map": "/static/js/runtime-main.a97f75e4.js.map",
     "static/css/2.845cb570.chunk.css": "/static/css/2.845cb570.chunk.css",
-    "static/js/2.eba81419.chunk.js": "/static/js/2.eba81419.chunk.js",
-    "static/js/2.eba81419.chunk.js.map": "/static/js/2.eba81419.chunk.js.map",
-    "static/js/3.35d45f81.chunk.js": "/static/js/3.35d45f81.chunk.js",
-    "static/js/3.35d45f81.chunk.js.map": "/static/js/3.35d45f81.chunk.js.map",
+    "static/js/2.26398c3b.chunk.js": "/static/js/2.26398c3b.chunk.js",
+    "static/js/2.26398c3b.chunk.js.map": "/static/js/2.26398c3b.chunk.js.map",
+    "static/js/3.bf36eb44.chunk.js": "/static/js/3.bf36eb44.chunk.js",
+    "static/js/3.bf36eb44.chunk.js.map": "/static/js/3.bf36eb44.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.845cb570.chunk.css.map": "/static/css/2.845cb570.chunk.css.map",
-    "static/css/main.31a04df5.chunk.css.map": "/static/css/main.31a04df5.chunk.css.map",
-    "static/js/2.eba81419.chunk.js.LICENSE.txt": "/static/js/2.eba81419.chunk.js.LICENSE.txt",
+    "static/css/main.83eb9bdb.chunk.css.map": "/static/css/main.83eb9bdb.chunk.css.map",
+    "static/js/2.26398c3b.chunk.js.LICENSE.txt": "/static/js/2.26398c3b.chunk.js.LICENSE.txt",
     "static/media/style.scss": "/static/media/banner-bg.e85eeb7f.png",
     "static/media/Tele-Rehab-black.41932ba4.svg": "/static/media/Tele-Rehab-black.41932ba4.svg",
-    "static/media/Tele-Rehab.0047d487.svg": "/static/media/Tele-Rehab.0047d487.svg",
+    "static/media/Tele-Rehab.svg": "/static/media/Tele-Rehab.0047d487.svg",
     "static/media/about-photo.e04f9b00.png": "/static/media/about-photo.e04f9b00.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.5c5ed85e.js",
+    "static/js/runtime-main.a97f75e4.js",
     "static/css/2.845cb570.chunk.css",
-    "static/js/2.eba81419.chunk.js",
-    "static/css/main.31a04df5.chunk.css",
-    "static/js/main.7bd7247a.chunk.js"
+    "static/js/2.26398c3b.chunk.js",
+    "static/css/main.83eb9bdb.chunk.css",
+    "static/js/main.9e68c7d0.chunk.js"
   ]
 }

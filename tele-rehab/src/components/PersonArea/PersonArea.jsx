@@ -5,13 +5,15 @@ import PersonAreaHeader from '../Header/PersonAreaHeader';
 import FooterBottom from '../Footer/FooterBottom';
 import Modal from 'react-modal';
 import Collapse from '@material-ui/core/Collapse';
-import Axios from "axios";
 import download from 'downloadjs'
+import Axios from 'axios'
 import $ from "jquery";
 import ModalCustom from "../Modal/Modal";
 import { BrowserRouter, Route, Link, useHistory } from "react-router-dom";
 import FeedBackModal from "../Modal/FeedBackModal";
 
+const fs = require('fs');
+const path = require('path');
 
 const customStyles = {
     content: {
@@ -32,7 +34,7 @@ const PersonArea = () => {
     const [categories, setCategories] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [categoriesName, setCategoriesName] = useState([]);
-    
+
     const [validationFull, setValidationFull] = useState("");
     const [validationSingle, setValidationSingle] = useState("");
     const [isOpenFeedback, setIsOpenFeedback] = useState(false);
@@ -40,14 +42,15 @@ const PersonArea = () => {
     const [commentSingle, setCommentSingle] = useState("");
 
 
-    	// MODAL VARIABLES
-	const [modalText, setModalText] = useState("");
-	const [modalButton, setModalButton] = useState("");
-	const [modalIsOpen, setIsOpen] = useState(false);
-	const [modalFinish, setModalFinish] = useState(false);
-	const [isReady, setIsReady] = useState(false);
-	const [open, setOpen] = useState("");
-	// END MODAL VARIABLES
+    // MODAL VARIABLES
+    const [modalText, setModalText] = useState("");
+    const [modalButton, setModalButton] = useState("");
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalCourseCommentIsOpen, setModalCourseCommentIsOpen] = useState(false);
+    const [modalFinish, setModalFinish] = useState(false);
+    const [isReady, setIsReady] = useState(false);
+    const [open, setOpen] = useState("");
+    // END MODAL VARIABLES
 
     const handleClick = (id) => {
         id === open ? setOpen("") : setOpen(id);
@@ -67,7 +70,7 @@ const PersonArea = () => {
     function openModal() {
         setIsOpen(true);
     }
-    function openFinishModal(){
+    function openFinishModal() {
         setModalFinish(true);
     }
 
@@ -76,6 +79,7 @@ const PersonArea = () => {
 
     function closeModal() {
         setIsOpen(false);
+        setModalCourseCommentIsOpen(false);
     }
 
     function getId(url) {
@@ -140,17 +144,22 @@ const PersonArea = () => {
 
     async function sendComment(e) {
         e.preventDefault();
-        if (comment) {
-            const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
+        console.log(comment)
+        if (!comment) {
+            setValidationFull("Введите коментарий для отправки")
+        } else if (user.comment === comment) {
+            setValidationFull("Измените текст комментария перед отправкой ")
+        } else {
+            fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
                 method: 'PUT',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ comment: comment })
-            });
-        } else {
-            setValidationFull("Введите коментарий для отправки")
+            }).then((res) => {
+                setModalCourseCommentIsOpen(true);
+            })
         }
     }
 
@@ -162,7 +171,7 @@ const PersonArea = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ statusCourse: true })
-        }).then( async (res) => {
+        }).then(async (res) => {
             const data = await res.json()
             setUser(data);
             setModalFinish(false);
@@ -186,8 +195,8 @@ const PersonArea = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(user)
-            }).then(() => {
-                console.log("SUCCESS");
+            }).then(async (res) => {
+                setUser(await res.json());
             });
         } else {
             setValidationSingle("Введите коментарий для отправки")
@@ -230,6 +239,13 @@ const PersonArea = () => {
                                                 <p className="statistic-item__name">Количество дней к выполнению:</p>
                                                 <p className="statistic-item__result">{item.days}</p>
                                             </div>
+                                        </div>
+                                        <div className="info-person__video-comments">
+                                            {item.comments.map((comment) => {
+                                                return (
+                                                    <p className="video-comments_item">{comment}</p>
+                                                );
+                                            })}
                                         </div>
                                         <button onClick={() => { handleClick(item._id) }} className="info-person__review">
                                             Оставить отзывы по выполнению
@@ -290,22 +306,26 @@ const PersonArea = () => {
         // x.send();
     };
 
-    function someFunction(values = "") {
-        const method = 'GET';
-        const url = 'https://tele-rehab-api.vps-touchit.space/1.png';
+    async function someFunction(values = "") {
+        const url = 'http://localhost:3001/1.png';
+
+        // let blob = await fetch(url).then(r => r.blob());
+        // console.log('blob', blob)
 
         fetch(url, {
             method: 'GET',
             mode: 'cors',
             headers: {
-                'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             }
         })
-            .then(response => { return response.blob() })
+            .then( async response => {
+                console.log(await response.blob())
+                return await response.blob()
+            })
             .then(blob => {
                 const downloadUrl = window.URL.createObjectURL(new Blob([blob]));
+                console.log((new Blob([blob])))
                 const link = document.createElement('a');
 
                 link.href = downloadUrl;
@@ -317,6 +337,30 @@ const PersonArea = () => {
             })
 
     }
+
+    const downloadFile = async (fileUrl, downloadFolder) => {
+        Axios.get(fileUrl, {
+            responseType: "blob",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            }
+        }).then(function (response) {
+            console.log(response);
+
+            const url = window.URL.createObjectURL(
+                new Blob([response.data], {
+                    type: response.headers["content-type"],
+                })
+            );
+
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", 'filename');
+            document.body.appendChild(link);
+            link.click();
+
+        });
+    };
 
 
     return (
@@ -331,7 +375,7 @@ const PersonArea = () => {
                                 <img src="https://tele-rehab-api.vps-touchit.space/1.png" alt="W3Schools" width="104" height="142" />
                             </a>
                         </div> */}
-                        {/* <img src="https://tele-rehab-api.vps-touchit.space/1.png" onClick={() => { someFunction() }} /> */}
+                        <img src="https://tele-rehab-api.vps-touchit.space/1.png" onClick={() => { someFunction('http://localhost:3001/1.png') }} />
                         {isAdmin &&
                             <Link to="/admin" className="person-connections__link" >
                                 <svg aria-hidden="true" width="28" height="31" focusable="false" data-prefix="fas" data-icon="user-cog"
@@ -352,7 +396,7 @@ const PersonArea = () => {
                             </svg>
                             Выйти с аккаунта
                         </Link>
-                        <button onClick={()=>setIsOpenFeedback(true)} className="person-connections__link">
+                        <button onClick={() => setIsOpenFeedback(true)} className="person-connections__link">
                             <svg width="28" height="31" viewBox="0 0 28 31" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -394,7 +438,7 @@ const PersonArea = () => {
                                     {/*<Tab>Физ упражнения</Tab>*/}
                                     {/*<Tab>Самообслуживание</Tab>*/}
                                     {/*<Tab>Логопед</Tab>*/}
-                                    { user.attachment !== "" ? (<Tab onClick={() => openModal()}>Лист назначений</Tab>) : null }
+                                    {user.attachment !== "" ? (<Tab onClick={() => openModal()}>Лист назначений</Tab>) : null}
 
                                 </TabList>
                                 {!user.statusCourse &&
@@ -413,7 +457,7 @@ const PersonArea = () => {
                             <p className="error-message-form">{validationFull ? validationFull : ""}</p>
 
                             <form onSubmit={(e) => sendComment(e)} action="#" name="comment-form" id="comment-form">
-                                <textarea onChange={(e) => setComment(e.target.value)} name="comment-text" id="comment-text"
+                                <textarea defaultValue={user.comment} onChange={(e) => setComment(e.target.value)} name="comment-text" id="comment-text"
                                     placeholder="Ваш комменантарий. Насколько было сложно, больше и так далее">
                                 </textarea>
                                 <button type="submit" className="person-comment__btn">
@@ -439,15 +483,15 @@ const PersonArea = () => {
                     updateModal={updateModal}
                     isOpen={isOpenFeedback}
                     username={user.name}
-                    email = {user.email}
+                    email={user.email}
                 />
 
                 <ModalCustom
-                    title = {"Вы хотите написать отзыв по курсу?"}
-                    buttonText = {"Да"}
-                    buttonClick = {sendCourseFinish}
-                    buttonTextSecond = {"Нет"}
-                    updateModal = {updateModal}
+                    title={"Вы хотите написать отзыв по курсу?"}
+                    buttonText={"Да"}
+                    buttonClick={sendCourseFinish}
+                    buttonTextSecond={"Нет"}
+                    updateModal={updateModal}
                     isOpen={modalFinish}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
@@ -455,13 +499,24 @@ const PersonArea = () => {
                 />
 
                 <ModalCustom
-                    title = {"Лист назначений"}
-                    buttonText = {"Скачать"}
-                    updateModal = {updateModal}
+                    title={"Лист назначений"}
+                    buttonText={"Скачать"}
+                    updateModal={updateModal}
                     isOpen={modalIsOpen}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
-                    buttonClick = {donwloadAttachment}
+                    buttonClick={donwloadAttachment}
+                    svg={true}
+                />
+
+                <ModalCustom
+                    title={"Комментарий к курсу успешно отправлен"}
+                    buttonText={"Закрыть"}
+                    updateModal={updateModal}
+                    isOpen={modalCourseCommentIsOpen}
+                    onAfterOpen={afterOpenModal}
+                    onRequestClose={closeModal}
+                    buttonClick={closeModal}
                     svg={true}
                 />
             </div>

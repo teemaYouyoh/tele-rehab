@@ -1090,6 +1090,14 @@ $blue:#04B1FB;
         }
     }
 
+    &__video-comments {
+        margin: 10px 0; 
+
+        .video-comments_item {
+            margin: 10px 0;
+        }
+    }
+
     // .info-person__review
 
     &__review {
