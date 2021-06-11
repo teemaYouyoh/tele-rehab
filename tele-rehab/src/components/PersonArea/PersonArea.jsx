@@ -47,6 +47,7 @@ const PersonArea = () => {
 	const [modalFinish, setModalFinish] = useState(false);
 	const [isReady, setIsReady] = useState(false);
 	const [open, setOpen] = useState("");
+	const [isOpenSuccess, setIsOpenSuccess] = useState(false);
 	// END MODAL VARIABLES
 
     const handleClick = (id) => {
@@ -58,6 +59,7 @@ const PersonArea = () => {
         setIsOpen(value);
         setModalFinish(value);
         setIsOpenFeedback(value);
+        setIsOpenSuccess(value);
     }
 
     useEffect(() => {
@@ -163,9 +165,10 @@ const PersonArea = () => {
             },
             body: JSON.stringify({ statusCourse: true })
         }).then( async (res) => {
+            await setIsOpenSuccess(true);
             const data = await res.json()
             setUser(data);
-            setModalFinish(false);
+            await setModalFinish(false);
         })
 
 
@@ -445,13 +448,26 @@ const PersonArea = () => {
                 <ModalCustom
                     title = {"Вы хотите написать отзыв по курсу?"}
                     buttonText = {"Да"}
-                    buttonClick = {sendCourseFinish}
+                    buttonClick = {updateModal}
+                    btnClickSecond = {sendCourseFinish}
                     buttonTextSecond = {"Нет"}
                     updateModal = {updateModal}
                     isOpen={modalFinish}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
                     svg={true}
+                />
+
+                <ModalCustom
+                    title = {"Вы успешно закончили курс!"}
+                    buttonText = {"Ок"}
+                    buttonClick = {updateModal}
+                    // buttonTextSecond = {"Нет"}
+                    updateModal = {updateModal}
+                    isOpen={isOpenSuccess}
+                    onAfterOpen={afterOpenModal}
+                    onRequestClose={closeModal}
+                    svg={false}
                 />
 
                 <ModalCustom
