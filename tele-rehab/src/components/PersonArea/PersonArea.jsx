@@ -165,7 +165,7 @@ const PersonArea = () => {
         }
     }
 
-    function sendCourseFinish() {
+    async function sendCourseFinish() {
         fetch(`https://tele-rehab-api.vps-touchit.space/users/${user._id}`, {
             method: 'PUT',
             mode: 'cors',
@@ -178,8 +178,18 @@ const PersonArea = () => {
             setUser(data);
             await setModalFinish(false);
         })
-
-
+        const formData = {
+            name: user.name
+        }
+        const response = await fetch(`http://localhost:3001/finish_course`, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        // finish_course
         // history.push({
         //     pathname: "/"
         // })
@@ -491,8 +501,8 @@ const PersonArea = () => {
                 <ModalCustom
                     title = {"Вы хотите написать отзыв по курсу?"}
                     buttonText = {"Да"}
-                    buttonClick = {sendCourseFinish}
-                    btnClickSecond = {updateModal}
+                    buttonClick = {updateModal}
+                    btnClickSecond = {sendCourseFinish}
                     buttonTextSecond = {"Нет"}
                     updateModal = {updateModal}
                     isOpen={modalFinish}
