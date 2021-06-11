@@ -4,6 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import ModalCustom from "../../Modal/Modal";
+import InputMask from "react-input-mask";
 
 const UsersRegistration = () => {
     const [users, setUsers] = useState([]);
@@ -117,7 +118,16 @@ const UsersRegistration = () => {
                 <TextField onChange={(e)=>setName(e.target.value)} id="outlined-basic" label="ФИО" variant="outlined" />
                 <TextField onChange={(e)=>setEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
                 <TextField onChange={(e)=>setPassword(e.target.value)} id="outlined-basic" label="Пароль" type="password"  variant="outlined" />
-                <TextField onChange={(e)=>setPhone(e.target.value)} id="outlined-basic" label="Телефон" variant="outlined" />
+                {/*<TextField onChange={(e)=>setPhone(e.target.value)} id="outlined-basic" label="Телефон" variant="outlined" />*/}
+                <InputMask
+                    mask="+38(999)-999-9999"
+                    value={phone}
+                    onChange={(e)=>setPhone(e.target.value)}
+                    id="outlined-basic"
+                    name="phone"
+                    className={"input-phone-reg"}
+                    placeholder="Номер телефона"
+                />
                 <TextField onChange={(e)=>setBirthday(e.target.value)} id="outlined-basic"  type="date" variant="outlined" />
                 <TextField onChange={(e)=>setDiagnosis(e.target.value)} id="outlined-basic" label="Диагноз" variant="outlined" />
                 <Button onClick={()=>signUp()} variant="contained" color="primary" >
