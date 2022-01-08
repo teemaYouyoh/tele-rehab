@@ -22,7 +22,7 @@ const UsersRegistration = () => {
     }, [])
 
     async function getUsers(){
-        const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
+        const response = await fetch(`https://api.tele-rehab.com.ua/users/`, {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -54,7 +54,7 @@ const UsersRegistration = () => {
                             birthday,
                             diagnosis,
                         }
-                        const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
+                        const response = await fetch(`https://api.tele-rehab.com.ua/users/`, {
                             method: 'POST',
                             mode: 'cors',
                             headers: {
@@ -65,7 +65,7 @@ const UsersRegistration = () => {
                             setMsg("Успешно зарегестрирован");
                             await getUsers();
 
-                            await fetch(`https://tele-rehab-api.vps-touchit.space/success_registration`, {
+                            await fetch(`https://api.tele-rehab.com.ua/success_registration`, {
                                 method: 'POST',
                                 mode: 'cors',
                                 headers: {
@@ -81,7 +81,7 @@ const UsersRegistration = () => {
                                     //     password,
                                     //     name
                                     // }
-                                    // await fetch(`http://localhost:3001/registration_mail`, {
+                                    // await fetch(`https://api.tele-rehab.com.ua/registration_mail`, {
                                     //     method: 'POST',
                                     //     mode: 'cors',
                                     //     headers: {

@@ -32,9 +32,8 @@ const VideoChat = (props) => {
 	const [recorder, setRecorder] = useState(null);
 	const [name, setName] = useState("")
 	const [userId, setUserId] = useState("")
+	const [adminId, setAdminId] = useState('60af4a7804705e2a622185b0');
 
-
-	const [selectedAudioDevice, setSelectedAudioDevice] = useState(null);
 
 	// MODAL VARIABLES
 	const [modalText, setModalText] = useState("");
@@ -49,13 +48,11 @@ const VideoChat = (props) => {
 	const userVideo = useRef()
 	const connectionRef = useRef()
 
-	console.log(connectionRef)
-
-
-	useEffect(async () => {
+	useEffect( () => {
 
 		// const socket = io.connect('http://localhost:5000')
-		const socket = io.connect('https://tele-rehab-socket-io.vps-touchit.space')
+		// const socket = io.connect('https://tele-rehab-socket-io.vps-touchit.space')
+		const socket = io.connect('https://socket.tele-rehab.com.ua')
 
 		setSocket(socket);
 
@@ -122,10 +119,8 @@ const VideoChat = (props) => {
 		socket.on("me", (id) => {
 			setMe(id)
 
-			console.log(id);
-
 			if (props.location.userId !== undefined) {
-				fetch(`https://tele-rehab-api.vps-touchit.space/users/${props.location.userId}`, {
+				fetch(`https://api.tele-rehab.com.ua/users/${props.location.userId}`, {
 					method: 'PUT',
 					mode: 'cors',
 					headers: {
@@ -134,7 +129,6 @@ const VideoChat = (props) => {
 					body: JSON.stringify({ video_chat_url: id })
 				})
 				.then(async (res) => {
-					// console.log( await res.json() );
 					let user = await res.json();
 					await sendMessage(user);
 				})
@@ -151,7 +145,6 @@ const VideoChat = (props) => {
 
 
 		socket.on("callEnded", () => {
-			console.log("end")
 			if (props.location.userName !== undefined) {
 				setModalText(`Пользователь ${props.location.userName} завершил звонок`)
 			} else {
@@ -167,11 +160,10 @@ const VideoChat = (props) => {
 
 	async function sendMessage(responseUser){
 		const user = responseUser;
-		console.log(user);
 		const formData = {
 			email: user.email,
 		}
-		const response = await fetch(`http://localhost:3001/send_mess_videochat`, {
+		const response = await fetch(`https://api.tele-rehab.com.ua/send_mess_videochat`, {
 			method: 'POST',
 			mode: 'cors',
 			headers: {
@@ -257,7 +249,7 @@ const VideoChat = (props) => {
 		connectionRef.current = peer
 
 		if (props.location.userId !== undefined) {
-			fetch(`https://tele-rehab-api.vps-touchit.space/users/${props.location.userId}`, {
+			fetch(`https://api.tele-rehab.com.ua/users/${props.location.userId}`, {
 				method: 'PUT',
 				mode: 'cors',
 				headers: {
@@ -265,7 +257,7 @@ const VideoChat = (props) => {
 				},
 				body: JSON.stringify({ video_chat_url: "" })
 			})
-				.then(async (res) => { console.log(await res.json()) })
+				.then(async (res) => { })
 				.catch(err => { console.error(err) })
 		}
 	}
@@ -281,7 +273,7 @@ const VideoChat = (props) => {
 		socket.disconnect()
 
 		if (props.location.userId !== undefined) {
-			fetch(`https://tele-rehab-api.vps-touchit.space/users/${props.location.userId}`, {
+			fetch(`https://api.tele-rehab.com.ua/users/${props.location.userId}`, {
 				method: 'PUT',
 				mode: 'cors',
 				headers: {
@@ -290,7 +282,6 @@ const VideoChat = (props) => {
 				body: JSON.stringify({ video_chat_url: "" })
 			})
 				.then(async (res) => {
-					console.log(await res.json())
 					window.location.href = "/";
 				})
 				.catch(err => { console.error(err) })
@@ -398,7 +389,6 @@ const VideoChat = (props) => {
 					buttonClick={answerCall}
 				/>
 			) : null}
-			{callEnded ? console.log(11111) : console.log(2222)}
 			{callEnded ? (
 				<ModalCustom
 					title={modalText}

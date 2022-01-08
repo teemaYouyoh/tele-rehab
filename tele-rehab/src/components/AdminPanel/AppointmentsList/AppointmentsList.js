@@ -45,6 +45,7 @@ const VideosList = (props) => {
             isInclude = true;
 
             videos[i].review = selectedUser.appointments[j].review;
+            videos[i].approach = selectedUser.appointments[j].approach;
             videos[i].repeat = selectedUser.appointments[j].repeat;
             videos[i].days = selectedUser.appointments[j].days;
             videos[i].selected = true;
@@ -74,7 +75,7 @@ const VideosList = (props) => {
   }, [modifiedVideos])
 
   useEffect(async () => {
-    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/`, {
+    const response = await fetch(`https://api.tele-rehab.com.ua/videos/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -89,7 +90,7 @@ const VideosList = (props) => {
   }, [])
 
   useEffect(async () => {
-    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
+    const response = await fetch(`https://api.tele-rehab.com.ua/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -127,11 +128,9 @@ const VideosList = (props) => {
 
 
 
-      console.log(file);
     if (file === null) {
-      console.log(file);
     
-      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${selectedUser._id}`, {
+      const response = await fetch(`https://api.tele-rehab.com.ua/users/${selectedUser._id}`, {
         method: 'PUT',
         mode: 'cors',
         headers: {
@@ -144,7 +143,7 @@ const VideosList = (props) => {
         email: selectedUser.email
       }
 
-      await fetch(`https://tele-rehab-api.vps-touchit.space/update_plan`, {
+      await fetch(`https://api.tele-rehab.com.ua/update_plan`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -152,27 +151,25 @@ const VideosList = (props) => {
         },
         body: JSON.stringify(formData)
       })
-        .then(async (res) => { console.log("Success"); await setIsOpen(true);})
+        .then(async (res) => { await setIsOpen(true);})
         .catch((err) => { console.log(err) })
 
     } else {
       const formDataFile = new FormData();
       formDataFile.append("form-file", file)
-      console.log(file);
 
-      fetch(`https://tele-rehab-api.vps-touchit.space/upload`, {
+      fetch(`https://api.tele-rehab.com.ua/upload`, {
         method: 'POST',
         mode: 'cors',
         body: formDataFile
       }).then(async (res) => {
         const file = await res.json();
-        console.log(file);
 
         const newSelectedUser = selectedUser;
 
         newSelectedUser.attachment = file.filename;
 
-        const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${newSelectedUser._id}`, {
+        const response = await fetch(`https://api.tele-rehab.com.ua/users/${newSelectedUser._id}`, {
           method: 'PUT',
           mode: 'cors',
           headers: {
@@ -184,9 +181,9 @@ const VideosList = (props) => {
         const formData = {
           email: newSelectedUser.email
         }
-        await fetch(`https://tele-rehab-api.vps-touchit.space/update_plan`, {
+        await fetch(`https://api.tele-rehab.com.ua/update_plan`, {
 
-        // await fetch(`https://tele-rehab-api.vps-touchit.space/update_plan`, {
+        // await fetch(`https://api.tele-rehab.com.ua/update_plan`, {
           method: 'POST',
           mode: 'cors',
           headers: {
@@ -194,7 +191,7 @@ const VideosList = (props) => {
           },
           body: JSON.stringify(formData)
         })
-          .then(async (res) => { console.log("Success"); await setIsOpen(true); })
+          .then(async (res) => {await setIsOpen(true); })
           .catch((err) => { console.log(err) })
       })
     }
@@ -241,7 +238,20 @@ const VideosList = (props) => {
 
                 <div className="count_item" >
                   <TextField
-                    label="Повторений кол-во раз"
+                    label="Кол-во подходов"
+                    type="number"
+                    value={item.approach}
+                    InputProps={{ inputProps: { min: 1 } }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                    onChange={(e) => { setCountApproach(e.target.value, index) }}
+                  />
+                </div>
+                <div className="count_item" >
+                  <TextField
+                    label="Кол-во повторений"
                     type="number"
                     value={item.repeat}
                     InputProps={{ inputProps: { min: 1 } }}
@@ -255,7 +265,7 @@ const VideosList = (props) => {
 
                 <div className="count_item" >
                   <TextField
-                    label="Повторений кол-во дней"
+                    label="Кол-во дней"
                     type="number"
                     value={item.days}
                     InputProps={{ inputProps: { min: 1 } }}
@@ -287,6 +297,11 @@ const VideosList = (props) => {
     setModifiedVideos(newModifiedVideos);
   };
 
+  const setCountApproach = (value, index) => {
+    let newModifiedVideos = [...modifiedVideos];
+    newModifiedVideos[index].approach = value;
+    setModifiedVideos(newModifiedVideos);
+  };
   const setCountRepeat = (value, index) => {
     let newModifiedVideos = [...modifiedVideos];
     newModifiedVideos[index].repeat = value;
@@ -302,7 +317,6 @@ const VideosList = (props) => {
   function changeFile(e) {
     let reader = new FileReader();
     let fileLoaded = e.target.files[0];
-    console.log(e.target.files[0]);
 
     reader.onloadend = () => {
       setFile(e.target.files[0])
@@ -332,9 +346,9 @@ const VideosList = (props) => {
       <div className="wrapper-form-attachment">
         <p className="form-banner__attachment">
           <span className="load">Прикрепить файл</span> <sup>*</sup>
-          <span>максимум 15 мб</span>
+          <span>максимум 1 мб</span>
           <span className="file-name">{file && file.name}</span>
-          <input id="input-file" name="form-file" accept=".png, .jpg, .jpeg" onChange={(e) => changeFile(e)} type="file" />
+          <input id="input-file" name="form-file" accept=".png, .jpg, .jpeg, .pdf, .doc, .docx" onChange={(e) => changeFile(e)} type="file" />
         </p>
       </div>
       <Button

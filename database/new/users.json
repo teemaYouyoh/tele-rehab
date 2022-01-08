@@ -1,0 +1,189 @@
+[{
+  "_id": {
+    "$oid": "609a6e987240b8948d38766e"
+  },
+  "name": "Timofey Tiunin",
+  "phone": "+38000000000",
+  "email": "example@mail.com",
+  "birthday": "Thu Jun 21 2001 00:00:00 GMT+0300 (GMT+03:00)",
+  "diagnosis": "tycuvhbjknlm;nbjvhicugvhjkbj",
+  "password": "c4ca4238a0b923820dcc509a6f75849b",
+  "appointments": [],
+  "status": [
+    "invited"
+  ]
+},{
+  "_id": {
+    "$oid": "609c4c9864ce0a0a14b286c4"
+  },
+  "name": "Test Testovich",
+  "phone": "+38000000000",
+  "email": "example@mail.com",
+  "birthday": "Thu Jun 21 2001 00:00:00 GMT+0300 (GMT+03:00)",
+  "diagnosis": "asdadsdasd",
+  "password": "c4ca4238a0b923820dcc509a6f75849b",
+  "appointments": [],
+  "status": [
+    "invited"
+  ],
+  "comment": "Коммент",
+  "statusCourse": false,
+  "video_chat_url": "",
+  "attachment": ""
+},{
+  "_id": {
+    "$oid": "60ae5c975e005a4524e30547"
+  },
+  "appointments": [],
+  "status": [
+    "invited"
+  ],
+  "name": "Сергей Сергей",
+  "email": "sergejjolejj00@gmail.com",
+  "password": "123456",
+  "phone": "+551515151515",
+  "birthday": "2021-04-27",
+  "diagnosis": "ТЕстовый диагноз",
+  "__v": 0,
+  "comment": "",
+  "statusCourse": false,
+  "video_chat_url": "WFMiNz3l8Ern1dusAAAN",
+  "attachment": ""
+},{
+  "_id": {
+    "$oid": "60af4a7804705e2a622185b0"
+  },
+  "appointments": [
+    {
+      "review": "Комментарий видео сила 1",
+      "repeat": "2",
+      "comments": [],
+      "days": "3",
+      "selected": true,
+      "_id": "60dc75a8d2b29e08769340fd",
+      "name": "Видео сила 1",
+      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+      "category": "60dc755c9f08b77bd75a2cdf",
+      "__v": 0,
+      "approach": "1"
+    },
+    {
+      "review": "фвыфвфыв",
+      "repeat": "1",
+      "comments": [],
+      "days": "1",
+      "selected": true,
+      "_id": "60dc75d0d2b29e08769340ff",
+      "name": "Видео сила 3",
+      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+      "category": "60dc75609f08b77bd75a2ce0",
+      "__v": 0,
+      "approach": "12"
+    },
+    {
+      "review": "Комментарий видео успех 1",
+      "repeat": "3",
+      "comments": [],
+      "days": "4",
+      "selected": true,
+      "_id": "60dc75dfd2b29e0876934100",
+      "name": "Видео успех 1",
+      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+      "category": "60dc75659f08b77bd75a2ce1",
+      "__v": 0,
+      "approach": "2"
+    }
+  ],
+  "status": [
+    "invited"
+  ],
+  "name": "Админ Админович",
+  "email": "telerehab.fenix@gmail.com",
+  "password": "Kalinkin35",
+  "phone": "+6666666666",
+  "birthday": "2021-04-27",
+  "diagnosis": "Админ",
+  "__v": 0,
+  "comment": "Супер",
+  "statusCourse": false,
+  "video_chat_url": "",
+  "attachment": ""
+},{
+  "_id": {
+    "$oid": "60b54c7f2b6c71292424b01e"
+  },
+  "appointments": [
+    {
+      "review": "Комментарий видео сила 1",
+      "repeat": "5",
+      "comments": [],
+      "days": "7",
+      "selected": true,
+      "_id": "60dc75a8d2b29e08769340fd",
+      "name": "Видео сила 1",
+      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+      "category": "60dc755c9f08b77bd75a2cdf",
+      "__v": 0,
+      "approach": "3"
+    },
+    {
+      "review": "Комментарий сила 2 ",
+      "repeat": "4",
+      "comments": [],
+      "days": "15",
+      "selected": true,
+      "_id": "60dc75bfd2b29e08769340fe",
+      "name": "Видео сила 2",
+      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+      "category": "60dc755c9f08b77bd75a2cdf",
+      "__v": 0,
+      "approach": "3"
+    },
+    {
+      "review": "Комментарий успех 1",
+      "repeat": "12",
+      "comments": [],
+      "days": "33",
+      "selected": true,
+      "_id": "60dc75dfd2b29e0876934100",
+      "name": "Видео успех 1",
+      "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+      "category": "60dc75659f08b77bd75a2ce1",
+      "__v": 0,
+      "approach": "32"
+    }
+  ],
+  "statusCourse": false,
+  "comment": "",
+  "video_chat_url": "",
+  "status": [
+    "invited"
+  ],
+  "name": "Тюнин Тимофей Юрьевич",
+  "email": "example@gmail.com",
+  "password": "123456",
+  "phone": "+380000000000",
+  "birthday": "2021-05-05",
+  "diagnosis": "Диагноз",
+  "__v": 0,
+  "attachment": "attachment-1625061170004.png"
+},{
+  "_id": {
+    "$oid": "60dc7a7bd2b29e0876934101"
+  },
+  "appointments": [],
+  "statusCourse": false,
+  "comment": "",
+  "video_chat_url": "",
+  "attachment": "",
+  "status": [
+    "invited"
+  ],
+  "name": "Test",
+  "email": "mrjokerok21@gmail.com",
+  "password": "123456",
+  "phone": "+38(000)-000-0000",
+  "birthday": "2021-06-22",
+  "diagnosis": "test",
+  "__v": 0
+}]

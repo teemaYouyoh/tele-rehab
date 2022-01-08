@@ -33,7 +33,7 @@ const PersonAreaHeader = () => {
     },[])
   async function openModal() {
     setIsOpen(true);
-      let response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
+      let response = await fetch(`https://api.tele-rehab.com.ua/users/`, {
           method: 'GET',
           mode: 'cors',
           headers: {
@@ -52,7 +52,6 @@ const PersonAreaHeader = () => {
 
     function signIn(e){
         e.preventDefault();
-        console.log(users);
         users.forEach((item)=>{
             const {email, password, name, _id} = item;
             if(email === emailUser && password === passwordUser){

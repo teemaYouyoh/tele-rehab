@@ -5,8 +5,54 @@ module.exports = function (app, upload) {
   var Video = require('../controllers/VideoControllers');
   var NodeMailer = require('../../nodemailer');
   const fetch = require('node-fetch');
-  const Blob = require("cross-blob");
+  const passport = require('passport');
+  const jwt = require('jsonwebtoken');
+
   require('url-polyfill')
+
+  // signup
+  app.route('/signup').post(
+    passport.authenticate('signup', { session: false }),
+    async (req, res, next) => {
+    console.log(11);
+    res.json({
+        message: 'Signup successful',
+        user: req.user
+      });
+    }
+  )
+
+  // login
+
+  app.route('/login').post(
+    async (req, res, next) => {
+      passport.authenticate(
+        'login',
+        async (err, user, info) => {
+          try {
+            if (err || !user) {
+              const error = new Error('An error occurred.');
+              return next(error);
+            }
+            req.login(
+              user,
+              { session: false },
+              async (error) => {
+                if (error) return next(error);
+                const body = { _id: user._id, email: user.email };
+                const token = jwt.sign({ user: body }, 'TOP_SECRET');
+                return res.json({ token });
+              }
+            );
+          } catch (error) {
+            return next(error);
+          }
+        },
+        (req, res, next)
+      )
+    }
+  );
+
 
   // Users Routes
   app.route('/users')
@@ -41,17 +87,17 @@ module.exports = function (app, upload) {
     .post(NodeMailer.nodemailerFooter);
 
   app.route('/registration_mail')
-      .post(NodeMailer.nodemailerRegistration);
+    .post(NodeMailer.nodemailerRegistration);
 
   app.route('/finish_course')
-      .post(NodeMailer.finishCourse);
+    .post(NodeMailer.finishCourse);
 
 
   app.route('/send_feedback')
-      .post(NodeMailer.nodemailerFeedback);
+    .post(NodeMailer.nodemailerFeedback);
 
   app.route('/send_mess_videochat')
-      .post(NodeMailer.nodemailerCall);
+    .post(NodeMailer.nodemailerCall);
 
   // app.post('/send', (req, res)=>{
   //   console.log(req.body);

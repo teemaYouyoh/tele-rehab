@@ -48,6 +48,10 @@ const Banner = () => {
     let phoneLabel = document.getElementById("phone-label");
     phoneLabel.style.display = "none";
   }
+  function focusDateClick(e) {
+    let dateLabel = document.getElementById("birthday-label");
+    dateLabel.style.display = "none";
+  }
   function focusEmailClick(e) {
     let emailLabel = document.getElementById("email-label");
     emailLabel.style.display = "none";
@@ -68,6 +72,14 @@ const Banner = () => {
       phoneLabel.style.display = "block";
     }
   }
+  function onFocusDateClick(e) {
+    e.preventDefault();
+    let inputDate = document.getElementById("banner-birthday");
+    if (inputDate.value === '') {
+      let dateLabel = document.getElementById("birthday-label");
+      dateLabel.style.display = "block";
+    }
+  }
   function onFocusEmailClick(e) {
     e.preventDefault();
     let inputEmail = document.getElementById("banner-email");
@@ -80,21 +92,18 @@ const Banner = () => {
   function changeFile(e) {
     let reader = new FileReader();
     let fileLoaded = e.target.files[0];
-    console.log(e.target.files[0]);
 
     const formData = new FormData();
     formData.append("form-file", e.target.files[0])
 
     reader.onloadend = () => {
-      // fetch(`https://tele-rehab-api.vps-touchit.space/upload`, {
-      fetch(`http://localhost:3001/upload`, {
+      // fetch(`https://api.tele-rehab.com.ua/upload`, {
+      fetch(`https://api.tele-rehab.com.ua/upload`, {
         method: 'POST',
         mode: 'cors',
         body: formData
       }).then(async (res) => {
         const file = await res.json();
-        console.log(file);
-        // setFile(e.target.files[0])
         setFile(file.filename);
       })
 
@@ -113,7 +122,6 @@ const Banner = () => {
       comment,
       file: file
     }
-    console.log(formData);
     var isError = false;
     for (let i in formData) {
       if (formData[i] === undefined) {
@@ -129,12 +137,10 @@ const Banner = () => {
 
   async function sendMessage(formData, isError) {
     await setIsLoading(true);
-    console.log("formData", formData);
     console.log(isError);
     if (!isError) {
-      console.log(formData);
-      // await fetch(`https://tele-rehab-api.vps-touchit.space/send/`, {
-      await fetch(`http://localhost:3001/send/`, {
+      // await fetch(`https://api.tele-rehab.com.ua/send/`, {
+      await fetch(`https://api.tele-rehab.com.ua/send/`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -242,15 +248,16 @@ const Banner = () => {
                       <label htmlFor="banner-email" id="email-label">Email <span>*</span></label>
                     </div>
                     <div className="form-item__wrap">
-                      <input type="date" name="birthday" value={birthday} onChange={(e) => setBirthday(e.target.value)} id="banner-birthday" placeholder="Дата рождения" />
+                      <input type="text" name="birthday" value={birthday} onChange={(e) => setBirthday(e.target.value)} id="banner-birthday" onFocus={focusDateClick} onBlur={onFocusDateClick} />
+                      <label htmlFor="banner-birthday" id="birthday-label">Дата рождения</label>
                     </div>
                   </div>
                   <textarea name="comment" id="banner-com" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Опишите диагноз"></textarea>
                   <p className="form-banner__attachment">
                     Прикрепить файл <sup>*</sup>
-                    <span>максимум 15 мб</span>
+                    <span>максимум 1 мб</span>
                     <p className="file-name">{file}</p>
-                    <input id="input-file" value={file} name="form-file" accept=".png, .jpg, .jpeg" onChange={(e) => changeFile(e)} type="file" />
+                    <input id="input-file" name="form-file" accept=".png, .jpg, .jpeg, .pdf, .doc, .docx" onChange={(e) => changeFile(e)} type="file" />
                   </p>
                   <button className="btn form-banner__btn" type={isLoading ? "button" : "submit"}>Зарегистрироваться</button>
                   <span className="form-banner__addition">После регистрации с вами свяжется специалист обсудит с вами проблемы и ее решение, предложит оптимальную программу</span>

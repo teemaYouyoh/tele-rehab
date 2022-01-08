@@ -21,9 +21,19 @@ var VideoSchema = new Schema({
     // required: 'Please enter video review',
     default: ""
   },
+  approach: {
+    type: String,
+    required: 'Please enter video approach',
+    default: 1
+  },
   repeat: {
     type: String,
     required: 'Please enter video repeat',
+    default: 1
+  },
+  days: {
+    type: String,
+    required: 'Please enter video days',
     default: 1
   },
   comments: {
@@ -31,11 +41,6 @@ var VideoSchema = new Schema({
       type: String,
     }],
     default: []
-  },
-  days: {
-    type: String,
-    required: 'Please enter video days',
-    default: 1
   },
   selected: {
     type: [{

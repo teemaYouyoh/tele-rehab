@@ -36,7 +36,7 @@ const FrontPageHeader = () => {
 
   async function openModal() {
     setIsOpen(true);
-    let response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
+    let response = await fetch(`https://api.tele-rehab.com.ua/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -44,7 +44,6 @@ const FrontPageHeader = () => {
       },
     });
     let data = await response.json();
-    console.log(data)
     await setUsers(data);
   }
   function afterOpenModal() {
@@ -55,8 +54,7 @@ const FrontPageHeader = () => {
   }
   function signIn(e) {
     e.preventDefault();
-    console.log(users);
-    users.forEach((item) => {
+    users.forEach(async (item) => {
       const { email, password, name, _id } = item;
       if (email === emailUser && password === passwordUser) {
         localStorage.setItem("user", name);

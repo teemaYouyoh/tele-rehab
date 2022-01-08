@@ -55,8 +55,7 @@ const Categories = (props) => {
 
   const getCategories = async () => {
 
-    console.log("getting cateegories")
-    const response = await fetch('https://tele-rehab-api.vps-touchit.space/categories', {
+    const response = await fetch('https://api.tele-rehab.com.ua/categories', {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -71,7 +70,6 @@ const Categories = (props) => {
 
   const addCategory = async () => {
 
-    console.log(parentCategoryId)
 
     if (parentCategoryId !== "none" && parentCategoryId !== undefined) {
 
@@ -82,10 +80,9 @@ const Categories = (props) => {
       categoriesList.forEach(item => {
 
         if (item._id === parentCategoryId) {
-          console.log(item)
           item.children.push({ _id: ObjectID().toHexString(), name: categoryName, parent: item._id });
 
-          fetch(`https://tele-rehab-api.vps-touchit.space/categories/${item._id}`, {
+          fetch(`https://api.tele-rehab.com.ua/categories/${item._id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -93,7 +90,7 @@ const Categories = (props) => {
             },
             body: JSON.stringify(item)
           })
-            .then(async (res) => { console.log(res); await setIsOpen(true); })
+            .then(async (res) => { await setIsOpen(true); })
             .catch((err) => { console.log(err) })
 
           setCategories(categoriesList);
@@ -104,7 +101,7 @@ const Categories = (props) => {
 
     } else {
 
-      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/categories`, {
+      const response = await fetch(`https://api.tele-rehab.com.ua/categories`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -123,8 +120,6 @@ const Categories = (props) => {
 
   const deleteCategory = async (value) => {
 
-    console.log(value)
-
     if (value.parent !== null && value.parent !== undefined) {
 
       let parentCategory = {};
@@ -142,7 +137,7 @@ const Categories = (props) => {
         }
       })
 
-      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/categories/${value.parent}`, {
+      const response = await fetch(`https://api.tele-rehab.com.ua/categories/${value.parent}`, {
         method: 'PUT',
         mode: 'cors',
         headers: {
@@ -157,7 +152,7 @@ const Categories = (props) => {
 
     } else {
 
-      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/categories/${value.id}`, {
+      const response = await fetch(`https://api.tele-rehab.com.ua/categories/${value.id}`, {
         method: 'DELETE',
         mode: 'cors',
         headers: {
@@ -180,8 +175,6 @@ const Categories = (props) => {
   const changeCategoryName = (value, id, parentId = null) => {
     let categoriesList = [...categories];
 
-    console.log(value)
-
     if (parentId !== null) {
 
       categoriesList.map(parent => {
@@ -190,7 +183,7 @@ const Categories = (props) => {
             if (child._id === id) {
               child.name = value
 
-              fetch(`https://tele-rehab-api.vps-touchit.space/categories/${parentId}`, {
+              fetch(`https://api.tele-rehab.com.ua/categories/${parentId}`, {
                 method: 'PUT',
                 mode: 'cors',
                 headers: {
@@ -209,7 +202,7 @@ const Categories = (props) => {
 
     } else {
 
-      fetch(`https://tele-rehab-api.vps-touchit.space/categories/${id}`, {
+      fetch(`https://api.tele-rehab.com.ua/categories/${id}`, {
         method: 'PUT',
         mode: 'cors',
         headers: {

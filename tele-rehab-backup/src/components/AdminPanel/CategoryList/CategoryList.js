@@ -39,7 +39,7 @@ const CategoriesList = (props) => {
 
   useEffect(async () => {
 
-    const response = await fetch('https://tele-rehab-api.vps-touchit.space/categories', {
+    const response = await fetch('https://api.tele-rehab.com.ua/categories', {
       method: 'GET',
       mode: 'cors',
       headers: {

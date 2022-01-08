@@ -24,7 +24,7 @@ const FeedBackModal = ({isOpen, updateModal, username, email}) => {
                 text,
                 email
             }
-            const response = await fetch(`http://localhost:3001/send_feedback`, {
+            const response = await fetch(`https://api.tele-rehab.com.ua/send_feedback`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

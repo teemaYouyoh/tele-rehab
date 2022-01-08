@@ -1,9 +1,9 @@
 'use strict';
 var mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 
-
-var UserSchema= new Schema({
+var UserSchema = new Schema({
   name: {
     type: String,
     required: 'Please enter your name'
@@ -55,5 +55,15 @@ var UserSchema= new Schema({
     default: ['invited']
   }
 });
+
+// UserSchema.pre(
+//   'save',
+//   async function (next) {
+//     const user = this;
+//     const hash = await bcrypt.hash(this.password, 10);
+//     this.password = hash;
+//     next();
+//   }
+// );
 
 module.exports = mongoose.model('Users', UserSchema);

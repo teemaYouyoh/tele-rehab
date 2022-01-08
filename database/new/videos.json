@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "60dc75a8d2b29e08769340fd"
+  },
+  "review": "",
+  "repeat": "1",
+  "comments": [],
+  "days": "1",
+  "selected": [
+    false
+  ],
+  "name": "Видео сила 1",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+  "category": "60dc755c9f08b77bd75a2cdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60dc75bfd2b29e08769340fe"
+  },
+  "review": "",
+  "repeat": "1",
+  "comments": [],
+  "days": "1",
+  "selected": [
+    false
+  ],
+  "name": "Видео сила 2",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+  "category": "60dc755c9f08b77bd75a2cdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60dc75d0d2b29e08769340ff"
+  },
+  "review": "",
+  "repeat": "1",
+  "comments": [],
+  "days": "1",
+  "selected": [
+    false
+  ],
+  "name": "Видео сила 3",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+  "category": "60dc75609f08b77bd75a2ce0",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60dc75dfd2b29e0876934100"
+  },
+  "review": "",
+  "repeat": "1",
+  "comments": [],
+  "days": "1",
+  "selected": [
+    false
+  ],
+  "name": "Видео успех 1",
+  "url": "https://www.youtube.com/watch?v=lM02vNMRRB0&t=5571s",
+  "category": "60dc75659f08b77bd75a2ce1",
+  "__v": 0
+}]

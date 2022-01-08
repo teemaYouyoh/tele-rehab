@@ -1081,6 +1081,7 @@ $blue:#04B1FB;
     &__statistic {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         margin: 48px 0px 46px;
         width: 94%;
         @media screen and (max-width:768px) {
@@ -1127,6 +1128,7 @@ $blue:#04B1FB;
     display: flex;
     align-items: flex-start;
     width: 46%;
+    margin: 5px 0;
     @media screen and (max-width:540px) {
         width: 100%;
         align-items: center;

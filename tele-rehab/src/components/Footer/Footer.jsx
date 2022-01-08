@@ -45,7 +45,7 @@ const Footer = () => {
         name,
         phone
       }
-      fetch(`https://tele-rehab-api.vps-touchit.space/send_call`, {
+      fetch(`https://api.tele-rehab.com.ua/send_call`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -96,7 +96,7 @@ const Footer = () => {
                 </div>
                 <div className="footer-left__item">
                   <p>Email</p>
-                  <a href="tel:+380990000000">telerehab@gmail.com</a>
+                  <a href="mailto:telerehab@gmail.com">telerehab@gmail.com</a>
                 </div>
               </div>
             </div>

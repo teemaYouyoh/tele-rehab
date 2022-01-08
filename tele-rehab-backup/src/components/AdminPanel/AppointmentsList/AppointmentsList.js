@@ -35,7 +35,7 @@ const VideosList = (props) => {
   }, [isChanged])
 
   useEffect(async () => {
-    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/`, {
+    const response = await fetch(`https://api.tele-rehab.com.ua/videos/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -49,7 +49,7 @@ const VideosList = (props) => {
   }, [])
 
   useEffect(async () => {
-    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
+    const response = await fetch(`https://api.tele-rehab.com.ua/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -77,8 +77,7 @@ const VideosList = (props) => {
   }
 
   const updateUser = async () => {
-    console.log(selectedUser);
-    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/${selectedUser._id}`, {
+    const response = await fetch(`https://api.tele-rehab.com.ua/users/${selectedUser._id}`, {
       method: 'PUT',
       mode: 'cors',
       headers: {
@@ -87,7 +86,6 @@ const VideosList = (props) => {
       body: JSON.stringify(selectedUser)
     });
   }
-  console.log(selectedUser)
 
   const renderVideos =  () => {
     return videos.map( async (item, index) => {
@@ -110,7 +108,6 @@ const VideosList = (props) => {
 
   const setVideoSelected = async (index) => {
     if (selectedUser !== null) {
-      console.log("setVideoSelected", selectedUser);
       let newSelectedUser = selectedUser;
 
       if (newSelectedUser.appointments !== undefined) {

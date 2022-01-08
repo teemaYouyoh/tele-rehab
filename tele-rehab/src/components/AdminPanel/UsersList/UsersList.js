@@ -11,32 +11,43 @@ const UsersList = () => {
   const [users, setUsers] = useState([]);
   const [file, setFile] = useState({});
 
-  useEffect(async () => {
-    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/users/`, {
+  useEffect(() => {
+    fetch(`https://api.tele-rehab.com.ua/users/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json'
       },
-    });
-
-    let data = await response.json();
-
-    setUsers(data);
+    })
+    .then(async (res) => {
+      let data = await res.json();
+      setUsers(data);
+    })
   }, [])
 
-  // const startVideoChat = (id) => {
-  //   console.log(id)
-  //   history.push({
-  //     pathname: '/chat',
-  //     userId: id
-  //   });
-  // }
-
-  const submitForm = (event) => {
-    console.log(event)
+  const deleteUser = (id) => {
+    fetch(`https://api.tele-rehab.com.ua/users/${id}`, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then((res) => { return res.json() })
+    .then(() => {
+      fetch(`https://api.tele-rehab.com.ua/users/`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(async (res) => {
+        let data = await res.json();
+        setUsers(data);
+      })
+    })
   }
-
 
   return (
     <div className="user-list">
@@ -54,7 +65,9 @@ const UsersList = () => {
                     userName: item.name,
                   }}>Начать видеозвонок</Link>
                 </div>
-                {/* <div onClick={() => { startVideoChat(item._id) }}>Пригласить в видео-чат</div> */}
+                <div className="user-link" onClick={() => { deleteUser(item._id) }}>
+                  Удалить пользователя                
+                </div>
               </div>
             )
           })}

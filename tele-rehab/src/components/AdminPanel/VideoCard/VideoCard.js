@@ -47,7 +47,7 @@ const VideoCard = () => {
 
   useEffect(async () => {
     await getVideos();
-    const responseCategories = await fetch('https://tele-rehab-api.vps-touchit.space/categories', {
+    const responseCategories = await fetch('https://api.tele-rehab.com.ua/categories', {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -64,7 +64,7 @@ const VideoCard = () => {
 
 
   async function getVideos() {
-    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/`, {
+    const response = await fetch(`https://api.tele-rehab.com.ua/videos/`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -86,7 +86,7 @@ const VideoCard = () => {
         category,
         // review: "Тупо лучшее"
       }
-      const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/`, {
+      const response = await fetch(`https://api.tele-rehab.com.ua/videos/`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -128,7 +128,7 @@ const VideoCard = () => {
   //   console.log("ENTERED", filtredVideos);
   //   if (filterCategory !== "") {
   //     // console.log(filterCategory);
-  //     const responseCategories = await fetch(`https://tele-rehab-api.vps-touchit.space/categories/${filterCategory}`, {
+  //     const responseCategories = await fetch(`https://api.tele-rehab.com.ua/categories/${filterCategory}`, {
   //       method: 'GET',
   //       mode: 'cors',
   //       headers: {
@@ -182,7 +182,7 @@ const VideoCard = () => {
   }
 
   async function deleteVideo(id) {
-    const response = await fetch(`https://tele-rehab-api.vps-touchit.space/videos/${id}`, {
+    const response = await fetch(`https://api.tele-rehab.com.ua/videos/${id}`, {
       method: 'DELETE',
       mode: 'cors',
       headers: {
@@ -208,7 +208,7 @@ const VideoCard = () => {
         if (value !== video.name) {
           video.name = value
 
-          fetch(`https://tele-rehab-api.vps-touchit.space/videos/${video._id}`, {
+          fetch(`https://api.tele-rehab.com.ua/videos/${video._id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {

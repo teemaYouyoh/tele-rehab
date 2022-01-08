@@ -49,6 +49,21 @@
   border: 2px solid #3f51b5;
 }
 
+
+@media screen and (max-width:768px) {
+  .video-list {
+    flex-direction: column;
+  }
+
+  .video-container {
+    width: 100%;
+  }
+
+  .video-container.selected {
+    width: 100%;
+  }
+}
+
 .video_iframe {
   z-index: 10;
 }
@@ -80,11 +95,22 @@ iframe {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .video_counts .count_item {
   margin: 10px 0;
   width: 40%;
+}
+
+@media screen and (max-width:1270px) {
+  .video_counts {
+    flex-direction: column;
+  }
+  
+  .video_counts .count_item {
+    width: 100%;
+  }
 }
 
 .video_checked {

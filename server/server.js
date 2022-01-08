@@ -11,8 +11,9 @@ var express = require('express'),
   multer = require('multer'),
   path = require('path');
 
-  
-var whitelist = ['https://tele-rehab.vps-touchit.space', 'http://localhost:3000']
+const passport = require('passport');
+
+var whitelist = ['https://tele-rehab.vps-touchit.space']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -29,13 +30,14 @@ app.use(express.static(__dirname + '/public/uploads'));
 // Multer upload files
 const storage = multer.diskStorage({
   destination: './public/uploads/',
-  filename: function(req, file, cb){
+  filename: function (req, file, cb) {
     cb(null, 'attachment-' + Date.now() + path.extname(file.originalname))
   }
 })
 
 const upload = multer({
-  storage: storage
+  storage: storage,
+  limits: {filesize: 15000000}
 }).single('form-file')
 
 app.post('/upload', cors(corsOptions), (req, res) => {
@@ -63,13 +65,19 @@ app.post('/upload', cors(corsOptions), (req, res) => {
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/TeleRehab');
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+require('./api/auth/auth');
 var routes = require('./api/routes/Routes'); //importing route
+const secureRoute = require('./api/routes/SecureRoutes');
+app.use('/user', passport.authenticate('jwt', { session: false }), secureRoute);
+
 routes(app, upload); //register the route
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.listen(port);
 
